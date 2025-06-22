@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The NuYu Project - Features & Roadmap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="antialiased">
+
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/80 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                    <span class="text-2xl font-bold text-white">NuYu</span>
+                </a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="project.html" class="text-gray-300 hover:text-white transition-colors">The Project</a>
+                    <a href="science.html" class="text-gray-300 hover:text-white transition-colors">The Science</a>
+                    <a href="community.html" class="text-gray-300 hover:text-white transition-colors">Community</a>
+                    <a href="faq.html" class="text-gray-300 hover:text-white transition-colors">FAQs</a>
+                </nav>
+                <div class="hidden md:block">
+                    <a href="index.html#kickstarter" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Support Us</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 bg-black/95">
+            <nav class="flex flex-col space-y-4 pt-4">
+                <a href="project.html" class="nav-link text-gray-300 hover:text-white">The Project</a>
+                <a href="science.html" class="nav-link text-gray-300 hover:text-white">The Science</a>
+                <a href="community.html" class="nav-link text-gray-300 hover:text-white">Community</a>
+                <a href="faq.html" class="nav-link text-gray-300 hover:text-white">FAQs</a>
+                <a href="index.html#kickstarter" class="nav-link mt-2 inline-block w-full text-center px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Support Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-24">
+        <section id="features" class="py-20 md:pt-32 md:pb-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                      <h2 class="text-3xl md:text-4xl font-bold text-white">The NuYu Project</h2>
+                      <p class="mt-4 text-lg text-gray-400">The NuYu clock is more than just a product—it's a comprehensive, open-source tool designed to help you establish a healthy circadian rhythm and improve your overall well-being.</p>
+                </div>
+                <div class="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+                    <div class="space-y-4 text-center">
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-violet-500/10 text-violet-400">
+                           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v6m0-6H3m18 0l-2.25 1.313M3 7.5l2.25-1.313M3 7.5v6m0-6h18m0 6l-2.25 1.313M3 13.5l2.25 1.313m15.5 0l2.25-1.313M3 13.5v-6m18 6v-6m-9 12V9.75M9 21v-6.75M15 21v-6.75" /></svg>
+                        </span>
+                        <h3 class="text-xl font-bold text-white">Two Independent Wells</h3>
+                        <p class="text-gray-400">Use a calming scent for bedtime and an energizing scent for waking up, without cross-contamination.</p>
+                    </div>
+                    <div class="space-y-4 text-center">
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-blue-500/10 text-blue-400">
+                           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 016 0v8.25a3 3 0 01-3 3z" /></svg>
+                        </span>
+                        <h3 class="text-xl font-bold text-white">Personalized Voice Alarms</h3>
+                        <p class="text-gray-400">Set alarms with your own voice recordings to remind you why you want to wake up or go to sleep.</p>
+                    </div>
+                    <div class="space-y-4 text-center">
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-emerald-500/10 text-emerald-400">
+                           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+                        </span>
+                        <h3 class="text-xl font-bold text-white">Sunrise-Simulating Light</h3>
+                        <p class="text-gray-400">Wake up naturally with a light that gradually brightens to mimic the dawn, helping you feel more alert.</p>
+                    </div>
+                    <div class="space-y-4 text-center">
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-yellow-500/10 text-yellow-400">
+                           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.15 12a9.15 9.15 0 01-9.15 9.15 9.15 9.15 0 01-9.15-9.15 9.15 9.15 0 019.15-9.15M12 21.3a9.15 9.15 0 000-18.3c-5.048 0-9.15 4.102-9.15 9.15s4.102 9.15 9.15 9.15z" /></svg>
+                        </span>
+                        <h3 class="text-xl font-bold text-white">Adjustable Night Light</h3>
+                        <p class="text-gray-400">Enjoy a night light that adjusts its brightness based on the time, providing a soft glow in the evening.</p>
+                    </div>
+                    <div class="space-y-4 text-center">
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-500/10 text-indigo-400">
+                             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>
+                        </span>
+                        <h3 class="text-xl font-bold text-white">Bedside Notebook</h3>
+                        <p class="text-gray-400">Capture late-night ideas or journal your dreams without reaching for your phone and its disruptive blue light.</p>
+                    </div>
+                    <div class="space-y-4 text-center">
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-pink-500/10 text-pink-400">
+                             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V7.5A2.25 2.25 0 0111.25 5.25H12a2.25 2.25 0 012.25 2.25v.093m-9 0h-2.25M7.5 15.75v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 007.5 15.75z" /></svg>
+                        </span>
+                        <h3 class="text-xl font-bold text-white">Custom Alarm Sounds</h3>
+                        <p class="text-gray-400">Upload any sound or song of your choice to use as your alarm for a pleasant, personalized experience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="roadmap" class="py-20 md:py-32 bg-black">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Project Roadmap</h2>
+                    <p class="mt-4 text-lg text-gray-400">We believe in transparency. Here's our journey from a simple idea to a community-driven project and what the future holds.</p>
+                </div>
+
+                <div class="mt-20 grid md:grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                    
+                    <div class="content-card p-8 rounded-2xl">
+                        <span class="inline-block px-3 py-1 text-sm font-semibold text-emerald-300 bg-emerald-900/50 rounded-full mb-4">Phase 1: Concept & Validation</span>
+                        <h3 class="text-2xl font-bold text-white mb-4">From Idea to Action</h3>
+                        <ul class="text-gray-400 custom-list">
+                            <li>Identified personal need for a better sleep/wake system.</li>
+                            <li>Validated core concepts through academic and scientific literature.</li>
+                            <li>Gathered initial feedback from friends, family, and online communities like r/sleep.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-card p-8 rounded-2xl">
+                        <span class="inline-block px-3 py-1 text-sm font-semibold text-cyan-300 bg-cyan-900/50 rounded-full mb-4">Phase 2: Prototyping & Community</span>
+                        <h3 class="text-2xl font-bold text-white mb-4">Building the Foundation</h3>
+                        <ul class="text-gray-400 custom-list">
+                            <li>Developed initial working prototype on a breadboard.</li>
+                            <li>Designed and launched the website & community hub.</li>
+                            <li>Currently running our Beta Testing Program to gather user feedback.</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-card p-8 rounded-2xl">
+                        <span class="inline-block px-3 py-1 text-sm font-semibold text-blue-300 bg-blue-900/50 rounded-full mb-4">Phase 3: Growth & Production</span>
+                        <h3 class="text-2xl font-bold text-white mb-4">Bringing NuYu to Life</h3>
+                        <ul class="text-gray-400 custom-list">
+                            <li>Launch Kickstarter campaign to fund the first production run.</li>
+                            <li>Finalize manufacturing partners and supply chain.</li>
+                            <li>Fulfill and ship rewards to all our amazing backers.</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-card p-8 rounded-2xl">
+                        <span class="inline-block px-3 py-1 text-sm font-semibold text-violet-300 bg-violet-900/50 rounded-full mb-4">Phase 4: Future & Open Source</span>
+                        <h3 class="text-2xl font-bold text-white mb-4">The Vision Ahead</h3>
+                        <ul class="text-gray-400 custom-list">
+                            <li>Publicly release all open-source design files and code.</li>
+                            <li>Begin development on future goals like biometric sensor integration.</li>
+                            <li>Implement new features based on community feedback and votes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quiz-section" class="py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Discover Your Sleep Fingerprint</h2>
+                    <p class="mt-4 text-lg text-gray-400">
+                        Your sleep is as unique as you are. This 5-minute, scientifically-validated quiz analyzes your sleep across 7 key dimensions to reveal your personal sleep archetype.
+                    </p>
+                    <div class="mt-8">
+                        <button id="start-quiz-button" class="px-10 py-5 text-xl font-bold text-white rounded-xl btn-gradient shadow-lg">
+                            Take the Free Sleep Quiz
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black border-t border-white/10">
+        <div class="container mx-auto px-6 py-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                <div class="col-span-2 lg:col-span-1">
+                      <a href="index.html" class="flex items-center space-x-2">
+                         <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                        <span class="text-2xl font-bold text-white">NuYu</span>
+                    </a>
+                    <p class="mt-4 text-sm text-gray-400">An open-source sleep project.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white tracking-wider">Project</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="project.html" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
+                        <li><a href="science.html" class="text-gray-400 hover:text-white transition-colors">The Science</a></li>
+                        <li><a href="index.html#kickstarter" class="text-gray-400 hover:text-white transition-colors">Kickstarter</a></li>
+                        <li><a href="community.html#get-involved" class="text-gray-400 hover:text-white transition-colors">Beta Program</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white tracking-wider">Community</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="community.html" class="text-gray-400 hover:text-white transition-colors">Our Story</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h4 class="font-semibold text-white tracking-wider">Legal</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                 <div class="col-span-2 md:col-span-1">
+                    <h4 class="font-semibold text-white tracking-wider">Stay Updated</h4>
+                    <div class="mt-4 flex">
+                        <input type="email" placeholder="Enter your email" class="w-full px-4 py-2 rounded-l-lg text-gray-900 bg-gray-200 focus:outline-none">
+                        <button class="px-4 py-2 font-semibold text-white rounded-r-lg btn-gradient">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-16 pt-8 border-t border-white/10 text-center text-sm text-gray-500">
+                <p>&copy; 2025 NuYu Project. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <div id="quiz-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 opacity-0">
+        <div id="quiz-container" class="bg-gray-900 text-white w-full max-w-2xl rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
+            <div class="p-6 border-b border-gray-700 flex justify-between items-center">
+                <h2 id="quiz-title" class="text-2xl font-bold">Your Sleep Fingerprint</h2>
+                <button id="close-quiz-button" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-2.5">
+                <div id="progress-bar-fill" class="bg-violet-500 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+            <div id="quiz-content" class="p-8 overflow-y-auto flex-grow"></div>
+            <div class="p-6 border-t border-gray-700 flex justify-between items-center bg-gray-900/50 backdrop-blur-sm">
+                 <button id="back-button" class="px-6 py-2 font-semibold bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">Back</button>
+                 <button id="next-button" class="px-6 py-2 font-semibold text-white rounded-lg btn-gradient disabled:opacity-50 disabled:cursor-not-allowed" disabled>Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>

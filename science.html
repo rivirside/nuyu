@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Science of NuYu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #E4E4E7; }
+        .btn-gradient { background-image: linear-gradient(to right, #8B5CF6, #6366F1); transition: all 0.3s ease; }
+        .btn-gradient:hover { box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); }
+        .content-card { background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }
+        .chart-container { position: relative; width: 100%; max-width: 450px; margin: auto; height: auto; max-height: 450px; aspect-ratio: 1 / 1; }
+        .line-chart-container { position: relative; width: 100%; max-width: 800px; margin: auto; height: 350px; max-height: 450px; }
+        .interactive-step.active { border-color: #8b5cf6; background-color: rgba(139, 92, 246, 0.1); transform: scale(1.03); }
+        .topic-button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2); }
+        .consequences-on .consequence-icon { opacity: 1; }
+        .consequence-icon { opacity: 0; transition: opacity 0.3s ease; }
+        .pathway-btn.active { background-color: #8b5cf6; color: white; }
+        .modal-scrollbar::-webkit-scrollbar { width: 8px; }
+        .modal-scrollbar::-webkit-scrollbar-track { background: #1f2937; }
+        .modal-scrollbar::-webkit-scrollbar-thumb { background-color: #4f46e5; border-radius: 20px; border: 3px solid #1f2937; }
+        #science-modal { transition: opacity 0.3s ease-in-out; }
+        .faq-item { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .faq-icon { transition: transform 0.3s ease; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/80 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                    <span class="text-2xl font-bold text-white">NuYu</span>
+                </a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="project.html" class="text-gray-300 hover:text-white transition-colors">The Project</a>
+                    <a href="science.html" class="text-white font-semibold transition-colors">The Science</a>
+                    <a href="community.html" class="text-gray-300 hover:text-white transition-colors">Community</a>
+                    <a href="faq.html" class="text-gray-300 hover:text-white transition-colors">FAQs</a>
+                </nav>
+                <div class="hidden md:block"><a href="index.html#kickstarter" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Support Us</a></div>
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 bg-black/95">
+            <nav class="flex flex-col space-y-4 pt-4">
+                <a href="project.html" class="nav-link text-gray-300 hover:text-white">The Project</a>
+                <a href="science.html" class="nav-link text-white font-semibold">The Science</a>
+                <a href="community.html" class="nav-link text-gray-300 hover:text-white">Community</a>
+                <a href="faq.html" class="nav-link text-gray-300 hover:text-white">FAQs</a>
+                <a href="index.html#kickstarter" class="nav-link mt-2 inline-block w-full text-center px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Support Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-24 bg-black">
+        <div class="container mx-auto px-6 py-20">
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">The Science of NuYu</h1>
+                <p class="mt-6 text-lg text-gray-300">NuYu is built upon a deep understanding of neurobiology. This page explores the four core scientific pillars that inform our approach. Explore the science below to see how we leverage these principles to create a powerful system for change.</p>
+            </div>
+            
+            <div class="mt-20 space-y-20">
+                <div class="content-card p-8 md:p-12 rounded-2xl">
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div class="order-2 md:order-1">
+                            <h2 class="text-3xl font-bold text-violet-400 mb-4">The Science of Sleep</h2>
+                            <p class="text-gray-300 mb-6">Sleep isn't just rest; it's a critical maintenance period. Your brain cycles through structured stages, from deep NREM sleep that physically restores and cleanses the brain via the glymphatic system, to REM sleep which is vital for memory and emotional regulation.</p>
+                            <button data-topic="sleep" class="topic-button px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Explore the Science of Sleep</button>
+                        </div>
+                        <div class="order-1 md:order-2">
+                             <img src="https://placehold.co/600x400/000000/a78bfa?text=Sleep+Cycles" alt="Illustration of brain waves during sleep" class="rounded-lg shadow-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card p-8 md:p-12 rounded-2xl">
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                         <div>
+                             <img src="https://placehold.co/600x400/000000/a78bfa?text=Habit+Loop" alt="Illustration of the habit loop" class="rounded-lg shadow-lg">
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-bold text-violet-400 mb-4">The Science of Habit</h2>
+                            <p class="text-gray-300 mb-6">Habits form by offloading tasks from the conscious prefrontal cortex to the automatic basal ganglia. This automation frees up mental energy. The timing of when you practice a habit matters—leveraging your body's natural hormonal rhythms, like the morning cortisol peak, can significantly speed up learning.</p>
+                            <button data-topic="habit" class="topic-button px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Explore the Science of Habit</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card p-8 md:p-12 rounded-2xl">
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div class="order-2 md:order-1">
+                            <h2 class="text-3xl font-bold text-violet-400 mb-4">The Science of Scent</h2>
+                            <p class="text-gray-300 mb-6">The sense of smell has a unique 'superhighway' to the brain's emotion and memory centers, bypassing the usual sensory filter. This direct link is why scents can trigger such powerful responses and makes them an ideal tool for associating a cue with a new behavior.</p>
+                            <button data-topic="scent" class="topic-button px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Explore the Science of Scent</button>
+                        </div>
+                        <div class="order-1 md:order-2">
+                             <img src="https://placehold.co/600x400/000000/a78bfa?text=Olfactory+Pathway" alt="Illustration of the olfactory pathway to the brain" class="rounded-lg shadow-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card p-8 md:p-12 rounded-2xl">
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                         <div>
+                            <img src="https://placehold.co/600x400/000000/a78bfa?text=NuYu+Synthesis" alt="Illustration showing Sleep, Habit and Scent combined" class="rounded-lg shadow-lg">
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-bold text-violet-400 mb-4">The NuYu Synthesis</h2>
+                            <p class="text-gray-300 mb-6">NuYu integrates these principles into a 24-hour system. By pairing a novel scent with a new habit, and then re-exposing the brain to that scent during deep sleep, we use Targeted Memory Reactivation (TMR) to dramatically accelerate how quickly the new behavior becomes ingrained.</p>
+                            <button data-topic="synthesis" class="topic-button px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Explore the Synthesis</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="mt-28">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">From Research to a Real-World Solution</h2>
+                    <p class="mt-4 text-lg text-gray-400">Understanding the science is the first step. The next is applying it. Here’s how the NuYu project translates these powerful scientific principles into tangible features designed to help you.</p>
+                </div>
+                <div class="mt-16 grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="content-card p-8 rounded-2xl">
+                        <h3 class="text-xl font-bold text-violet-400 mb-2">Engineering for Your Circadian Rhythm</h3>
+                        <p class="text-gray-400">The science shows that light is a primary regulator of your internal clock. That's why NuYu features a sunrise-simulating light to naturally boost morning cortisol and a time-based night light to support evening melatonin production.</p>
+                    </div>
+                    <div class="content-card p-8 rounded-2xl">
+                        <h3 class="text-xl font-bold text-violet-400 mb-2">A Toolkit for Olfactory Entrainment</h3>
+                        <p class="text-gray-400">Targeted Memory Reactivation requires distinct cues. That's why NuYu has two independent wells for separate "Wake" and "Sleep" scents, allowing you to build the associative links needed to reinforce your habits while you sleep.</p>
+                    </div>
+                    <div class="content-card p-8 rounded-2xl">
+                         <h3 class="text-xl font-bold text-violet-400 mb-2">Personalized for Your Biology</h3>
+                        <p class="text-gray-400">Chronotype matters for complex habits. Our future companion app will incorporate a validated quiz to help you understand your unique sleep profile and tailor your routines for maximum effectiveness.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-28 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Join the DeSci Movement: Shape the Future of Sleep</h2>
+                <p class="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">NuYu is more than a product; it’s a commitment to open and collaborative research. We invite you to be part of the decentralized science (DeSci) movement to collectively advance our understanding of sleep.</p>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                    <div class="content-card rounded-2xl p-8 flex flex-col justify-between text-left">
+                        <div>
+                           <h3 class="text-2xl font-bold text-white">Become a Research Collaborator</h3>
+                           <p class="text-gray-400 my-4">Join our beta program and contribute to a landmark study. With your consent, your anonymized sleep data will help build one of the largest open datasets for sleep science, fueling new discoveries for years to come.</p>
+                        </div>
+                        <a href="community.html#get-involved" class="inline-block mt-4 text-center px-8 py-3 font-semibold text-white rounded-lg btn-gradient">Apply for the Beta Program</a>
+                    </div>
+                    <div class="content-card rounded-2xl p-8 flex flex-col justify-between text-left">
+                         <div>
+                            <h3 class="text-2xl font-bold text-white">Build with the Community</h3>
+                            <p class="text-gray-400 my-4">This is an open-source project. After our Kickstarter, all hardware schematics and software code will be released to the public. Fork it, improve it, and help us build the ultimate tool for better living.</p>
+                        </div>
+                        <a href="#" class="inline-block mt-4 text-center px-8 py-3 font-semibold bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">Notify Me on GitHub Release</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="faq" class="mt-28 max-w-3xl mx-auto">
+                 <div class="text-center">
+                      <h2 class="text-3xl md:text-4xl font-bold text-white">Scientific Questions</h2>
+                 </div>
+                <div id="faq-container" class="mt-12 space-y-4">
+                    </div>
+            </div>
+
+            <section id="quiz-section" class="py-20 md:py-32">
+                <div class="container mx-auto px-6 text-center">
+                    <div class="max-w-3xl mx-auto">
+                        <h2 class="text-3xl md:text-4xl font-bold text-white">Discover Your Sleep Fingerprint</h2>
+                        <p class="mt-4 text-lg text-gray-400">
+                            Your sleep is as unique as you are. This 5-minute, scientifically-validated quiz analyzes your sleep across 7 key dimensions to reveal your personal sleep archetype.
+                        </p>
+                        <div class="mt-8">
+                            <button id="start-quiz-button" class="px-10 py-5 text-xl font-bold text-white rounded-xl btn-gradient shadow-lg">
+                                Take the Free Sleep Quiz
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+     <footer class="bg-black border-t border-white/10">
+        <div class="container mx-auto px-6 py-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                <div class="col-span-2 lg:col-span-1">
+                     <a href="index.html" class="flex items-center space-x-2">
+                         <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                         <span class="text-2xl font-bold text-white">NuYu</span>
+                    </a>
+                    <p class="mt-4 text-sm text-gray-400">An open-source sleep project.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white tracking-wider">Project</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="project.html" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
+                        <li><a href="science.html" class="text-gray-400 hover:text-white transition-colors">The Science</a></li>
+                        <li><a href="index.html#kickstarter" class="text-gray-400 hover:text-white transition-colors">Kickstarter</a></li>
+                        <li><a href="community.html#get-involved" class="text-gray-400 hover:text-white transition-colors">Beta Program</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white tracking-wider">Community</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="community.html" class="text-gray-400 hover:text-white transition-colors">Our Story</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h4 class="font-semibold text-white tracking-wider">Legal</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                 <div class="col-span-2 md:col-span-1">
+                    <h4 class="font-semibold text-white tracking-wider">Stay Updated</h4>
+                    <div class="mt-4 flex">
+                        <input type="email" placeholder="Enter your email" class="w-full px-4 py-2 rounded-l-lg text-gray-900 bg-gray-200 focus:outline-none">
+                        <button class="px-4 py-2 font-semibold text-white rounded-r-lg btn-gradient">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-16 pt-8 border-t border-white/10 text-center text-sm text-gray-500">
+                <p>&copy; 2025 NuYu Project. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <div id="science-modal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 opacity-0">
+        <div class="bg-gray-800 w-full max-w-5xl max-h-[90vh] rounded-2xl shadow-2xl flex flex-col">
+            <div class="p-6 border-b border-gray-700 flex justify-between items-center flex-shrink-0">
+                <h2 id="modal-title" class="text-3xl font-bold text-white"></h2>
+                <button id="modal-close-button" class="text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="modal-content" class="p-8 md:p-10 overflow-y-auto modal-scrollbar flex-grow">
+                </div>
+        </div>
+    </div>
+    
+    <div id="quiz-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 opacity-0">
+        <div id="quiz-container" class="bg-gray-900 text-white w-full max-w-2xl rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
+            <div class="p-6 border-b border-gray-700 flex justify-between items-center">
+                <h2 id="quiz-title" class="text-2xl font-bold">Your Sleep Fingerprint</h2>
+                <button id="close-quiz-button" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-2.5">
+                <div id="progress-bar-fill" class="bg-violet-500 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+            <div id="quiz-content" class="p-8 overflow-y-auto flex-grow"></div>
+            <div class="p-6 border-t border-gray-700 flex justify-between items-center bg-gray-900/50 backdrop-blur-sm">
+                 <button id="back-button" class="px-6 py-2 font-semibold bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">Back</button>
+                 <button id="next-button" class="px-6 py-2 font-semibold text-white rounded-lg btn-gradient disabled:opacity-50 disabled:cursor-not-allowed" disabled>Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Navigation ---
+        const initMobileMenu = () => {
+            const button = document.getElementById('mobile-menu-button');
+            const menu = document.getElementById('mobile-menu');
+            if(button && menu) button.addEventListener('click', () => menu.classList.toggle('hidden'));
+        };
+
+        // Initialize mobile menu immediately
+        initMobileMenu();
+
+        // --- All Modal and Chart Logic ---
+        
+        // scienceData object for detailed modal content
+        const scienceData = {
+            sleep: {
+                title: 'The Science of Sleep',
+                content: `
+                    <div class="space-y-12 text-gray-300">
+                        <div class="content-card p-8 rounded-2xl">
+                            <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">The Architecture of Sleep</h3>
+                            <p class="mb-4">Sleep is not a monolith; it's a meticulously structured state characterized by the cyclical alternation of NREM and REM sleep. Each 90-120 minute cycle is a journey through different neurological landscapes. The night begins with a focus on deep, physically restorative NREM sleep and transitions towards longer, more mentally-focused REM periods in the later hours. This isn't just a pattern; it's a biological strategy, ensuring the most urgent physical repairs happen first.</p>
+                             <div class="bg-black/20 p-4 rounded-xl mt-4">
+                                 <p class="text-sm text-gray-400"><strong>Analogy:</strong> Think of it like a professional cleaning crew. They start with the heavy-duty deep cleaning (SWS) to clear out the major debris, then move to organizing and filing (memory consolidation in N2/REM) later in their shift.</p>
+                             </div>
+                        </div>
+                        <div class="grid md:grid-cols-5 gap-12 items-center content-card p-8 rounded-2xl" id="architecture-container">
+                            <div class="md:col-span-2 chart-container"><canvas id="sleepCycleChart"></canvas></div>
+                            <div class="md:col-span-3">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="text-xl font-bold text-violet-300" id="sleep-stage-title"></h4>
+                                    <label for="consequences-toggle" class="flex items-center cursor-pointer"><span class="mr-3 text-sm text-gray-300">Disruption Effects</span><div class="relative"><input type="checkbox" id="consequences-toggle" class="sr-only"><div class="block bg-gray-600 w-14 h-8 rounded-full"></div><div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div></div></label>
+                                </div>
+                                <div id="sleep-stage-info" class="space-y-2 text-gray-400"></div>
+                            </div>
+                        </div>
+
+                        <div class="content-card p-8 rounded-2xl">
+                            <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">The Brain's Nocturnal Power-Wash</h3>
+                            <p class="mb-4">The discovery of the <strong class="text-white">glymphatic system</strong> revealed a unique brain-wide "janitorial service" that is up to <strong class="text-white">90% more active during sleep</strong>. This system uses cerebrospinal fluid (CSF) to flush out neurotoxic waste products accumulated during wakefulness, including amyloid-beta (Aβ) and tau proteins, which are implicated in Alzheimer's disease.</p>
+                             <p class="text-gray-400">This process is driven by specialized brain cells called <strong class="text-white">astrocytes</strong>, which use <strong class="text-white">aquaporin-4 (AQP4) water channels</strong> to facilitate the flow of CSF. During SWS, the brain's interstitial space physically expands, allowing for a more effective rinse. A single night of sleep deprivation is sufficient to increase Aβ levels in the brain, highlighting the critical, immediate importance of SWS for neurological health.</p>
+                        </div>
+                        
+                        <div class="content-card p-8 rounded-2xl">
+                            <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">The Brain's Nightly Defrag</h3>
+                            <p class="mb-4">The <strong class="text-white">Synaptic Homeostasis Hypothesis (SHY)</strong> proposes that sleep is the price the brain pays for plasticity. Waking life causes a net increase in synaptic strength, which is energetically costly and can lead to saturation. SWS serves as a period of global but selective synaptic renormalization. The brain is disconnected from the environment, allowing it to prune weaker connections while preserving and consolidating stronger ones. This "smart forgetting" improves the signal-to-noise ratio of neural circuits and prepares the brain for the next day's learning.</p>
+                            <p class="text-gray-400">This is regulated at a molecular level by proteins like <strong class="text-white">Homer1a</strong> and <strong class="text-white">cyclin-dependent kinase 5 (CDK5)</strong>. It is the ultimate act of efficiency, clearing informational clutter so you can learn more effectively tomorrow.</p>
+                        </div>
+                    </div>
+                `
+            },
+            habit: {
+                title: 'The Science of Habit',
+                content: `
+                    <div class="space-y-12 text-gray-300">
+                        <div class="content-card p-8 rounded-2xl">
+                            <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">The Automation Engine: From CEO to Factory Floor</h3>
+                            <p class="mb-4">Forming a habit is a neurological handoff. Initially, a new behavior is a goal-directed action managed by the brain's conscious CEO, the <strong class="text-white">prefrontal cortex (PFC)</strong>. It requires focus and willpower. With repetition, control is offloaded to the brain's automated factory floor, the <strong class="text-white">basal ganglia</strong>. This offloading frees up immense cognitive resources, which is why you can drive a familiar route while planning your day.</p>
+                             <div class="bg-black/20 p-4 rounded-xl mt-4">
+                                 <p class="text-sm text-gray-400"><strong>The Neural Signature:</strong> This shift is so profound that brain imaging shows decreased PFC involvement after a habit is formed, indicating true automation.</p>
+                             </div>
+                        </div>
+
+                        <div class="content-card p-8 md:p-12 rounded-2xl">
+                            <h4 class="text-xl font-bold text-white text-center mb-8">Deconstructing the Habit Loop</h4>
+                            <div id="habit-loop-steps" class="grid md:grid-cols-3 gap-8 text-center"></div>
+                            <div id="habit-loop-info" class="mt-8 p-6 bg-gray-900 rounded-xl text-center"></div>
+                        </div>
+
+                        <div class="content-card p-8 md:p-12 rounded-2xl">
+                            <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">The Chronobiology of Habit</h3>
+                            <p class="mb-8">The speed at which a habit forms is profoundly influenced by circadian rhythms. Research demonstrates a <strong class="text-white">"cortisol advantage,"</strong> showing that habits can form up to <strong class="text-white">50% faster</strong> (e.g., in 106 days vs. 154) when practiced during the morning's natural cortisol peak. This "cortisol-dopamine handshake" makes the brain's reward pathways more sensitive, strengthening the habit loop more effectively. For simple habits, this morning advantage is universal. For complex behaviors like exercise, success is maximized by aligning the activity with one's individual <strong class="text-white">chronotype</strong> (morning person vs. evening person).</p>
+                             <div class="bg-black/50 p-8 md:p-12 rounded-2xl">
+                                 <h4 class="text-xl font-bold text-white text-center mb-4">The Hormonal Rhythm of Habit</h4>
+                                 <p class="text-center text-gray-400 mb-8 max-w-2xl mx-auto">This chart visualizes the opposing 24-hour cycles of Cortisol (alertness) and Melatonin (sleepiness), the body's primary sleep-wake hormones that create the optimal windows for learning and rest.</p>
+                                 <div class="line-chart-container"><canvas id="cortisolMelatoninChart"></canvas></div>
+                             </div>
+                        </div>
+                    </div>
+                `
+            },
+            scent: {
+                title: 'The Science of Scent',
+                content: `
+                    <div class="space-y-12 text-gray-300">
+                        <div class="content-card p-8 rounded-2xl">
+                            <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">The "Scent Superhighway"</h3>
+                            <p class="mb-8">Olfaction is unique. While other senses are relayed through the <strong class="text-white">thalamus</strong> (the brain's switchboard), scent has a direct, one-synapse connection to the <strong class="text-white">limbic system</strong>. This "superhighway" targets the <strong class="text-white">amygdala</strong> (emotion hub) and the <strong class="text-white">hippocampus</strong> (memory center), explaining why smells evoke such immediate and powerful emotional and memory responses. This connection is bidirectional; research shows a direct feedback projection from the hippocampus back to the olfactory bulb, allowing memory to actively filter and modulate how we perceive scents.</p>
+                            <div class="bg-black/50 p-8 md:p-12 rounded-2xl">
+                                <h4 class="text-xl font-bold text-white text-center mb-8">Comparing Sensory Pathways</h4>
+                                <div class="text-center mb-8"><button class="pathway-btn p-3 rounded-lg" data-path="other">Sight/Sound Pathway</button><button class="pathway-btn active p-3 rounded-lg" data-path="scent">Smell Pathway</button></div>
+                                <div id="pathway-diagram" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center text-center text-gray-400 font-semibold tracking-wider"></div>
+                            </div>
+                        </div>
+
+                        <div class="content-card p-8 rounded-2xl">
+                            <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">The Chemistry of Scent</h3>
+                            <p class="mb-8">The chemical differences between natural and synthetic aromatics have significant implications for their effects on the brain. This distinction allows for a targeted approach to aromatherapy.</p>
+                             <div class="grid md:grid-cols-2 gap-8">
+                                 <div class="bg-black/50 p-8 rounded-2xl">
+                                     <h4 class="text-xl font-bold text-violet-300 mb-2">Natural Complexity</h4>
+                                     <p class="text-gray-400">Natural essential oils are chemically rich, with a single oil like rose containing over <strong class="text-white">400 volatile compounds</strong>. This complexity stimulates a wide array of neural pathways simultaneously, leading to more profound, holistic physiological responses. They are ideal for holistic mood modulation.</p>
+                                 </div>
+                                 <div class="bg-black/50 p-8 rounded-2xl">
+                                     <h4 class="text-xl font-bold text-violet-300 mb-2">Synthetic Precision</h4>
+                                     <p class="text-gray-400">Synthetic fragrances are engineered with a smaller number of specific molecules (<strong class="text-white">often 20-30</strong>) for high consistency. This precision is superior for applications like TMR, where a novel, highly repeatable cue with no pre-existing emotional or memory associations is required to form a clean link with a new habit.</p>
+                                 </div>
+                             </div>
+                        </div>
+                         <div class="content-card p-8 rounded-2xl">
+                             <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">Psychoactive Effects of Aromatics</h3>
+                              <p class="mb-8">Research has documented the ability of specific fragrances to directly modulate brain activity. The table below summarizes key findings for scents relevant to the NuYu system.</p>
+                              <div class="overflow-x-auto bg-black/50 rounded-2xl p-2"><table class="w-full text-left">
+                                 <thead class="border-b border-white/20"><tr><th class="p-4 text-sm font-semibold text-white">Aromatic</th><th class="p-4 text-sm font-semibold text-white">Effect</th><th class="p-4 text-sm font-semibold text-white hidden md:table-cell">Key Mechanism / Brainwave Effect</th></tr></thead>
+                                 <tbody class="divide-y divide-white/10">
+                                     <tr><td class="p-4 text-gray-300 font-semibold">Lavender</td><td class="p-4 text-violet-400">Relaxing, Anxiolytic</td><td class="p-4 text-gray-400 hidden md:table-cell">Increases SWS & alpha/theta waves; enhances parasympathetic activity.</td></tr>
+                                     <tr><td class="p-4 text-gray-300 font-semibold">Peppermint</td><td class="p-4 text-violet-400">Cognitive-Enhancing</td><td class="p-4 text-gray-400 hidden md:table-cell">Improves memory & alertness; neuroprotective effects; may increase theta waves.</td></tr>
+                                     <tr><td class="p-4 text-gray-300 font-semibold">Citrus (Lemon)</td><td class="p-4 text-violet-400">Mood-Elevating</td><td class="p-4 text-gray-400 hidden md:table-cell">Improves working memory; activates prefrontal cortex; increases theta waves.</td></tr>
+                                     <tr><td class="p-4 text-gray-300 font-semibold">Rosemary</td><td class="p-4 text-violet-400">Alertness-Boosting</td><td class="p-4 text-gray-400 hidden md:table-cell">Enhances cognitive performance; decreases frontal alpha/beta waves.</td></tr>
+                                     <tr><td class="p-4 text-gray-300 font-semibold">Sandalwood</td><td class="p-4 text-violet-400">Relaxing</td><td class="p-4 text-gray-400 hidden md:table-cell">Decreases alpha waves; increases beta/gamma activation in PFC.</td></tr>
+                                 </tbody>
+                               </table></div>
+                         </div>
+                    </div>
+                `
+            },
+            synthesis: {
+                title: 'The NuYu Synthesis',
+                content: `
+                    <div class="space-y-12 text-gray-300">
+                         <div class="content-card p-8 rounded-2xl">
+                             <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">The Triad of Transformation</h3>
+                             <p>The NuYu framework integrates three scientific pillars into a synergistic system:</p>
+                             <ul class="list-disc list-inside space-y-2 mt-4">
+                                 <li><strong class="text-white">Habit Formation</strong> provides the "What" and "How": It defines the target behavior within the cue-routine-reward loop.</li>
+                                 <li><strong class="text-white">Sleep</strong> provides the "When": It offers the essential window for memory consolidation and neural recalibration.</li>
+                                 <li><strong class="text-white">Scent</strong> provides the "Key": It is the unifying thread that connects the waking and sleeping states, acting as a state-setter, cue, and trigger for consolidation.</li>
+                             </ul>
+                         </div>
+                        <div class="content-card p-8 rounded-2xl">
+                            <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">Hacking Habit Consolidation with TMR</h3>
+                            <p class="mb-8"><strong class="text-white">Targeted Memory Reactivation (TMR)</strong> is the core mechanism. By pairing a novel scent with a new habit during the day, we create an associative link. Re-exposing the sleeping brain to that same cue during SWS selectively triggers the neural replay of that memory, dramatically enhancing its consolidation.</p>
+                            <div class="max-w-4xl mx-auto">
+                                <div class="relative grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="absolute w-full top-1/2 -translate-y-1/2 h-px bg-transparent hidden md:block" style="background-image: linear-gradient(to right, #4c1d95, #4f46e5, transparent 90%);"></div>
+                                    <div class="relative text-center p-6 bg-gray-800 rounded-xl"><div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-violet-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold ring-4 ring-gray-900">1</div><h4 class="font-bold text-lg mt-4 text-violet-400">Morning Encode</h4><p class="text-sm text-gray-400 mt-2">Perform your habit during your morning cortisol peak. NuYu's sunrise light and "Wake" scent create a powerful memory link.</p></div>
+                                    <div class="relative text-center p-6 bg-gray-800 rounded-xl"><div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-violet-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold ring-4 ring-gray-900">2</div><h4 class="font-bold text-lg mt-4 text-violet-400">Nighttime Consolidation</h4><p class="text-sm text-gray-400 mt-2">During deep sleep, NuYu covertly re-introduces the "Wake" scent, triggering TMR to strengthen the habit's neural pathways.</p></div>
+                                    <div class="relative text-center p-6 bg-gray-800 rounded-xl"><div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-violet-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold ring-4 ring-gray-900">3</div><h4 class="font-bold text-lg mt-4 text-violet-400">Reinforced Behavior</h4><p class="text-sm text-gray-400 mt-2">You wake with the habit more deeply ingrained, strengthening the positive feedback loop for continuous improvement.</p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-card p-8 rounded-2xl">
+                            <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">Olfactory Entrainment as a Zeitgeber</h3>
+                            <p>Beyond TMR, NuYu uses scent for <strong class="text-white">circadian entrainment</strong>. A consistent, stimulating morning scent and a calming evening scent act as non-photic *zeitgebers* ("time givers"). This helps anchor the body's internal clock, stabilizing the cortisol/melatonin rhythm, which in turn enhances both the morning "cortisol advantage" for learning and the quality of nighttime SWS for consolidation. This creates a more resilient and well-regulated biological foundation for change.</p>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        const modal = document.getElementById('science-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+        const modalCloseBtn = document.getElementById('modal-close-button');
+        const faqContainer = document.getElementById('faq-container');
+
+        // FAQ data and functions
+        const faqs = [
+            { question: "Is there a risk of becoming dependent on the scents?", answer: "No. The scents are used as associative cues, not pharmacological agents. The goal of TMR is to strengthen a neural pathway so that the habit becomes automatic and no longer requires the cue. Think of it like training wheels for your brain; eventually, you won't need them." },
+            { question: "How do you ensure the TMR scent doesn't wake me up?", answer: "The NuYu system is designed to release scents at a low, sub-arousal threshold. The olfactory system is unique in that it can process these cues during sleep without causing arousal, unlike a loud noise. The intensity is calibrated to be just enough for the brain to process, but not enough to disturb your sleep." },
+            { question: "What if I'm a night owl? Will this still work for me?", answer: "Yes. The 'cortisol advantage' is about aligning with your *personal* morning peak. The NuYu app will incorporate a chronotype assessment to help you identify your optimal window for habit formation, whether that's 7 AM or 10 AM. The principle is about working with your body's clock, not forcing a universal 'early bird' schedule." },
+            { question: "Why is a synthetic scent better for TMR?", answer: "While natural scents are great for general mood, their chemical complexity can carry pre-existing associations. For TMR to be most effective, the scent cue should be novel and precise. A synthetic fragrance, engineered for consistency, creates a 'clean' slate for your brain to form a strong, unambiguous link between the scent and your new habit." }
+        ];
+
+        const populateFaqs = () => {
+            if (!faqContainer) return;
+            faqContainer.innerHTML = faqs.map(faq => `
+                <div class="faq-item">
+                    <button class="faq-question flex justify-between items-center w-full py-5 text-left text-lg font-semibold text-white">
+                        <span>${faq.question}</span>
+                        <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="faq-answer hidden pb-5 pr-4 text-gray-400">
+                       <p>${faq.answer}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            faqContainer.querySelectorAll('.faq-question').forEach(button => {
+                button.addEventListener('click', () => {
+                    const answer = button.nextElementSibling;
+                    const icon = button.querySelector('.faq-icon');
+                    const isOpening = answer.classList.contains('hidden');
+                    
+                    // Close all others
+                    faqContainer.querySelectorAll('.faq-answer').forEach(ans => ans.classList.add('hidden'));
+                    faqContainer.querySelectorAll('.faq-icon').forEach(icn => icn.classList.remove('rotate-180'));
+                    
+                    if (isOpening) {
+                        answer.classList.remove('hidden');
+                        icon.classList.add('rotate-180');
+                    }
+                });
+            });
+        };
+
+        const showModal = (topic) => {
+            if (!scienceData[topic]) return;
+            modalTitle.textContent = scienceData[topic].title;
+            modalContent.innerHTML = scienceData[topic].content;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => modal.classList.add('opacity-100'), 10);
+            initializeInteractiveElements();
+        };
+
+        const hideModal = () => {
+            modal.classList.remove('opacity-100');
+            document.body.style.overflow = '';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modalContent.innerHTML = '';
+            }, 300);
+        };
+
+        document.querySelectorAll('.topic-button').forEach(btn => btn.addEventListener('click', () => showModal(btn.dataset.topic)));
+        if(modalCloseBtn) modalCloseBtn.addEventListener('click', hideModal);
+        
+        const initializeInteractiveElements = () => {
+            initSleepChart();
+            initDualAxisChart();
+            initScentPathwayDiagram();
+            initHabitLoop();
+        };
+
+        const initSleepChart = () => {
+            const ctx = document.getElementById('sleepCycleChart')?.getContext('2d');
+            if (!ctx) return;
+            const titleEl = document.getElementById('sleep-stage-title');
+            const infoEl = document.getElementById('sleep-stage-info');
+            const toggle = document.getElementById('consequences-toggle');
+            const container = document.getElementById('architecture-container');
+
+            const stages = [
+                { title: 'Stage 1: Drifting Off (N1)', desc: 'This light, transitional stage is where your mind begins to quiet. It\'s a fragile state, easily disrupted, where the brain prepares for deeper sleep.', consequence: 'Disrupting N1 can make it difficult to initiate sleep, prolonging the time it takes to reach restorative stages.' },
+                { title: 'Stage 2: Light Sleep (N2)', desc: 'The majority of your night is spent here. Brain activity slows but is marked by <strong class="text-white">sleep spindles</strong>, bursts of activity critical for organizing and consolidating memories from the day.', consequence: 'Fragmented N2 sleep impairs memory consolidation, making it harder to learn new skills and retain information.' },
+                { title: 'Stage 3: Deep Sleep (SWS)', desc: 'The most physically restorative stage. Your brain produces slow delta waves as it performs critical maintenance, including <strong class="text-white">glymphatic clearance</strong> (waste removal) and synaptic pruning.', consequence: 'A lack of SWS is linked to impaired immune function, cognitive fog, and an increased risk of neurodegenerative diseases due to toxin buildup.' },
+                { title: 'REM Sleep', desc: 'A paradoxical state of high brain activity, vivid dreaming, and muscle paralysis. REM is crucial for emotional regulation, creativity, and consolidating procedural (skill-based) memories.', consequence: 'Insufficient REM sleep can lead to mood swings, emotional over-reactivity, and difficulty with creative problem-solving.' }
+            ];
+
+            const updateInfo = (index) => {
+                if(!titleEl || !infoEl) return;
+                titleEl.textContent = stages[index].title;
+                infoEl.innerHTML = `<p>${stages[index].desc}</p><p class="consequence-icon mt-2 text-red-400 flex items-start gap-2"><svg class="w-5 h-5 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg><span>${stages[index].consequence}</span></p>`;
+            };
+
+            updateInfo(0);
+            if(toggle && container) toggle.addEventListener('change', () => container.classList.toggle('consequences-on'));
+            
+            new Chart(ctx, {
+                type: 'doughnut', data: { labels: ['N1', 'N2', 'SWS', 'REM'], datasets: [{ data: [5, 50, 20, 25], backgroundColor: ['#a78bfa', '#8b5cf6', '#7c3aed', '#6d28d9'], borderColor: '#1f2937', borderWidth: 4 }] },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '50%', plugins: { legend: { display: false } }, onClick: (e, els) => { if (els.length > 0) updateInfo(els[0].index); } }
+            });
+        };
+
+        const initDualAxisChart = () => {
+            const ctx = document.getElementById('cortisolMelatoninChart')?.getContext('2d');
+            if(!ctx) return;
+            const labels = Array.from({ length: 25 }, (_, i) => `${i % 24}:00`);
+            const cortisolData = [0.4, 0.3, 0.2, 0.1, 0.1, 0.2, 0.4, 0.7, 1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.15, 0.1, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6];
+            const melatoninData = [0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3];
+            new Chart(ctx, {
+                type: 'line',
+                data: { labels, datasets: [
+                    { label: 'Cortisol (Alertness)', data: cortisolData, borderColor: '#f472b6', backgroundColor: 'rgba(244, 114, 182, 0.2)', fill: true, tension: 0.4, yAxisID: 'y' },
+                    { label: 'Melatonin (Sleepiness)', data: melatoninData, borderColor: '#8b5cf6', backgroundColor: 'rgba(139, 92, 246, 0.2)', fill: true, tension: 0.4, yAxisID: 'y' }
+                ]},
+                options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, scales: { y: { display: false }, x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#9ca3af' }}}, plugins: { legend: { labels: { color: '#d1d5db' }}, tooltip: { enabled: true } }}
+            });
+        };
+
+        const initScentPathwayDiagram = () => {
+            const container = document.getElementById('pathway-diagram');
+            if(!container) return;
+            const buttons = document.querySelectorAll('.pathway-btn');
+            const pathways = {
+                scent: `<span>OLFACTORY BULB</span><span class="text-3xl text-violet-400">→</span><span class="p-4 bg-violet-900/50 rounded-lg ring-1 ring-violet-500">LIMBIC SYSTEM <br/>(Emotion & Memory)</span>`,
+                other: `<span>EYES / EARS</span><span class="text-3xl text-gray-600">→</span><span class="p-4 bg-gray-800 rounded-lg">THALAMUS <br/>(Relay Station)</span>`
+            };
+            const renderPathway = (path) => {
+                container.innerHTML = pathways[path];
+                buttons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.path === path);
+                    btn.classList.toggle('bg-violet-600', btn.dataset.path === path);
+                    btn.classList.toggle('bg-gray-700', btn.dataset.path !== path);
+                });
+            };
+            buttons.forEach(btn => btn.addEventListener('click', () => renderPathway(btn.dataset.path)));
+            renderPathway('scent');
+        };
+
+        const initHabitLoop = () => {
+            const stepsContainer = document.getElementById('habit-loop-steps');
+            if(!stepsContainer) return;
+            const infoContainer = document.getElementById('habit-loop-info');
+            const steps = [
+                { title: 'The Cue', desc: 'A trigger that tells your brain to go into automatic mode. This shifts control from the conscious <strong class="text-white">Prefrontal Cortex</strong> to the automatic <strong class="text-white">Basal Ganglia</strong>. NuYu uses light and sound as consistent morning cues.' },
+                { title: 'The Routine', desc: 'The physical or mental action you take. This is the behavior you want to build. Each repetition strengthens the neural pathway for this routine within the basal ganglia, making it more efficient.' },
+                { title: 'The Reward', desc: 'A positive outcome that tells your brain this loop is worth remembering. The reward triggers a <strong class="text-white">dopamine</strong> release, which reinforces the connection between the cue and the routine, making the habit more likely to be repeated.' }
+            ];
+            stepsContainer.innerHTML = steps.map((step, i) => `<div data-step="${i}" class="interactive-step p-6 rounded-xl bg-gray-900 cursor-pointer"><div class="text-5xl font-bold text-violet-400 mb-4">${i+1}</div><h4 class="text-lg font-semibold text-white mb-2">${step.title}</h4></div>`).join('');
+            const stepElements = stepsContainer.querySelectorAll('.interactive-step');
+            const updateInfo = (index) => {
+                infoContainer.innerHTML = `<p>${steps[index].desc}</p>`;
+                stepElements.forEach((el, i) => el.classList.toggle('active', i === index));
+            };
+            stepElements.forEach((el) => el.addEventListener('click', () => updateInfo(parseInt(el.dataset.step))));
+            updateInfo(0);
+        };
+
+        // Populate FAQs on initial load
+        populateFaqs();
+    });
+    </script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>

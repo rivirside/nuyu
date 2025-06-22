@@ -1,6 +1,19 @@
 // js/main.js
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- NEW: Sticky Header Logic ---
+    const header = document.getElementById('header');
+    if (header) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 10) {
+            header.classList.add('bg-black/90', 'border-b', 'border-white/10');
+          } else {
+            header.classList.remove('bg-black/90', 'border-b', 'border-white/10');
+          }
+        });
+    }
+
     // --- Mobile Menu Logic ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');

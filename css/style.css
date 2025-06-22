@@ -1,0 +1,76 @@
+/* css/style.css */
+
+/* Applying Inter font to the entire body */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #000000;
+    color: #E4E4E7;
+    scroll-behavior: smooth;
+}
+/* Custom gradient for the hero section background */
+.hero-gradient {
+    background-image: radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15), transparent 30%),
+                      radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.15), transparent 30%);
+}
+/* Custom gradient for buttons */
+.btn-gradient {
+    background-image: linear-gradient(to right, #8B5CF6, #6366F1);
+    transition: all 0.3s ease;
+}
+.btn-gradient:hover {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+}
+/* Styling for cards */
+.content-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+/* Styling for FAQ section */
+.faq-item {
+     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+/* Custom list style */
+.custom-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.custom-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #8B5CF6;
+}
+
+/* Quiz Modal Styles */
+#quiz-modal {
+    transition: opacity 0.3s ease-in-out;
+}
+/* Progress Bar style */
+#progress-bar-fill {
+    transition: width 0.3s ease-in-out;
+}
+/* Radio button custom styles */
+.custom-radio:checked {
+    background-color: #8B5CF6;
+    border-color: #8B5CF6;
+}
+.custom-radio:checked:after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    margin: 2px;
+    border-radius: 50%;
+    background: white;
+}
+/* Custom select dropdown styles */
+.custom-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+    -webkit-print-color-adjust: exact;
+}

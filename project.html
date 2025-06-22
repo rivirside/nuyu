@@ -43,12 +43,11 @@
             position: relative;
             padding-top: 2rem;
         }
-        /* This is the main vertical line */
         #roadmap-timeline::before {
             content: '';
             position: absolute;
-            top: 20px; /* Start at the first dot */
-            bottom: 80px; /* Stop before the final button area */
+            top: 20px;
+            bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
             width: 3px;
@@ -99,12 +98,12 @@
         .timeline-button-container {
             position: relative;
             text-align: center;
-            padding-top: 40px; /* Space for the final dot */
+            padding-top: 40px;
         }
         .timeline-button-container::before {
             content: '';
             position: absolute;
-            top: 0; /* Position dot at the end of the timeline */
+            top: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 24px;
@@ -135,6 +134,55 @@
                 transform: none;
             }
         }
+
+        /* Gallery Modal Styles */
+        .gallery-modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+        .gallery-modal-content {
+            position: relative;
+            background-color: #1f2937;
+            border-radius: 1rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .gallery-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .gallery-close-btn:hover,
+        .gallery-close-btn:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .gallery-grid img {
+            transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+        }
+         .gallery-grid img:hover {
+            transform: scale(1.05);
+            opacity: 0.8;
+        }
+
     </style>
 </head>
 <body class="antialiased">
@@ -147,7 +195,7 @@
                     <span class="text-2xl font-bold text-white">NuYu</span>
                 </a>
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="project.html" class="text-gray-300 hover:text-white transition-colors">The Project</a>
+                    <a href="project.html" class="text-white font-semibold transition-colors">The Project</a>
                     <a href="science.html" class="text-gray-300 hover:text-white transition-colors">The Science</a>
                     <a href="community.html" class="text-gray-300 hover:text-white transition-colors">Community</a>
                     <a href="faq.html" class="text-gray-300 hover:text-white transition-colors">FAQs</a>
@@ -166,7 +214,7 @@
         </div>
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 bg-black/95">
             <nav class="flex flex-col space-y-4 pt-4">
-                <a href="project.html" class="nav-link text-gray-300 hover:text-white">The Project</a>
+                <a href="project.html" class="nav-link text-white font-semibold">The Project</a>
                 <a href="science.html" class="nav-link text-gray-300 hover:text-white">The Science</a>
                 <a href="community.html" class="nav-link text-gray-300 hover:text-white">Community</a>
                 <a href="faq.html" class="nav-link text-gray-300 hover:text-white">FAQs</a>
@@ -176,13 +224,22 @@
     </header>
 
     <main class="pt-24">
-        <section id="features" class="py-20 md:pt-32 md:pb-24">
+        <section id="hero" class="py-20 md:pt-32 md:pb-24">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                      <h2 class="text-3xl md:text-4xl font-bold text-white">The NuYu Project</h2>
                      <p class="mt-4 text-lg text-gray-400">The NuYu clock is more than just a product—it's a comprehensive, open-source tool designed to help you establish a healthy circadian rhythm and improve your overall well-being.</p>
                 </div>
-                <div class="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+            </div>
+        </section>
+        
+        <section id="features" class="py-20 md:pt-24 md:pb-24">
+            <div class="container mx-auto px-6">
+                 <div class="text-center max-w-3xl mx-auto mb-20">
+                     <h3 class="text-2xl md:text-3xl font-bold text-white">Core Features</h3>
+                     <p class="mt-2 text-md text-gray-400">Every feature is designed with a specific scientific principle in mind to support your sleep-wake cycle.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
                     <div class="space-y-4 text-center">
                         <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-violet-500/10 text-violet-400">
                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v6m0-6H3m18 0l-2.25 1.313M3 7.5l2.25-1.313M3 7.5v6m0-6h18m0 6l-2.25 1.313M3 13.5l2.25 1.313m15.5 0l2.25-1.313M3 13.5v-6m18 6v-6m-9 12V9.75M9 21v-6.75M15 21v-6.75" /></svg>
@@ -260,6 +317,9 @@
                                 <li>Designed and launched the website & community hub.</li>
                                 <li>Currently running our Beta Testing Program to gather user feedback.</li>
                             </ul>
+                             <button id="open-gallery-button" class="mt-6 inline-block px-6 py-2.5 font-semibold bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">
+                                View Prototype Gallery
+                            </button>
                         </div>
                     </div>
 
@@ -380,20 +440,30 @@
         </div>
     </div>
 
+    <div id="gallery-modal" class="gallery-modal">
+        <div class="gallery-modal-content">
+            <span id="gallery-close-button" class="gallery-close-btn">&times;</span>
+            <h3 class="text-2xl font-bold text-white mb-6 text-center">Prototype Gallery</h3>
+            <div class="gallery-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <div><img src="images/image-1.jpg" alt="Prototype Image 1" class="rounded-lg w-full h-auto"></div>
+                <div><img src="images/image-2.png" alt="Prototype Image 2" class="rounded-lg w-full h-auto"></div>
+                <div><img src="images/image-3.png" alt="Prototype Image 3" class="rounded-lg w-full h-auto"></div>
+                <div><img src="images/image-4.png" alt="Prototype Image 4" class="rounded-lg w-full h-auto"></div>
+                <div><img src="images/image-5.png" alt="Prototype Image 5" class="rounded-lg w-full h-auto"></div>
+                <div><img src="images/image-6.png" alt="Prototype Image 6" class="rounded-lg w-full h-auto"></div>
+                <div><img src="images/image-7.png" alt="Prototype Image 7" class="rounded-lg w-full h-auto"></div>
+                <div><img src="images/image-8.png" alt="Prototype Image 8" class="rounded-lg w-full h-auto"></div>
+                <div><img src="images/image-9.png" alt="Prototype Image 9" class="rounded-lg w-full h-auto"></div>
+                <div><img src="images/image-10.png" alt="Prototype Image 10" class="rounded-lg w-full h-auto"></div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if(mobileMenuButton) {
-                mobileMenuButton.addEventListener('click', function() {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
-
             // Roadmap scroll animation
             const timelineItems = document.querySelectorAll('.timeline-item');
-            
             const isElementInViewport = el => {
                 const rect = el.getBoundingClientRect();
                 return (
@@ -401,7 +471,6 @@
                     rect.bottom >= 0
                 );
             };
-
             const runOnScroll = () => {
                 timelineItems.forEach(item => {
                     if (isElementInViewport(item)) {
@@ -409,40 +478,33 @@
                     }
                 });
             }
-
-            // Events
             window.addEventListener('load', runOnScroll);
             window.addEventListener('resize', runOnScroll);
             window.addEventListener('scroll', runOnScroll);
 
-            // --- Quiz Modal Logic ---
-            // This is a placeholder for where the actual quiz logic from quiz.js would go.
-            // For now, it just shows and hides a placeholder modal.
-            const startQuizButton = document.getElementById('start-quiz-button');
-            const quizModal = document.getElementById('quiz-modal');
-            const closeQuizButton = document.getElementById('close-quiz-button');
-            const quizContainer = document.getElementById('quiz-container');
+            // --- Gallery Modal Logic ---
+            const galleryModal = document.getElementById("gallery-modal");
+            const openGalleryBtn = document.getElementById("open-gallery-button");
+            const closeGalleryBtn = document.getElementById("gallery-close-button");
 
-            if (startQuizButton) {
-                startQuizButton.addEventListener('click', () => {
-                    quizModal.classList.remove('hidden');
-                    setTimeout(() => {
-                        quizModal.classList.add('opacity-100');
-                        quizContainer.classList.remove('scale-95');
-                    }, 10);
-                });
+            if(openGalleryBtn) {
+                openGalleryBtn.onclick = function() {
+                    galleryModal.style.display = "flex";
+                }
             }
-
-            if (closeQuizButton) {
-                closeQuizButton.addEventListener('click', () => {
-                     quizContainer.classList.add('scale-95');
-                     quizModal.classList.remove('opacity-100');
-                     setTimeout(() => {
-                        quizModal.classList.add('hidden');
-                     }, 300);
-                });
+            if(closeGalleryBtn) {
+                closeGalleryBtn.onclick = function() {
+                    galleryModal.style.display = "none";
+                }
+            }
+            window.onclick = function(event) {
+                if (event.target == galleryModal) {
+                    galleryModal.style.display = "none";
+                }
             }
         });
     </script>
+    <script src="js/main.js"></script>
+    <script src="js/quiz.js"></script>
 </body>
 </html>

@@ -3,13 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NuYu - An Open-Source Aromatherapy Alarm Clock Project</title>
+    <title>nuyu - An Open-Source Aromatherapy Alarm Clock Project</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: #E4E4E7;
+        }
+        .btn-gradient { 
+            background-image: linear-gradient(to right, #8B5CF6, #6366F1); 
+            transition: all 0.3s ease; 
+        }
+        .btn-gradient:hover { 
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); 
+        }
+        .content-card { 
+            background-color: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(10px); 
+        }
+        .hero-gradient {
+            background: radial-gradient(ellipse at top, rgba(109, 40, 217, 0.2), transparent 50%), radial-gradient(ellipse at bottom, rgba(79, 70, 229, 0.2), transparent 70%);
+        }
+        .faq-item { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .faq-icon { transition: transform 0.3s ease; }
+
+        /* Summary Roadmap Styles */
+        .summary-roadmap-container {
+            position: relative;
+        }
+        .summary-roadmap-line {
+            position: absolute;
+            top: 2rem;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(139, 92, 246,0) 0%, rgba(139, 92, 246,1) 50%, rgba(139, 92, 246,0) 100%);
+            opacity: 0.3;
+        }
+        .roadmap-step {
+            position: relative;
+        }
+        .roadmap-step-dot {
+            position: absolute;
+            top: 2rem;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 9999px;
+            background-color: #111827;
+            border: 2px solid #8B5CF6;
+            transition: all 0.3s ease;
+        }
+        .roadmap-step:hover .roadmap-step-dot,
+        .roadmap-step.is-current .roadmap-step-dot {
+            background-color: #8B5CF6;
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.7);
+        }
+        /* Quiz Modal styles */
+        #quiz-modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+        #quiz-container {
+            transition: transform 0.3s ease-in-out;
+        }
+    </style>
 </head>
 <body class="antialiased">
 
@@ -18,7 +83,7 @@
             <div class="flex items-center justify-between">
                 <a href="index.html" class="flex items-center space-x-2">
                     <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-                    <span class="text-2xl font-bold text-white">NuYu</span>
+                    <span class="text-2xl font-bold text-white">nuyu</span>
                 </a>
                 <nav class="hidden md:flex items-center space-x-8">
                     <a href="project.html" class="text-gray-300 hover:text-white transition-colors">The Project</a>
@@ -59,19 +124,20 @@
                     <p class="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
                         An open-source aromatherapy alarm clock to help you build and maintain a healthy circadian rhythm. Support the project and bring it to life.
                     </p>
-                    <div class="mt-8 flex justify-center gap-4">
-                        <a href="#kickstarter" class="px-8 py-4 text-lg font-bold text-white rounded-xl btn-gradient shadow-lg">
-                            Support Our Kickstarter
+                    <p class="mt-8 text-xl text-violet-300 italic">What will you do with a new you?</p>
+                    <div class="mt-8 flex justify-center flex-col sm:flex-row gap-4">
+                        <a href="#features" class="px-8 py-4 text-lg font-bold text-white rounded-xl btn-gradient shadow-lg">
+                            Discover nuyu
                         </a>
-                        <a href="#quiz-section" class="px-8 py-4 text-lg font-bold bg-gray-700 text-white rounded-xl hover:bg-gray-600 transition-colors">
+                        <button id="start-quiz-button" class="px-8 py-4 text-lg font-bold text-white rounded-xl btn-gradient shadow-lg">
                             Discover Your Sleep Type
-                        </a>
+                        </button>
                     </div>
                 </div>
                 <div class="mt-12 md:mt-20 max-w-5xl mx-auto">
                     <div class="relative rounded-2xl p-2 bg-gray-800/50 ring-1 ring-white/10 shadow-2xl">
-                        <img src="images/sample2.png"
-                             alt="NuYu Aromatherapy Diffuser Alarm Clock Prototype"
+                        <img src="https://placehold.co/1200x675/111827/a78bfa?text=nuyu+Device"
+                             alt="nuyu Aromatherapy Diffuser Alarm Clock Prototype"
                              class="rounded-xl w-full h-auto"
                              onerror="this.onerror=null;this.src='https://placehold.co/1200x675/171717/E4E4E7?text=Image+Not+Found';">
                     </div>
@@ -83,7 +149,7 @@
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-white">A Comprehensive Toolkit for Better Sleep</h2>
-                    <p class="mt-4 text-lg text-gray-400">The NuYu clock is more than just a product—it's an open-source tool designed to help you establish a healthy circadian rhythm.</p>
+                    <p class="mt-4 text-lg text-gray-400">The nuyu clock is more than just a product—it's an open-source tool designed to help you establish a healthy circadian rhythm.</p>
                 </div>
                 <div class="mt-20 grid md:grid-cols-2 lg:grid-cols-4 gap-12">
                     <div class="space-y-4 text-center">
@@ -117,17 +183,49 @@
                 </div>
             </div>
         </section>
+        
+        <section id="kickstarter" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="relative rounded-2xl p-8 md:p-16 text-center overflow-hidden bg-gray-900 ring-1 ring-white/10">
+                    <div class="absolute inset-0 hero-gradient opacity-50"></div>
+                    <div class="relative z-10 max-w-4xl mx-auto">
+                        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white">
+                            Join Us & Build a Better Sleep Routine
+                        </h2>
+                        <p class="mt-6 text-lg md:text-xl text-gray-300">
+                            nuyu is an open-source project for everyone. You can support its development, pre-order a fully assembled device, or build one yourself.
+                        </p>
+                        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                            <div class="content-card rounded-2xl p-8 flex flex-col justify-between">
+                                <h3 class="text-2xl font-bold text-white">Support Our Kickstarter</h3>
+                                <p class="text-gray-400 my-4">Be the first to get a polished, fully-assembled nuyu clock by backing our campaign. Your support directly funds production and future development.</p>
+                                <a href="#" class="inline-block px-8 py-4 font-bold text-white rounded-xl btn-gradient shadow-lg">
+                                    Pre-Order on Kickstarter
+                                </a>
+                            </div>
+                            <div class="content-card rounded-2xl p-8 flex flex-col justify-between">
+                                 <h3 class="text-2xl font-bold text-white">Build It Yourself</h3>
+                                <p class="text-gray-400 my-4">Are you a maker or DIY enthusiast? We'll release the complete build plans and code for free after a successful Kickstarter campaign.</p>
+                                <a href="#" class="inline-block px-8 py-4 font-bold bg-gray-700 text-white rounded-xl hover:bg-gray-600 transition-colors">
+                                    Notify Me on Release
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <section class="py-20 md:py-32">
             <div class="container mx-auto px-6">
                  <div class="text-center max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-white">Built on Proven Science</h2>
-                    <p class="mt-4 text-lg text-gray-400">NuYu integrates established principles from neuroscience and sleep science to create a powerful system for change.</p>
+                    <p class="mt-4 text-lg text-gray-400">nuyu integrates established principles from neuroscience and sleep science to create a powerful system for change.</p>
                 </div>
                 <div class="mt-16 grid md:grid-cols-3 gap-12 text-center">
                     <div class="content-card p-8 rounded-2xl space-y-4">
                         <h4 class="text-xl font-bold text-violet-400">The Science of Sleep</h4>
-                        <p class="text-gray-400">NuYu is designed around the structured cycles of sleep, supporting the deep sleep needed for physical restoration and the REM sleep vital for memory and emotional regulation.</p>
+                        <p class="text-gray-400">nuyu is designed around the structured cycles of sleep, supporting the deep sleep needed for physical restoration and the REM sleep vital for memory and emotional regulation.</p>
                     </div>
                     <div class="content-card p-8 rounded-2xl space-y-4">
                         <h4 class="text-xl font-bold text-violet-400">The Science of Habit</h4>
@@ -148,42 +246,45 @@
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-white">Project Roadmap</h2>
-                    <p class="mt-4 text-lg text-gray-400">We believe in transparency. Here's our plan for bringing NuYu to life and what the future holds for the open-source project.</p>
+                    <p class="mt-4 text-lg text-gray-400">We believe in transparency. Here's our plan for bringing nuyu to life and what the future holds for the open-source project.</p>
                 </div>
-                <div class="mt-16 max-w-5xl mx-auto">
-                     <img src="images/Screenshot%202025-06-22%20at%201.57.12%E2%80%AFAM.jpg" alt="NuYu Project Roadmap" class="rounded-xl w-full h-auto">
-                </div>
-            </div>
-        </section>
-
-        <section id="kickstarter" class="py-20 md:py-32">
-            <div class="container mx-auto px-6">
-                <div class="relative rounded-2xl p-8 md:p-16 text-center overflow-hidden bg-gray-900 ring-1 ring-white/10">
-                    <div class="absolute inset-0 hero-gradient opacity-50"></div>
-                    <div class="relative z-10 max-w-4xl mx-auto">
-                        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white">
-                            Join Us & Build a Better Sleep Routine
-                        </h2>
-                        <p class="mt-6 text-lg md:text-xl text-gray-300">
-                           NuYu is an open-source project for everyone. You can support its development, pre-order a fully assembled device, or build one yourself.
-                        </p>
-                        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-                            <div class="content-card rounded-2xl p-8 flex flex-col justify-between">
-                                <h3 class="text-2xl font-bold text-white">Support Our Kickstarter</h3>
-                                <p class="text-gray-400 my-4">Be the first to get a polished, fully-assembled NuYu clock by backing our campaign. Your support directly funds production and future development.</p>
-                                <a href="#" class="inline-block px-8 py-4 font-bold text-white rounded-xl btn-gradient shadow-lg">
-                                    Pre-Order on Kickstarter
-                                </a>
+                <div class="mt-20 max-w-5xl mx-auto summary-roadmap-container">
+                    <div class="summary-roadmap-line"></div>
+                    <div class="grid grid-cols-4 text-center">
+                        <div class="roadmap-step">
+                            <div class="roadmap-step-dot"></div>
+                            <div class="pt-12">
+                                <h3 class="font-bold text-lg text-white">Phase 1</h3>
+                                <p class="text-sm text-gray-400">Concept & Validation</p>
                             </div>
-                            <div class="content-card rounded-2xl p-8 flex flex-col justify-between">
-                                 <h3 class="text-2xl font-bold text-white">Build It Yourself</h3>
-                                <p class="text-gray-400 my-4">Are you a maker or DIY enthusiast? We'll release the complete build plans and code for free after a successful Kickstarter campaign.</p>
-                                <a href="#" class="inline-block px-8 py-4 font-bold bg-gray-700 text-white rounded-xl hover:bg-gray-600 transition-colors">
-                                    Notify Me on Release
-                                </a>
+                        </div>
+                        <div class="roadmap-step is-current">
+                            <div class="roadmap-step-dot"></div>
+                            <div class="pt-12">
+                                <h3 class="font-bold text-lg text-violet-300">Phase 2</h3>
+                                <p class="text-sm text-gray-400">Prototyping</p>
+                                <p class="text-xs text-violet-400 mt-1">(We are here)</p>
+                            </div>
+                        </div>
+                        <div class="roadmap-step opacity-50">
+                            <div class="roadmap-step-dot"></div>
+                            <div class="pt-12">
+                                <h3 class="font-bold text-lg text-white">Phase 3</h3>
+                                <p class="text-sm text-gray-400">Production</p>
+                                <p class="text-xs text-gray-500 mt-1">(Preparing for Kickstarter)</p>
+                            </div>
+                        </div>
+                        <div class="roadmap-step opacity-50">
+                            <div class="roadmap-step-dot"></div>
+                            <div class="pt-12">
+                                <h3 class="font-bold text-lg text-white">Phase 4</h3>
+                                <p class="text-sm text-gray-400">Open Source</p>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="text-center mt-16">
+                    <a href="project.html#roadmap" class="font-semibold text-violet-400 hover:text-violet-300 transition-colors text-lg">See the Full Roadmap →</a>
                 </div>
             </div>
         </section>
@@ -199,7 +300,7 @@
                             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.962a3.75 3.75 0 015.968 0 3.75 3.75 0 01-5.968 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </span>
                         <h4 class="text-xl font-bold text-white">Accessibility</h4>
-                        <p class="text-gray-400">Great technology should be available to everyone. By developing NuYu as an open-source project, we empower people to build, modify, and learn from our work. A healthy circadian rhythm shouldn't have a paywall.</p>
+                        <p class="text-gray-400">Great technology should be available to everyone. By developing nuyu as an open-source project, we empower people to build, modify, and learn from our work. A healthy circadian rhythm shouldn't have a paywall.</p>
                     </div>
                     <div class="space-y-4">
                         <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-blue-500/10 text-blue-400">
@@ -210,7 +311,7 @@
                     </div>
                     <div class="space-y-4">
                         <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-violet-500/10 text-violet-400">
-                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0A2.25 2.25 0 015.625 7.5h12.75a2.25 2.25 0 012.25 2.25m-16.5 0v-1.125c0-.621.504-1.125 1.125-1.125h14.25c.621 0 1.125.504 1.125 1.125v1.125" /></svg>
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0v-1.125c0-.621.504-1.125 1.125-1.125h14.25c.621 0 1.125.504 1.125 1.125v1.125" /></svg>
                         </span>
                         <h4 class="text-xl font-bold text-white">Transparency</h4>
                         <p class="text-gray-400">From our circuit board schematics to the code that runs the alarm, everything is available for you to inspect. You have the right to understand and trust the technology in your home.</p>
@@ -219,56 +320,63 @@
             </div>
         </section>
 
-
-        <section id="quiz-section" class="py-20 md:py-32 bg-black">
-            <div class="container mx-auto px-6 text-center">
-                <div class="max-w-3xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">Discover Your Sleep Fingerprint</h2>
-                    <p class="mt-4 text-lg text-gray-400">
-                        Your sleep is as unique as you are. This 5-minute, scientifically-validated quiz analyzes your sleep across 7 key dimensions to reveal your personal sleep archetype.
-                    </p>
-                    <div class="mt-8">
-                        <button id="start-quiz-button" class="px-10 py-5 text-xl font-bold text-white rounded-xl btn-gradient shadow-lg">
-                            Take the Free Sleep Quiz
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section id="faq" class="py-20 md:py-32">
             <div class="container mx-auto px-6 max-w-3xl">
-                 <div class="text-center">
-                       <h2 class="text-3xl md:text-4xl font-bold text-white">Common Questions</h2>
+                <div class="text-center">
+                     <h2 class="text-3xl md:text-4xl font-bold text-white">Common Questions</h2>
                 </div>
-                <div id="faq-container" class="mt-12 space-y-4">
-                    <div class="faq-item">
-                        <button class="faq-question flex justify-between items-center w-full py-5 text-left text-lg font-semibold text-white">
-                            <span>Is this a product I can buy now?</span>
-                            <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="faq-answer hidden pb-5 pr-4 text-gray-400">
-                           <p>Not yet. Currently, NuYu is a project you can support on Kickstarter. By backing the campaign, you are pre-ordering a device from the first production run. The plans to build it yourself will be released for free after the campaign.</p>
+                <div id="faq-container" class="mt-12 space-y-10">
+                    <div>
+                        <h3 class="text-2xl font-semibold text-violet-400 mb-4 tracking-wider">General & Kickstarter</h3>
+                        <div class="space-y-4">
+                            <div class="faq-item">
+                                <button class="faq-question flex justify-between items-center w-full py-5 text-left text-lg font-semibold text-white">
+                                    <span>Is this a product I can buy now?</span>
+                                    <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="faq-answer hidden pb-5 pr-4 text-gray-400">
+                                   <p>Not yet. Currently, nuyu is a project you can support on Kickstarter. By backing the campaign, you are pre-ordering a device from the first production run. The project is open-source, and the plans to build it yourself will be released for free after the campaign.</p>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question flex justify-between items-center w-full py-5 text-left text-lg font-semibold text-white">
+                                    <span>How does backing the Kickstarter help?</span>
+                                    <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="faq-answer hidden pb-5 pr-4 text-gray-400">
+                                     <p>Your support on Kickstarter funds the initial manufacturing run, helps us source components in bulk (making it cheaper for everyone), and supports the ongoing development of the project. In return, you get one of the first fully-assembled nuyu clocks at a special price.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="faq-item">
-                        <button class="faq-question flex justify-between items-center w-full py-5 text-left text-lg font-semibold text-white">
-                            <span>What does "open-source" mean?</span>
-                            <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="faq-answer hidden pb-5 pr-4 text-gray-400">
-                             <p>It means we will publicly share all the hardware design files, software code, and assembly instructions. This allows anyone to study, modify, and build their own version of the NuYu clock.</p>
+                     <div>
+                        <h3 class="text-2xl font-semibold text-violet-400 mb-4 tracking-wider">Community & Open-Source</h3>
+                        <div class="space-y-4">
+                            <div class="faq-item">
+                                <button class="faq-question flex justify-between items-center w-full py-5 text-left text-lg font-semibold text-white">
+                                    <span>What does "open-source" mean?</span>
+                                    <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="faq-answer hidden pb-5 pr-4 text-gray-400">
+                                     <p>It means we will publicly share all the hardware design files, software code, and assembly instructions. This allows anyone to study, modify, and build their own version of the nuyu clock. We believe in community collaboration to make the best possible tool for everyone.</p>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question flex justify-between items-center w-full py-5 text-left text-lg font-semibold text-white">
+                                    <span>When will the open-source files be released?</span>
+                                    <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="faq-answer hidden pb-5 pr-4 text-gray-400">
+                                     <p>All hardware schematics and software code will be released to the public after our Kickstarter campaign is successfully funded and the initial backer rewards have been fulfilled. This ensures our first supporters receive their devices promptly while holding to our open-source promise.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="faq-item">
-                        <button class="faq-question flex justify-between items-center w-full py-5 text-left text-lg font-semibold text-white">
-                            <span>How does backing the Kickstarter help?</span>
-                            <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="faq-answer hidden pb-5 pr-4 text-gray-400">
-                             <p>Your support on Kickstarter funds the initial manufacturing run, helps us source components in bulk (making it cheaper for everyone), and supports the ongoing development of the project. In return, you get one of the first fully-assembled NuYu clocks at a special price.</p>
-                        </div>
-                    </div>
+                </div>
+                <div class="text-center mt-16">
+                    <a href="faq.html" class="inline-block px-8 py-4 font-semibold text-white rounded-lg btn-gradient text-lg transition-transform duration-300 hover:scale-105">
+                        See All FAQs
+                    </a>
                 </div>
             </div>
         </section>
@@ -278,9 +386,9 @@
         <div class="container mx-auto px-6 py-16">
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
                 <div class="col-span-2 lg:col-span-1">
-                      <a href="index.html" class="flex items-center space-x-2">
+                     <a href="index.html" class="flex items-center space-x-2">
                          <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-                        <span class="text-2xl font-bold text-white">NuYu</span>
+                         <span class="text-2xl font-bold text-white">nuyu</span>
                     </a>
                     <p class="mt-4 text-sm text-gray-400">An open-source sleep project.</p>
                 </div>
@@ -317,24 +425,26 @@
                 </div>
             </div>
             <div class="mt-16 pt-8 border-t border-white/10 text-center text-sm text-gray-500">
-                <p>&copy; 2025 NuYu Project. All rights reserved.</p>
+                <p>&copy; 2025 nuyu Project. All rights reserved.</p>
             </div>
         </div>
     </footer>
     
+    <!-- Quiz Modal -->
     <div id="quiz-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 opacity-0">
         <div id="quiz-container" class="bg-gray-900 text-white w-full max-w-2xl rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
             <div class="p-6 border-b border-gray-700 flex justify-between items-center">
                 <h2 id="quiz-title" class="text-2xl font-bold">Your Sleep Fingerprint</h2>
-                <button id="close-quiz-button" class="text-gray-400 hover:text-white">&times;</button>
+                <button id="close-quiz-button" class="text-gray-400 hover:text-white text-3xl leading-none">&times;</button>
             </div>
-            <div class="w-full bg-gray-700 rounded-full h-2.5">
+            <div class="w-full bg-gray-700 h-2.5">
                 <div id="progress-bar-fill" class="bg-violet-500 h-2.5 rounded-full" style="width: 0%"></div>
             </div>
-            <div id="quiz-content" class="p-8 overflow-y-auto flex-grow"></div>
+            <div id="quiz-content" class="p-8 overflow-y-auto flex-grow">
+            </div>
             <div class="p-6 border-t border-gray-700 flex justify-between items-center bg-gray-900/50 backdrop-blur-sm">
                  <button id="back-button" class="px-6 py-2 font-semibold bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">Back</button>
-                 <button id="next-button" class="px-6 py-2 font-semibold text-white rounded-lg btn-gradient disabled:opacity-50 disabled:cursor-not-allowed" disabled>Next</button>
+                 <button id="next-button" class="px-6 py-2 font-semibold text-white rounded-lg btn-gradient disabled:opacity-50" disabled>Next</button>
             </div>
         </div>
     </div>

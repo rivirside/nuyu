@@ -9,7 +9,133 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #000;
+            color: #E4E4E7;
+        }
+        .btn-gradient { 
+            background-image: linear-gradient(to right, #8B5CF6, #6366F1); 
+            transition: all 0.3s ease; 
+        }
+        .btn-gradient:hover { 
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); 
+        }
+        .content-card { 
+            background-color: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(10px); 
+        }
+        .custom-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .custom-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #8B5CF6;
+        }
+        /* Vertical Roadmap Styles */
+        #roadmap-timeline {
+            position: relative;
+            padding-top: 2rem;
+        }
+        /* This is the main vertical line */
+        #roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            top: 20px; /* Start at the first dot */
+            bottom: 80px; /* Stop before the final button area */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            background-image: linear-gradient(to bottom, #4f46e5, #8b5cf6, #a78bfa);
+            opacity: 0.3;
+        }
+        .timeline-item {
+            position: relative;
+            width: 100%;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .timeline-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .timeline-content {
+            position: relative;
+            width: 45%;
+            padding: 2rem;
+            border-radius: 1rem;
+            background-color: rgba(31, 29, 46, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+        }
+        .timeline-item:nth-child(odd) .timeline-content {
+            left: 0;
+            text-align: right;
+        }
+        .timeline-item:nth-child(even) .timeline-content {
+            left: 55%;
+            text-align: left;
+        }
+        .timeline-dot {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            background-color: #111827;
+            border: 4px solid #8b5cf6;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .timeline-button-container {
+            position: relative;
+            text-align: center;
+            padding-top: 40px; /* Space for the final dot */
+        }
+        .timeline-button-container::before {
+            content: '';
+            position: absolute;
+            top: 0; /* Position dot at the end of the timeline */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            background-color: #8b5cf6;
+            border: 4px solid #8b5cf6;
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.7);
+        }
+         @media (max-width: 768px) {
+            #roadmap-timeline::before {
+                left: 12px;
+                transform: none;
+            }
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                width: calc(100% - 45px);
+                left: 45px;
+                text-align: left;
+            }
+            .timeline-dot {
+                left: 12px;
+                transform: none;
+            }
+             .timeline-button-container::before {
+                left: 12px;
+                transform: none;
+            }
+        }
+    </style>
 </head>
 <body class="antialiased">
 
@@ -53,8 +179,8 @@
         <section id="features" class="py-20 md:pt-32 md:pb-24">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
-                      <h2 class="text-3xl md:text-4xl font-bold text-white">The NuYu Project</h2>
-                      <p class="mt-4 text-lg text-gray-400">The NuYu clock is more than just a product—it's a comprehensive, open-source tool designed to help you establish a healthy circadian rhythm and improve your overall well-being.</p>
+                     <h2 class="text-3xl md:text-4xl font-bold text-white">The NuYu Project</h2>
+                     <p class="mt-4 text-lg text-gray-400">The NuYu clock is more than just a product—it's a comprehensive, open-source tool designed to help you establish a healthy circadian rhythm and improve your overall well-being.</p>
                 </div>
                 <div class="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-12">
                     <div class="space-y-4 text-center">
@@ -87,7 +213,7 @@
                     </div>
                     <div class="space-y-4 text-center">
                         <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-500/10 text-indigo-400">
-                             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>
                         </span>
                         <h3 class="text-xl font-bold text-white">Bedside Notebook</h3>
                         <p class="text-gray-400">Capture late-night ideas or journal your dreams without reaching for your phone and its disruptive blue light.</p>
@@ -110,46 +236,63 @@
                     <p class="mt-4 text-lg text-gray-400">We believe in transparency. Here's our journey from a simple idea to a community-driven project and what the future holds.</p>
                 </div>
 
-                <div class="mt-20 grid md:grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-                    
-                    <div class="content-card p-8 rounded-2xl">
-                        <span class="inline-block px-3 py-1 text-sm font-semibold text-emerald-300 bg-emerald-900/50 rounded-full mb-4">Phase 1: Concept & Validation</span>
-                        <h3 class="text-2xl font-bold text-white mb-4">From Idea to Action</h3>
-                        <ul class="text-gray-400 custom-list">
-                            <li>Identified personal need for a better sleep/wake system.</li>
-                            <li>Validated core concepts through academic and scientific literature.</li>
-                            <li>Gathered initial feedback from friends, family, and online communities like r/sleep.</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="content-card p-8 rounded-2xl">
-                        <span class="inline-block px-3 py-1 text-sm font-semibold text-cyan-300 bg-cyan-900/50 rounded-full mb-4">Phase 2: Prototyping & Community</span>
-                        <h3 class="text-2xl font-bold text-white mb-4">Building the Foundation</h3>
-                        <ul class="text-gray-400 custom-list">
-                            <li>Developed initial working prototype on a breadboard.</li>
-                            <li>Designed and launched the website & community hub.</li>
-                            <li>Currently running our Beta Testing Program to gather user feedback.</li>
-                        </ul>
+                <div id="roadmap-timeline" class="mt-20">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="inline-block px-3 py-1 text-sm font-semibold text-emerald-300 bg-emerald-900/50 rounded-full mb-4">Phase 1</span>
+                            <h3 class="text-2xl font-bold text-white mb-4">Concept & Validation</h3>
+                            <ul class="text-gray-400 custom-list">
+                                <li>Identified personal need for a better sleep/wake system.</li>
+                                <li>Validated core concepts through academic and scientific literature.</li>
+                                <li>Gathered initial feedback from friends, family, and online communities like r/sleep.</li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="content-card p-8 rounded-2xl">
-                        <span class="inline-block px-3 py-1 text-sm font-semibold text-blue-300 bg-blue-900/50 rounded-full mb-4">Phase 3: Growth & Production</span>
-                        <h3 class="text-2xl font-bold text-white mb-4">Bringing NuYu to Life</h3>
-                        <ul class="text-gray-400 custom-list">
-                            <li>Launch Kickstarter campaign to fund the first production run.</li>
-                            <li>Finalize manufacturing partners and supply chain.</li>
-                            <li>Fulfill and ship rewards to all our amazing backers.</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                             <span class="inline-block px-3 py-1 text-sm font-semibold text-cyan-300 bg-cyan-900/50 rounded-full mb-4">Phase 2</span>
+                            <h3 class="text-2xl font-bold text-white mb-4">Prototyping & Community</h3>
+                            <ul class="text-gray-400 custom-list">
+                                <li>Developed initial working prototype on a breadboard.</li>
+                                <li>Designed and launched the website & community hub.</li>
+                                <li>Currently running our Beta Testing Program to gather user feedback.</li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="content-card p-8 rounded-2xl">
-                        <span class="inline-block px-3 py-1 text-sm font-semibold text-violet-300 bg-violet-900/50 rounded-full mb-4">Phase 4: Future & Open Source</span>
-                        <h3 class="text-2xl font-bold text-white mb-4">The Vision Ahead</h3>
-                        <ul class="text-gray-400 custom-list">
-                            <li>Publicly release all open-source design files and code.</li>
-                            <li>Begin development on future goals like biometric sensor integration.</li>
-                            <li>Implement new features based on community feedback and votes.</li>
-                        </ul>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="inline-block px-3 py-1 text-sm font-semibold text-blue-300 bg-blue-900/50 rounded-full mb-4">Phase 3</span>
+                            <h3 class="text-2xl font-bold text-white mb-4">Growth & Production</h3>
+                            <ul class="text-gray-400 custom-list">
+                                <li>Launch Kickstarter campaign to fund the first production run.</li>
+                                <li>Finalize manufacturing partners and supply chain.</li>
+                                <li>Fulfill and ship rewards to all our amazing backers.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="inline-block px-3 py-1 text-sm font-semibold text-violet-300 bg-violet-900/50 rounded-full mb-4">Phase 4</span>
+                            <h3 class="text-2xl font-bold text-white mb-4">Future & Open Source</h3>
+                            <ul class="text-gray-400 custom-list">
+                                <li>Publicly release all open-source design files and code.</li>
+                                <li>Begin development on future goals like biometric sensor integration.</li>
+                                <li>Implement new features based on community feedback and votes.</li>
+                            </ul>
+                        </div>
+                    </div>
+                     
+                    <div class="timeline-button-container">
+                        <a href="community.html" class="inline-block px-8 py-4 font-semibold text-white rounded-lg btn-gradient text-lg transition-transform duration-300 hover:scale-105">
+                            Follow Our Journey & Join the Community
+                        </a>
                     </div>
                 </div>
             </div>
@@ -176,9 +319,9 @@
         <div class="container mx-auto px-6 py-16">
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
                 <div class="col-span-2 lg:col-span-1">
-                      <a href="index.html" class="flex items-center space-x-2">
+                     <a href="index.html" class="flex items-center space-x-2">
                          <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-                        <span class="text-2xl font-bold text-white">NuYu</span>
+                         <span class="text-2xl font-bold text-white">NuYu</span>
                     </a>
                     <p class="mt-4 text-sm text-gray-400">An open-source sleep project.</p>
                 </div>
@@ -237,7 +380,69 @@
         </div>
     </div>
 
-    <script src="js/main.js"></script>
-    <script src="js/quiz.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if(mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // Roadmap scroll animation
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const isElementInViewport = el => {
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.bottom >= 0
+                );
+            };
+
+            const runOnScroll = () => {
+                timelineItems.forEach(item => {
+                    if (isElementInViewport(item)) {
+                        item.classList.add('is-visible');
+                    }
+                });
+            }
+
+            // Events
+            window.addEventListener('load', runOnScroll);
+            window.addEventListener('resize', runOnScroll);
+            window.addEventListener('scroll', runOnScroll);
+
+            // --- Quiz Modal Logic ---
+            // This is a placeholder for where the actual quiz logic from quiz.js would go.
+            // For now, it just shows and hides a placeholder modal.
+            const startQuizButton = document.getElementById('start-quiz-button');
+            const quizModal = document.getElementById('quiz-modal');
+            const closeQuizButton = document.getElementById('close-quiz-button');
+            const quizContainer = document.getElementById('quiz-container');
+
+            if (startQuizButton) {
+                startQuizButton.addEventListener('click', () => {
+                    quizModal.classList.remove('hidden');
+                    setTimeout(() => {
+                        quizModal.classList.add('opacity-100');
+                        quizContainer.classList.remove('scale-95');
+                    }, 10);
+                });
+            }
+
+            if (closeQuizButton) {
+                closeQuizButton.addEventListener('click', () => {
+                     quizContainer.classList.add('scale-95');
+                     quizModal.classList.remove('opacity-100');
+                     setTimeout(() => {
+                        quizModal.classList.add('hidden');
+                     }, 300);
+                });
+            }
+        });
+    </script>
 </body>
 </html>

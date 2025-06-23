@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lucid Diffuser Web UI</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { 
+        font-family: 'Inter', sans-serif;
+        background-color: #000000;
+        color: #E4E4E7;
+    }
+    .hero-gradient {
+        background-image: radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.1), transparent 35%),
+                          radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.1), transparent 35%);
+    }
+    .btn-gradient {
+        background-image: linear-gradient(to right, #8B5CF6, #6366F1);
+        transition: all 0.3s ease;
+    }
+    .btn-gradient:hover {
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+    }
+    .content-card {
+        background-color: rgba(30, 30, 30, 0.5); /* Darker for better contrast */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+    }
+    .custom-input, .custom-select {
+        background-color: #1a1a1a;
+        border: 1px solid #4a4a4a;
+        color: #E4E4E7;
+    }
+    .custom-input:focus, .custom-select:focus {
+        border-color: #8B5CF6;
+        --tw-ring-color: #8B5CF6;
+    }
+     .custom-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.5rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+  </style>
+</head>
+<body class="h-screen font-sans">
+  <div id="root" class="flex h-full"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback } = React;
+
+    /* ────────── utilities ────────── */
+    function useSafeState(initial) {
+      const [state, setState] = useState(initial);
+      const live = useRef(true);
+      useEffect(() => () => { live.current = false; }, []);
+      const safeSet = useCallback(v => { if (live.current) setState(v); }, []);
+      return [state, safeSet];
+    }
+
+    const dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const today = new Date();
+    const tomorrow = new Date(Date.now() + 86400000);
+    const isoDate = d => d.toISOString().split("T")[0];
+
+    /* ────────── error boundary ────────── */
+    class ErrorBoundary extends React.Component {
+      state = { hasError: false, error: null };
+      static getDerivedStateFromError(error) {
+        return { hasError: true, error };
+      }
+      render() {
+        if (this.state.hasError) {
+          return (
+            <div className="p-6 bg-red-900/50 rounded-2xl border border-red-500/50">
+              <h2 className="text-xl font-semibold text-red-300">Something went wrong</h2>
+              <p className="text-red-200">{this.state.error?.message || 'Unknown error'}</p>
+            </div>
+          );
+        }
+        return this.props.children;
+      }
+    }
+
+    /* ────────── mock API ────────── */
+    let fileIdCounter = 3;
+    const mockApi = {
+      getStatus: () => Promise.resolve({
+        time: today.toISOString(),
+        nextAlarm: tomorrow.toISOString().replace(/T.*$/, "T07:00:00Z"),
+        leftWell: 75,
+        rightWell: 60,
+        battery: 85,
+        health: "Operational",
+        firmwareVersion: "1.2.3"
+      }),
+      checkFirmwareUpdate: () => Promise.resolve({
+        available: true,
+        latestVersion: "1.3.0",
+        releaseNotes: "Improved stability and new features"
+      }),
+      getSchedules: () => Promise.resolve([
+        { id:1, day:"Monday", time:"07:00", type:"Morning", audio:"MorningChime.wav", mistOffset:{ start:-5, end:30 } },
+        { id:2, day:"Monday", time:"22:00", type:"Night", audio:"NightMelody.mp3", mistOffset:{ start:-10, end:20 } },
+        { id:3, day:"Tuesday", time:"07:15", type:"Morning", audio:"MorningChime.wav", mistOffset:{ start:-5, end:30 } },
+        { id:4, day:"Tuesday", time:"22:15", type:"Night", audio:"NightMelody.mp3", mistOffset:{ start:-10, end:20 } },
+        { id:5, day:"Wednesday", time:"07:00", type:"Morning", audio:"MorningChime.wav", mistOffset:{ start:-5, end:30 } },
+        { id:6, day:"Wednesday", time:"22:00", type:"Night", audio:"NightMelody.mp3", mistOffset:{ start:-10, end:20 } },
+        { id:7, day:"Thursday", time:"07:05", type:"Morning", audio:"MorningChime.wav", mistOffset:{ start:-5, end:30 } },
+        { id:8, day:"Thursday", time:"22:05", type:"Night", audio:"NightMelody.mp3", mistOffset:{ start:-10, end:20 } },
+        { id:9, day:"Friday", time:"07:10", type:"Morning", audio:"MorningChime.wav", mistOffset:{ start:-5, end:30 } },
+        { id:10, day:"Friday", time:"23:00", type:"Night", audio:"NightMelody.mp3", mistOffset:{ start:-10, end:20 } },
+        { id:11, day:"Saturday", time:"08:00", type:"Morning", audio:"MorningChime.wav", mistOffset:{ start:-5, end:30 } },
+        { id:12, day:"Saturday", time:"23:30", type:"Night", audio:"NightMelody.mp3", mistOffset:{ start:-10, end:20 } },
+        { id:13, day:"Sunday", time:"08:30", type:"Morning", audio:"MorningChime.wav", mistOffset:{ start:-5, end:30 } },
+        { id:14, day:"Sunday", time:"22:30", type:"Night", audio:"NightMelody.mp3", mistOffset:{ start:-10, end:20 } },
+      ]),
+      saveSchedule: s => Promise.resolve({ success: true }),
+      getOverrides: () => Promise.resolve([]),
+      saveOverrides: o => Promise.resolve({ success: true }),
+      audioFiles: [
+        { id:1, name:"MorningChime.wav", tags:["Morning"], size:"1.2 MB" },
+        { id:2, name:"NightMelody.mp3", tags:["Night"], size:"2.5 MB" }
+      ],
+      getAudioFiles() { return Promise.resolve(this.audioFiles); },
+      addAudioFile(fileObj) { this.audioFiles.push(fileObj); return Promise.resolve(fileObj); },
+      deleteAudioFile(id) { this.audioFiles = this.audioFiles.filter(f => f.id !== id); return Promise.resolve(); },
+      renameAudioFile(id, newName) { this.audioFiles = this.audioFiles.map(f => f.id === id ? { ...f, name: newName } : f); return Promise.resolve(); },
+      getSettings: () => Promise.resolve({
+        networkMode: "Client",
+        ssid: "HomeWiFi",
+        password: "password123",
+        timezone: "UTC",
+        ntpEnabled: true,
+        manualTime: today.toISOString(),
+        deviceName: "Lucid Diffuser",
+        deviceIcon: "🌬️"
+      }),
+      saveSettings: settings => Promise.resolve({ success: true }),
+      getBiometrics: () => Promise.resolve({
+        sleepSessions: [
+          { date: "2023-10-01", startTime: "22:30", endTime: "06:30", stages: { light: 240, deep: 90, rem: 120, awake: 30 }, stageTimeline: [
+            { stage: 'awake', duration: 10 },
+            { stage: 'light', duration: 60 },
+            { stage: 'deep', duration: 30 },
+            { stage: 'light', duration: 90 },
+            { stage: 'rem', duration: 60 },
+            { stage: 'light', duration: 60 },
+            { stage: 'deep', duration: 30 },
+            { stage: 'rem', duration: 60 },
+            { stage: 'light', duration: 30 },
+            { stage: 'awake', duration: 20 }
+          ]},
+          { date: "2023-10-02", startTime: "22:45", endTime: "06:15", stages: { light: 230, deep: 85, rem: 115, awake: 35 }, stageTimeline: [] },
+          { date: "2023-10-03", startTime: "22:15", endTime: "06:45", stages: { light: 250, deep: 95, rem: 125, awake: 25 }, stageTimeline: [] }
+        ]
+      })
+    };
+
+    /* ────────── layout ────────── */
+    const tabs = [
+      { name: "Dashboard", icon: "⌚" },
+      { name: "Audio Library", icon: "🎵" },
+      { name: "Schedule", icon: "📅" },
+      { name: "Biometrics", icon: "🧬" },
+      { name: "Settings", icon: "⚙️" }
+    ];
+
+    function App() {
+      const [active, setActive] = useState("Dashboard");
+
+      return (
+        <div className="flex flex-1">
+          <aside className="w-60 bg-black flex flex-col border-r border-white/10">
+            <div className="p-6 border-b border-white/10 flex items-center space-x-2">
+                 <svg className="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                <h1 className="text-2xl font-bold text-white">Lucid Diffuser</h1>
+            </div>
+            <nav className="flex-1 p-4 space-y-2">
+              {tabs.map(t => (
+                <button
+                  key={t.name}
+                  onClick={() => setActive(t.name)}
+                  className={`w-full flex items-center px-4 py-2.5 rounded-lg transition-colors
+                             ${active === t.name
+                                ? 'bg-violet-500/10 text-violet-300 border-l-4 border-violet-400 font-semibold'
+                                : 'text-gray-300 hover:bg-white/5 hover:text-white'}`}>
+                  <span className="mr-3 text-lg">{t.icon}</span>{t.name}
+                </button>
+              ))}
+            </nav>
+          </aside>
+          <main className="flex-1 p-8 overflow-auto hero-gradient">
+            {active === "Dashboard" && <Dashboard />}
+            {active === "Audio Library" && <AudioLibrary />}
+            {active === "Schedule" && <Schedule />}
+            {active === "Biometrics" && (
+              <ErrorBoundary>
+                <Biometrics />
+              </ErrorBoundary>
+            )}
+            {active === "Settings" && <Settings />}
+          </main>
+        </div>
+      );
+    }
+
+    /* ────────── dashboard ────────── */
+    function Dashboard() {
+      const [status, setStatus] = useSafeState(null);
+      const [weekly, setWeekly] = useSafeState([]);
+
+      useEffect(() => {
+        mockApi.getStatus().then(setStatus);
+        mockApi.getSchedules().then(setWeekly);
+      }, [setStatus, setWeekly]);
+
+      if (!status) return <p>Loading…</p>;
+
+      const agenda = d => {
+        const day = dayNames[d.getDay()];
+        return weekly.filter(s => s.day === day).sort((a, b) => a.time.localeCompare(b.time));
+      };
+
+      return (
+        <div className="space-y-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-white">Dashboard</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { l: "Current Time", v: new Date(status.time).toLocaleTimeString() },
+              { l: "Next Alarm", v: new Date(status.nextAlarm).toLocaleString() },
+              { l: "Left Well Water Level", v: `${status.leftWell}%` },
+              { l: "Right Well Water Level", v: `${status.rightWell}%` },
+              { l: "Battery", v: `${status.battery}%` },
+              { l: "Health", v: status.health }
+            ].map(i => (
+              <div key={i.l} className="content-card p-6 rounded-2xl">
+                <h3 className="text-lg font-semibold mb-2 text-gray-300">{i.l}</h3>
+                <p className="text-3xl font-mono text-white">{i.v}</p>
+              </div>
+            ))}
+          </div>
+          <DailyAgenda title="Today's Schedule" dateObj={today} list={agenda(today)} />
+          <DailyAgenda title="Tomorrow's Schedule" dateObj={tomorrow} list={agenda(tomorrow)} />
+        </div>
+      );
+    }
+
+    function DailyAgenda({ title, dateObj, list }) {
+      return (
+        <div className="content-card rounded-2xl p-6">
+          <h2 className="text-xl font-semibold mb-4 text-white">
+            {title}
+            <span className="text-sm text-gray-400 ml-2">({isoDate(dateObj)})</span>
+          </h2>
+          <ul className="space-y-3">
+            {list.length > 0 ? list.map((s, i) => (
+              <li key={i} className="flex items-center space-x-4 p-3 bg-white/5 rounded-lg">
+                <span className="w-20 font-mono text-violet-300">{s.time}</span>
+                <span className="font-medium text-gray-200">{s.type}</span>
+                <span className="text-gray-400">({s.audio})</span>
+              </li>
+            )) : <p className="text-gray-400">No events scheduled.</p>}
+          </ul>
+        </div>
+      );
+    }
+
+    /* ────────── audio library ────────── */
+    function AudioLibrary() {
+      const [files, setFiles] = useSafeState([]);
+
+      useEffect(() => { mockApi.getAudioFiles().then(setFiles); }, [setFiles]);
+
+      const handleUpload = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const newFile = { id: fileIdCounter++, name: file.name, size: `${(file.size / 1024 / 1024).toFixed(1)} MB`, tags: ["None"] };
+        mockApi.addAudioFile(newFile).then(() => mockApi.getAudioFiles().then(setFiles));
+        e.target.value = "";
+      };
+
+      const tag = (id, t) => setFiles(files.map(f => f.id === id ? { ...f, tags: [t] } : f));
+      const del = id => mockApi.deleteAudioFile(id).then(() => mockApi.getAudioFiles().then(setFiles));
+      const rename = (id, newName) => mockApi.renameAudioFile(id, newName).then(() => mockApi.getAudioFiles().then(setFiles));
+
+      return (
+        <div>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Audio Library</h2>
+          <div className="mb-6 content-card p-6 rounded-2xl">
+             <label className="block mb-2 text-lg font-medium text-gray-200">Upload New Audio</label>
+             <input type="file" accept=".mp3,.wav" onChange={handleUpload} className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-500/10 file:text-violet-300 hover:file:bg-violet-500/20"/>
+          </div>
+          <ul className="space-y-4">
+            {files.map(f => (
+              <FileRow key={f.id} file={f} onTag={tag} onDelete={del} onRename={rename} />
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    function FileRow({ file, onTag, onDelete, onRename }) {
+      const [edit, setEdit] = useState(false);
+      const [tempName, setTempName] = useState(file.name);
+
+      const saveRename = () => {
+        if (tempName.trim() !== "") onRename(file.id, tempName.trim());
+        setEdit(false);
+      };
+
+      return (
+        <li className="content-card rounded-xl p-4 flex items-center justify-between hover:border-white/20 transition">
+          <div className="flex-1">
+            {edit
+              ? <input value={tempName} onChange={e => setTempName(e.target.value)} className="custom-input border rounded px-2 py-1 w-full mb-1 ring-2 ring-transparent focus:ring-violet-500" autoFocus/>
+              : <p className="font-medium text-lg text-white">{file.name}</p>}
+            <p className="text-sm text-gray-400">{file.size}</p>
+          </div>
+          <div className="flex items-center space-x-3">
+            <select
+              value={file.tags[0] || 'None'}
+              onChange={e => onTag(file.id, e.target.value)}
+              className="custom-select border rounded px-2 py-1 focus:ring-2 focus:ring-violet-500"
+            >
+              <option>None</option><option>Morning</option><option>Night</option><option>Both</option>
+            </select>
+            <button title="Play" onClick={() => alert(`Play ${file.name}`)} className="text-violet-400 hover:text-violet-200 transition text-2xl">▶️</button>
+            {edit
+              ? <button title="Save" onClick={saveRename} className="text-green-400 hover:text-green-300 text-2xl">💾</button>
+              : <button title="Edit" onClick={() => setEdit(true)} className="text-yellow-400 hover:text-yellow-300 text-2xl">✏️</button>}
+            <button title="Delete" onClick={() => onDelete(file.id)} className="text-red-400 hover:text-red-300 transition text-2xl">🗑️</button>
+          </div>
+        </li>
+      );
+    }
+    
+    /* ────────── schedule ────────── */
+    function Schedule() {
+      const [weekly, setWeekly] = useSafeState([]);
+      const [files, setFiles] = useSafeState([]);
+
+      useEffect(() => {
+        mockApi.getSchedules().then(setWeekly);
+        mockApi.getAudioFiles().then(setFiles);
+      }, [setWeekly, setFiles]);
+
+      const update = (id, field, val) => setWeekly(prev => prev.map(s =>
+        s.id !== id ? s :
+        (['start', 'end'].includes(field)
+          ? { ...s, mistOffset: { ...s.mistOffset, [field]: Number(val) } }
+          : { ...s, [field]: val })
+      ));
+
+      const grouped = dayNames.map(day => ({
+        day,
+        items: weekly.filter(s => s.day === day)
+      }));
+
+      const save = () => mockApi.saveSchedule(weekly).then(() => alert("Weekly schedule saved"));
+
+      return (
+        <div>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Weekly Schedule</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {grouped.map(g => (
+              <div key={g.day} className="content-card rounded-2xl p-6 transition-all hover:border-white/20">
+                <h3 className="text-xl font-bold mb-4 text-white">{g.day}</h3>
+                {g.items.map(item => (
+                  <div key={item.id} className="mb-4 p-4 border rounded-xl border-white/10 bg-black/20">
+                    <div className="mb-3 flex items-center space-x-2">
+                      <input
+                        type="time"
+                        value={item.time}
+                        onChange={e => update(item.id, 'time', e.target.value)}
+                        className="custom-input border rounded px-2 py-1 w-full focus:ring-2"
+                      />
+                      <select
+                        value={item.type}
+                        onChange={e => update(item.id, 'type', e.target.value)}
+                        className="custom-select border rounded px-2 py-1 w-full focus:ring-2"
+                      >
+                        <option>Morning</option><option>Night</option>
+                      </select>
+                    </div>
+                    <div className="mb-3">
+                      <label className="text-sm mr-2 text-gray-300">Audio</label>
+                      <select
+                        value={item.audio}
+                        onChange={e => update(item.id, 'audio', e.target.value)}
+                        className="custom-select border rounded px-2 py-1 w-full focus:ring-2"
+                      >
+                        {files.map(f => <option key={f.id} value={f.name}>{f.name}</option>)}
+                      </select>
+                    </div>
+                    <div className="flex items-center space-x-2 text-sm text-gray-300">
+                      <label>Lead</label>
+                      <input
+                        type="number"
+                        value={item.mistOffset.start}
+                        onChange={e => update(item.id, 'start', e.target.value)}
+                        className="custom-input border rounded w-16 px-2 py-1 focus:ring-2"
+                      />
+                      <label>Lag</label>
+                      <input
+                        type="number"
+                        value={item.mistOffset.end}
+                        onChange={e => update(item.id, 'end', e.target.value)}
+                        className="custom-input border rounded w-16 px-2 py-1 focus:ring-2"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={save}
+            className="mt-8 px-8 py-4 text-lg font-bold text-white rounded-xl btn-gradient shadow-lg"
+          >
+            Save Weekly Schedule
+          </button>
+        </div>
+      );
+    }
+
+    /* ────────── biometrics ────────── */
+    function Biometrics() {
+      const [biometrics, setBiometrics] = useSafeState(null);
+      const targetSleepDuration = 480; // 8 hours in minutes
+      const chartRefs = {
+        sleepScore: useRef(null), sleepEfficiency: useRef(null), bedtimeConsistency: useRef(null),
+        wakeupConsistency: useRef(null), sleepDebt: useRef(null), sleepStages: useRef(null),
+        sleepDuration: useRef(null), hypnogram: useRef(null)
+      };
+      const canvasRefs = {
+        sleepScore: useRef(null), sleepEfficiency: useRef(null), bedtimeConsistency: useRef(null),
+        wakeupConsistency: useRef(null), sleepDebt: useRef(null), sleepStages: useRef(null),
+        sleepDuration: useRef(null), hypnogram: useRef(null)
+      };
+
+      useEffect(() => {
+        mockApi.getBiometrics().then(data => {
+          if (data && data.sleepSessions?.length > 0) setBiometrics(data);
+          else setBiometrics({ error: "No biometric data available" });
+        }).catch(err => setBiometrics({ error: err.message }));
+      }, [setBiometrics]);
+
+      useEffect(() => {
+        if (!biometrics || biometrics.error || !Object.values(canvasRefs).every(ref => ref.current)) return;
+
+        const textColor = '#E4E4E7';
+        const gridColor = 'rgba(255, 255, 255, 0.1)';
+        const backgroundColors = ['#8B5CF6', '#6366F1', '#3B82F6', '#10B981'];
+        const latestSession = biometrics.sleepSessions[biometrics.sleepSessions.length - 1];
+        const timeInBed = calculateTimeInBed(latestSession.startTime, latestSession.endTime);
+        const totalSleep = latestSession.stages.light + latestSession.stages.deep + latestSession.stages.rem;
+        const efficiency = (totalSleep / timeInBed) * 100;
+        const sleepScore = calculateSleepScore(totalSleep, efficiency, latestSession.stages, targetSleepDuration);
+
+        Object.keys(chartRefs).forEach(key => { if (chartRefs[key].current) chartRefs[key].current.destroy(); });
+        
+        const chartTitle = text => ({ display: true, text, color: textColor, font: { size: 16, weight: '600' } });
+
+        chartRefs.sleepScore.current = new Chart(canvasRefs.sleepScore.current, {
+          type: 'doughnut', data: { datasets: [{ data: [sleepScore, 100 - sleepScore], backgroundColor: [sleepScore >= 80 ? '#6366F1' : sleepScore >= 60 ? '#f59e0b' : '#ef4444', 'rgba(255, 255, 255, 0.1)'], borderWidth: 0 }] },
+          options: { circumference: 180, rotation: -90, cutout: '80%', plugins: { legend: { display: false }, title: chartTitle('Sleep Score') } }
+        });
+        chartRefs.sleepEfficiency.current = new Chart(canvasRefs.sleepEfficiency.current, {
+          type: 'bar', data: { labels: ['Efficiency'], datasets: [{ data: [efficiency], backgroundColor: '#8B5CF6', borderWidth: 0 }] },
+          options: { indexAxis: 'y', scales: { x: { max: 100, ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor }, grid: { color: 'transparent' } } }, plugins: { legend: { display: false }, title: chartTitle('Sleep Efficiency (%)') } }
+        });
+        chartRefs.bedtimeConsistency.current = new Chart(canvasRefs.bedtimeConsistency.current, {
+          type: 'scatter', data: { datasets: [{ label: 'Bedtime', data: biometrics.sleepSessions.map(s => ({ x: s.date, y: timeToMinutes(s.startTime) })), backgroundColor: '#8B5CF6' }] },
+          options: { plugins: { legend: { labels: { color: textColor } }, title: chartTitle('Bedtime Consistency') }, scales: { x: { ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor }, grid: { color: gridColor }, title: { display: true, text: 'Mins past midnight', color: textColor } } } }
+        });
+        chartRefs.wakeupConsistency.current = new Chart(canvasRefs.wakeupConsistency.current, {
+            type: 'scatter', data: { datasets: [{ label: 'Wake-up Time', data: biometrics.sleepSessions.map(s => ({ x: s.date, y: timeToMinutes(s.endTime) })), backgroundColor: '#6366F1' }] },
+            options: { plugins: { legend: { labels: { color: textColor } }, title: chartTitle('Wake-up Time Consistency') }, scales: { x: { ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor }, grid: { color: gridColor }, title: { display: true, text: 'Mins past midnight', color: textColor } } } }
+        });
+        chartRefs.sleepDebt.current = new Chart(canvasRefs.sleepDebt.current, {
+          type: 'bar', data: { labels: biometrics.sleepSessions.map(s => s.date), datasets: [{ label: 'Sleep Debt (min)', data: biometrics.sleepSessions.map(s => { const total = s.stages.light + s.stages.deep + s.stages.rem; return total < targetSleepDuration ? targetSleepDuration - total : 0; }), backgroundColor: '#ef4444' }] },
+          options: { plugins: { legend: { labels: { color: textColor } }, title: chartTitle('Sleep Debt') }, scales: { x: { ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor }, beginAtZero: true, grid: { color: gridColor } } } }
+        });
+        chartRefs.sleepStages.current = new Chart(canvasRefs.sleepStages.current, {
+          type: 'pie', data: { labels: ['Light', 'Deep', 'REM', 'Awake'], datasets: [{ data: [latestSession.stages.light, latestSession.stages.deep, latestSession.stages.rem, latestSession.stages.awake], backgroundColor: backgroundColors }] },
+          options: { plugins: { legend: { position: 'top', labels: { color: textColor } }, title: chartTitle('Sleep Stages Distribution') } }
+        });
+        chartRefs.sleepDuration.current = new Chart(canvasRefs.sleepDuration.current, {
+          type: 'line', data: { labels: biometrics.sleepSessions.map(s => s.date), datasets: [{ label: 'Sleep Duration (min)', data: biometrics.sleepSessions.map(s => s.stages.light + s.stages.deep + s.stages.rem), borderColor: '#8B5CF6', tension: 0.1, fill: false }] },
+          options: { plugins: { legend: { labels: { color: textColor } }, title: chartTitle('Sleep Duration Over Time') }, scales: { x: { ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor }, beginAtZero: true, grid: { color: gridColor } } } }
+        });
+        chartRefs.hypnogram.current = new Chart(canvasRefs.hypnogram.current, {
+          type: 'line', data: { labels: latestSession.stageTimeline.map((_, i) => i), datasets: [{ label: 'Sleep Stage', data: latestSession.stageTimeline.map(s => ({ 'awake': 3, 'light': 2, 'rem': 1, 'deep': 0 })[s.stage]), borderColor: '#6366F1', fill: false, stepped: true }] },
+          options: { plugins: { legend: { labels: { color: textColor } }, title: chartTitle('Hypnogram (Last Night)') }, scales: { x: { ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor, callback: value => ['Deep', 'REM', 'Light', 'Awake'][value] }, min: 0, max: 3, grid: { color: gridColor } } } }
+        });
+        return () => { Object.keys(chartRefs).forEach(key => { if (chartRefs[key].current) chartRefs[key].current.destroy(); }); };
+      }, [biometrics]);
+
+      if (!biometrics) return <p>Loading…</p>;
+      if (biometrics.error) return <p className="text-red-400">{biometrics.error}</p>;
+
+      const processedSessions = biometrics.sleepSessions.map(session => {
+        const timeInBed = calculateTimeInBed(session.startTime, session.endTime);
+        const totalSleep = session.stages.light + session.stages.deep + session.stages.rem;
+        const efficiency = (totalSleep / timeInBed) * 100;
+        const sleepScore = calculateSleepScore(totalSleep, efficiency, session.stages, targetSleepDuration);
+        return { ...session, timeInBed, totalSleep, efficiency, sleepScore };
+      });
+      const latestSession = processedSessions[processedSessions.length - 1];
+      const totalSleepDebt = processedSessions.reduce((debt, s) => s.totalSleep < targetSleepDuration ? debt + (targetSleepDuration - s.totalSleep) : debt, 0);
+
+      return (
+        <div>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Biometrics</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+             {Object.keys(canvasRefs).map(key => (
+                <div key={key} className="content-card p-6 rounded-2xl flex items-center justify-center h-64">
+                  <canvas ref={canvasRefs[key]}></canvas>
+                </div>
+              ))}
+          </div>
+           <div className="mt-8 content-card p-6 rounded-2xl">
+            <h3 className="text-xl font-semibold mb-4 text-white">Sleep Insights</h3>
+            <ul className="list-disc pl-5 space-y-2 text-gray-300">
+              {latestSession.sleepScore < 60 && <li>Consider establishing a consistent sleep schedule to improve your sleep score.</li>}
+              {latestSession.efficiency < 85 && <li>Reduce time awake in bed to boost sleep efficiency.</li>}
+              {totalSleepDebt > 0 && <li>You have a sleep debt of {Math.round(totalSleepDebt / 60)} hours. Aim for longer sleep durations.</li>}
+              <li>Your deep sleep is {((latestSession.stages.deep / latestSession.totalSleep) * 100).toFixed(1)}% of total sleep—ideal range is 13-23%.</li>
+            </ul>
+          </div>
+        </div>
+      );
+    }
+    
+    /* ────────── helper functions for biometrics ────────── */
+    function calculateTimeInBed(start, end) {
+      const [startHour, startMin] = start.split(':').map(Number);
+      const [endHour, endMin] = end.split(':').map(Number);
+      let startTotal = startHour * 60 + startMin;
+      let endTotal = endHour * 60 + endMin;
+      if (endTotal < startTotal) endTotal += 24 * 60;
+      return endTotal - startTotal;
+    }
+    function calculateSleepScore(totalSleep, efficiency, stages, targetDuration) {
+      const durationFactor = Math.min(totalSleep / targetDuration, 1);
+      const deepPercentage = (stages.deep / totalSleep) * 100;
+      const remPercentage = (stages.rem / totalSleep) * 100;
+      return Math.round(0.4 * durationFactor * 100 + 0.3 * efficiency + 0.2 * deepPercentage + 0.1 * remPercentage);
+    }
+    function timeToMinutes(time) {
+      const [hour, min] = time.split(':').map(Number);
+      return hour * 60 + min;
+    }
+
+    /* ────────── settings ────────── */
+    function Settings() {
+      const [settings, setSettings] = useSafeState(null);
+      const [status, setStatus] = useSafeState(null);
+      const [firmwareUpdate, setFirmwareUpdate] = useSafeState(null);
+
+      useEffect(() => {
+        mockApi.getSettings().then(setSettings);
+        mockApi.getStatus().then(setStatus);
+        mockApi.checkFirmwareUpdate().then(setFirmwareUpdate);
+      }, [setSettings, setStatus, setFirmwareUpdate]);
+
+      if (!settings || !status) return <p>Loading…</p>;
+
+      const save = () => mockApi.saveSettings(settings).then(() => alert("Settings saved"));
+      const icons = ["🌬️", "💧", "🌿", "🌸", "🪴"];
+
+      const SettingSection = ({ title, children }) => (
+        <div className="content-card p-6 rounded-2xl">
+            <h3 className="text-xl font-bold text-white mb-4">{title}</h3>
+            <div className="space-y-4">{children}</div>
+        </div>
+      );
+      
+      const SettingRow = ({ label, children }) => (
+        <div>
+            <label className="block mb-1.5 font-medium text-gray-300">{label}</label>
+            {children}
+        </div>
+      )
+
+      return (
+        <div className="max-w-2xl mx-auto space-y-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-white">Settings</h2>
+          <div className="space-y-6">
+            <SettingSection title="Device Settings">
+              <SettingRow label="Device Name">
+                <input
+                  value={settings.deviceName}
+                  onChange={e => setSettings({ ...settings, deviceName: e.target.value })}
+                  className="custom-input border rounded px-3 py-2 w-full focus:ring-2"
+                />
+              </SettingRow>
+              <SettingRow label="Device Icon">
+                <select
+                  value={settings.deviceIcon}
+                  onChange={e => setSettings({ ...settings, deviceIcon: e.target.value })}
+                  className="custom-select border rounded px-3 py-2 w-full focus:ring-2"
+                >
+                  {icons.map(icon => <option key={icon} value={icon}>{icon}</option>)}
+                </select>
+              </SettingRow>
+            </SettingSection>
+
+            <SettingSection title="Network Settings">
+                <SettingRow label="Network Mode">
+                    <select
+                      value={settings.networkMode}
+                      onChange={e => setSettings({ ...settings, networkMode: e.target.value })}
+                      className="custom-select border rounded px-3 py-2 w-full focus:ring-2"
+                    >
+                      <option>Access Point</option><option>Client</option>
+                    </select>
+                </SettingRow>
+                <SettingRow label="SSID">
+                    <input
+                      value={settings.ssid}
+                      onChange={e => setSettings({ ...settings, ssid: e.target.value })}
+                      className="custom-input border rounded px-3 py-2 w-full focus:ring-2"
+                    />
+                </SettingRow>
+                <SettingRow label="Password">
+                    <input
+                      type="password"
+                      value={settings.password}
+                      onChange={e => setSettings({ ...settings, password: e.target.value })}
+                      className="custom-input border rounded px-3 py-2 w-full focus:ring-2"
+                    />
+                </SettingRow>
+            </SettingSection>
+
+            <SettingSection title="Time Settings">
+                 <SettingRow label="Timezone">
+                    <input
+                      value={settings.timezone}
+                      onChange={e => setSettings({ ...settings, timezone: e.target.value })}
+                      className="custom-input border rounded px-3 py-2 w-full focus:ring-2"
+                    />
+                 </SettingRow>
+                  <div className="flex items-center pt-2">
+                    <input
+                      type="checkbox"
+                      id="ntp-checkbox"
+                      checked={settings.ntpEnabled}
+                      onChange={e => setSettings({ ...settings, ntpEnabled: e.target.checked })}
+                      className="h-4 w-4 rounded border-gray-300 text-violet-500 focus:ring-violet-500"
+                    />
+                    <label htmlFor="ntp-checkbox" className="ml-2 block text-sm text-gray-300">Enable NTP Sync</label>
+                  </div>
+                  {!settings.ntpEnabled && (
+                    <SettingRow label="Manual Time">
+                      <input
+                        type="datetime-local"
+                        value={settings.manualTime.split('.')[0]}
+                        onChange={e => setSettings({ ...settings, manualTime: new Date(e.target.value).toISOString() })}
+                        className="custom-input border rounded px-3 py-2 w-full focus:ring-2"
+                      />
+                    </SettingRow>
+                  )}
+            </SettingSection>
+
+             <SettingSection title="Device Information">
+                <p className="text-gray-300">Firmware Version: <span className="font-mono text-white">{status.firmwareVersion}</span></p>
+                {firmwareUpdate?.available && (
+                  <div className="p-4 bg-violet-500/10 rounded-lg">
+                    <p className="text-violet-200">
+                      Update to {firmwareUpdate.latestVersion} available.{' '}
+                      <button onClick={() => alert(firmwareUpdate.releaseNotes)} className="font-bold text-violet-300 hover:underline">
+                        View Details
+                      </button>
+                    </p>
+                  </div>
+                )}
+             </SettingSection>
+          </div>
+
+          <button
+            onClick={save}
+            className="mt-4 px-8 py-4 text-lg font-bold text-white rounded-xl btn-gradient shadow-lg"
+          >
+            Save All Settings
+          </button>
+        </div>
+      );
+    }
+
+    /* ────────── render ────────── */
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

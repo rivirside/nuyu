@@ -26,6 +26,11 @@
             background-color: rgba(255, 255, 255, 0.05); 
             border: 1px solid rgba(255, 255, 255, 0.1); 
             backdrop-filter: blur(10px); 
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .content-card:hover {
+            transform: scale(1.03);
+            border-color: rgba(139, 92, 246, 0.5);
         }
         .custom-list li {
             position: relative;
@@ -239,48 +244,62 @@
                      <h3 class="text-2xl md:text-3xl font-bold text-white">Core Features</h3>
                      <p class="mt-2 text-md text-gray-400">Every feature is designed with a specific scientific principle in mind to support your sleep-wake cycle.</p>
                 </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-                    <div class="space-y-4 text-center">
-                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-violet-500/10 text-violet-400">
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div class="content-card rounded-2xl p-8 text-center w-full sm:w-2/5 lg:w-[30%] flex flex-col">
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-violet-500/10 text-violet-400 mb-4">
                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v6m0-6H3m18 0l-2.25 1.313M3 7.5l2.25-1.313M3 7.5v6m0-6h18m0 6l-2.25 1.313M3 13.5l2.25 1.313m15.5 0l2.25-1.313M3 13.5v-6m18 6v-6m-9 12V9.75M9 21v-6.75M15 21v-6.75" /></svg>
                         </span>
                         <h3 class="text-xl font-bold text-white">Two Independent Wells</h3>
-                        <p class="text-gray-400">Use a calming scent for bedtime and an energizing scent for waking up, without cross-contamination.</p>
+                        <p class="text-gray-400 mt-2">Use a calming scent for bedtime and an energizing scent for waking up, without cross-contamination.</p>
                     </div>
-                    <div class="space-y-4 text-center">
-                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-blue-500/10 text-blue-400">
+                    <div class="content-card rounded-2xl p-8 text-center w-full sm:w-2/5 lg:w-[30%] flex flex-col">
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-blue-500/10 text-blue-400 mb-4">
                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 016 0v8.25a3 3 0 01-3 3z" /></svg>
                         </span>
                         <h3 class="text-xl font-bold text-white">Personalized Voice Alarms</h3>
-                        <p class="text-gray-400">Set alarms with your own voice recordings to remind you why you want to wake up or go to sleep.</p>
+                        <p class="text-gray-400 mt-2">Set alarms with your own voice recordings to remind you why you want to wake up or go to sleep.</p>
                     </div>
-                    <div class="space-y-4 text-center">
-                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-emerald-500/10 text-emerald-400">
+                    <div class="content-card rounded-2xl p-8 text-center w-full sm:w-2/5 lg:w-[30%] flex flex-col">
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-emerald-500/10 text-emerald-400 mb-4">
                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
                         </span>
                         <h3 class="text-xl font-bold text-white">Sunrise-Simulating Light</h3>
-                        <p class="text-gray-400">Wake up naturally with a light that gradually brightens to mimic the dawn, helping you feel more alert.</p>
+                        <p class="text-gray-400 mt-2">Wake up naturally with a light that gradually brightens to mimic the dawn, helping you feel more alert.</p>
                     </div>
-                    <div class="space-y-4 text-center">
-                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-yellow-500/10 text-yellow-400">
+                    <div class="content-card rounded-2xl p-8 text-center w-full sm:w-2/5 lg:w-[30%] flex flex-col">
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-yellow-500/10 text-yellow-400 mb-4">
                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.15 12a9.15 9.15 0 01-9.15 9.15 9.15 9.15 0 01-9.15-9.15 9.15 9.15 0 019.15-9.15M12 21.3a9.15 9.15 0 000-18.3c-5.048 0-9.15 4.102-9.15 9.15s4.102 9.15 9.15 9.15z" /></svg>
                         </span>
                         <h3 class="text-xl font-bold text-white">Adjustable Night Light</h3>
-                        <p class="text-gray-400">Enjoy a night light that adjusts its brightness based on the time, providing a soft glow in the evening.</p>
+                        <p class="text-gray-400 mt-2">Enjoy a night light that adjusts its brightness based on the time, providing a soft glow in the evening.</p>
                     </div>
-                    <div class="space-y-4 text-center">
-                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-500/10 text-indigo-400">
+                    <div class="content-card rounded-2xl p-8 text-center w-full sm:w-2/5 lg:w-[30%] flex flex-col">
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-500/10 text-indigo-400 mb-4">
                             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>
                         </span>
                         <h3 class="text-xl font-bold text-white">Bedside Notebook</h3>
-                        <p class="text-gray-400">Capture late-night ideas or journal your dreams without reaching for your phone and its disruptive blue light.</p>
+                        <p class="text-gray-400 mt-2">Capture late-night ideas or journal your dreams without reaching for your phone and its disruptive blue light.</p>
                     </div>
-                    <div class="space-y-4 text-center">
-                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-pink-500/10 text-pink-400">
+                    <div class="content-card rounded-2xl p-8 text-center w-full sm:w-2/5 lg:w-[30%] flex flex-col">
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-pink-500/10 text-pink-400 mb-4">
                              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V7.5A2.25 2.25 0 0111.25 5.25H12a2.25 2.25 0 012.25 2.25v.093m-9 0h-2.25M7.5 15.75v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 007.5 15.75z" /></svg>
                         </span>
                         <h3 class="text-xl font-bold text-white">Custom Alarm Sounds</h3>
-                        <p class="text-gray-400">Upload any sound or song of your choice to use as your alarm for a pleasant, personalized experience.</p>
+                        <p class="text-gray-400 mt-2">Upload any sound or song of your choice to use as your alarm for a pleasant, personalized experience.</p>
+                    </div>
+                    <div class="content-card rounded-2xl p-8 text-center w-full sm:w-2/5 lg:w-[30%] flex flex-col">
+                        <div class="flex-grow">
+                            <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-teal-500/10 text-teal-400 mb-4">
+                                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
+                            </span>
+                            <h3 class="text-xl font-bold text-white">Interactive Web UI</h3>
+                            <p class="text-gray-400 mt-2">Control every aspect of your device and visualize your sleep data via our companion web application.</p>
+                        </div>
+                        <div class="mt-4">
+                             <a href="controller.html" target="_blank" class="inline-block px-5 py-2 text-sm font-semibold text-white bg-violet-600 rounded-lg hover:bg-violet-500 transition-colors shadow-lg">
+                                Launch Demo
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

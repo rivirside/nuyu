@@ -3,13 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NuYu - Frequently Asked Questions</title>
+    <title>nuyu - Frequently Asked Questions</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: #E4E4E7;
+        }
+        .btn-gradient { 
+            background-image: linear-gradient(to right, #8B5CF6, #6366F1); 
+            transition: all 0.3s ease; 
+        }
+        .btn-gradient:hover { 
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); 
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-highlight {
+            background-color: rgba(139, 92, 246, 0.1);
+            border: 1px solid #8B5CF6;
+            border-radius: 0.75rem;
+            padding: 0.5rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
 <body class="antialiased">
 
@@ -18,7 +44,7 @@
             <div class="flex items-center justify-between">
                 <a href="index.html" class="flex items-center space-x-2">
                     <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-                    <span class="text-2xl font-bold text-white">NuYu</span>
+                    <span class="text-2xl font-bold text-white">nuyu</span>
                 </a>
                 <nav class="hidden md:flex items-center space-x-8">
                     <a href="project.html" class="text-gray-300 hover:text-white transition-colors">The Project</a>
@@ -27,7 +53,7 @@
                     <a href="faq.html" class="text-white font-semibold transition-colors">FAQs</a>
                 </nav>
                 <div class="hidden md:block">
-                    <a href="index.html#kickstarter" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Support Us</a>
+                    <a href="survey.html" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Take Our 5-Question Survey</a>
                 </div>
                 <div class="md:hidden">
                     <button id="mobile-menu-button" class="text-white focus:outline-none">
@@ -44,7 +70,7 @@
                 <a href="science.html" class="nav-link text-gray-300 hover:text-white">The Science</a>
                 <a href="community.html" class="nav-link text-gray-300 hover:text-white">Community</a>
                 <a href="faq.html" class="nav-link text-white font-semibold">FAQs</a>
-                <a href="index.html#kickstarter" class="nav-link mt-2 inline-block w-full text-center px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Support Us</a>
+                <a href="survey.html" class="nav-link mt-2 inline-block w-full text-center px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Take Our 5-Question Survey</a>
             </nav>
         </div>
     </header>
@@ -61,13 +87,25 @@
                     <div>
                         <h3 class="text-2xl font-semibold text-violet-400 mb-4 tracking-wider">General & Kickstarter</h3>
                         <div class="space-y-4">
+                            <div class="faq-highlight">
+                                <div class="faq-item" style="border-bottom: none;">
+                                    <button class="faq-question flex justify-between items-center w-full py-5 text-left text-lg font-semibold text-white">
+                                        <span>What is the best way to support the project right now?</span>
+                                        <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </button>
+                                    <div class="faq-answer hidden pb-5 pr-4 text-gray-300">
+                                         <p>The most valuable way you can contribute is by taking our 5-question survey. Your anonymous responses provide critical data that helps us refine the product and secure funding. As a thank you, you'll receive a reward code for our Kickstarter campaign for a free gift of your choice when you back the campaign! </p>
+                                         <a href="survey.html" class="mt-4 inline-block px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Take the Survey Now & Get a Free Thank You Gift→</a>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="faq-item">
                                 <button class="faq-question flex justify-between items-center w-full py-5 text-left text-lg font-semibold text-white">
                                     <span>Is this a product I can buy now?</span>
                                     <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
                                 <div class="faq-answer hidden pb-5 pr-4 text-gray-400">
-                                   <p>Not yet. Currently, NuYu is a project you can support on Kickstarter. By backing the campaign, you are pre-ordering a device from the first production run. The project is open-source, and the plans to build it yourself will be released for free after the campaign.</p>
+                                   <p>Not yet. Currently, nuyu is a project you can support on Kickstarter. By backing the campaign, you are pre-ordering a device from the first production run. The project is open-source, and the plans to build it yourself will be released for free after the campaign.</p>
                                 </div>
                             </div>
                             <div class="faq-item">
@@ -76,7 +114,7 @@
                                     <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
                                 <div class="faq-answer hidden pb-5 pr-4 text-gray-400">
-                                     <p>Your support on Kickstarter funds the initial manufacturing run, helps us source components in bulk (making it cheaper for everyone), and supports the ongoing development of the project. In return, you get one of the first fully-assembled NuYu clocks at a special price.</p>
+                                     <p>Your support on Kickstarter funds the initial manufacturing run, helps us source components in bulk (making it cheaper for everyone), and supports the ongoing development of the project. In return, you get one of the first fully-assembled nuyu clocks at a special price.</p>
                                 </div>
                             </div>
                              <div class="faq-item">
@@ -100,7 +138,7 @@
                                     <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
                                 <div class="faq-answer hidden pb-5 pr-4 text-gray-400">
-                                   <p>The NuYu system is designed to release scents at a low, sub-arousal threshold. The olfactory system is unique in that it can process these cues during sleep without causing arousal, unlike a loud noise. The intensity is calibrated to be just enough for the brain to process, but not enough to disturb your sleep.</p>
+                                   <p>The nuyu system is designed to release scents at a low, sub-arousal threshold. The olfactory system is unique in that it can process these cues during sleep without causing arousal, unlike a loud noise. The intensity is calibrated to be just enough for the brain to process, but not enough to disturb your sleep.</p>
                                 </div>
                             </div>
                             <div class="faq-item">
@@ -148,7 +186,7 @@
                                     <svg class="faq-icon h-6 w-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
                                 <div class="faq-answer hidden pb-5 pr-4 text-gray-400">
-                                     <p>It means we will publicly share all the hardware design files, software code, and assembly instructions. This allows anyone to study, modify, and build their own version of the NuYu clock. We believe in community collaboration to make the best possible tool for everyone.</p>
+                                     <p>It means we will publicly share all the hardware design files, software code, and assembly instructions. This allows anyone to study, modify, and build their own version of the nuyu clock. We believe in community collaboration to make the best possible tool for everyone.</p>
                                 </div>
                             </div>
                             <div class="faq-item">
@@ -190,7 +228,7 @@
                 <div class="col-span-2 lg:col-span-1">
                       <a href="index.html" class="flex items-center space-x-2">
                          <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-                        <span class="text-2xl font-bold text-white">NuYu</span>
+                        <span class="text-2xl font-bold text-white">nuyu</span>
                     </a>
                     <p class="mt-4 text-sm text-gray-400">An open-source sleep project.</p>
                 </div>
@@ -227,7 +265,7 @@
                 </div>
             </div>
             <div class="mt-16 pt-8 border-t border-white/10 text-center text-sm text-gray-500">
-                <p>&copy; 2025 NuYu Project. All rights reserved.</p>
+                <p>&copy; 2025 nuyu Project. All rights reserved.</p>
             </div>
         </div>
     </footer>

@@ -32,6 +32,24 @@
         }
         .faq-item { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         .faq-icon { transition: transform 0.3s ease; }
+        
+        .aurora-separator {
+            position: relative;
+            height: 150px; /* The total height of the separator space */
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .aurora-separator::before {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 80%; /* How wide the glow spreads */
+            background: radial-gradient(ellipse at center, rgba(109, 40, 217, 0.15), transparent 70%);
+            z-index: -1;
+        }
 
         /* Summary Roadmap Styles */
         .summary-roadmap-container {
@@ -92,7 +110,7 @@
                     <a href="faq.html" class="text-gray-300 hover:text-white transition-colors">FAQs</a>
                 </nav>
                 <div class="hidden md:block">
-                    <a href="#kickstarter" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Support Us</a>
+                    <a href="survey.html" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Take Our 5-Question Survey</a>
                 </div>
                 <div class="md:hidden">
                     <button id="mobile-menu-button" class="text-white focus:outline-none">
@@ -109,7 +127,7 @@
                 <a href="science.html" class="nav-link text-gray-300 hover:text-white">The Science</a>
                 <a href="community.html" class="nav-link text-gray-300 hover:text-white">Community</a>
                 <a href="faq.html" class="nav-link text-gray-300 hover:text-white">FAQs</a>
-                <a href="#kickstarter" class="nav-link mt-2 inline-block w-full text-center px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Support Us</a>
+                <a href="survey.html" class="nav-link mt-2 inline-block w-full text-center px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Take Our 5-Question Survey</a>
             </nav>
         </div>
     </header>
@@ -126,10 +144,10 @@
                     </p>
                     <p class="mt-8 text-xl text-violet-300 italic">What will you do with a new you?</p>
                     <div class="mt-8 flex justify-center flex-col sm:flex-row gap-4">
-                        <a href="#features" class="px-8 py-4 text-lg font-bold text-white rounded-xl btn-gradient shadow-lg">
-                            Discover nuyu
+                        <a href="survey.html" class="px-8 py-4 text-lg font-bold text-white rounded-xl btn-gradient shadow-lg">
+                            Take the 5-Question Survey
                         </a>
-                        <button id="start-quiz-button" class="px-8 py-4 text-lg font-bold text-white rounded-xl btn-gradient shadow-lg">
+                        <button id="start-quiz-button" class="px-8 py-4 text-lg font-bold bg-gray-700 text-white rounded-xl hover:bg-gray-600 transition-colors">
                             Discover Your Sleep Type
                         </button>
                     </div>
@@ -144,6 +162,32 @@
                 </div>
             </div>
         </section>
+
+        <section id="what-it-is" class="py-20 md:py-24 bg-black">
+             <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">More Than an Alarm Clock: A Habit-Building System</h2>
+                     <p class="mt-4 text-lg text-gray-400">The `nuyu` clock isn't just for waking up; it’s a gentle guide for your entire sleep-wake cycle. It functions as a habit-building tool where you condition yourself to associate each scent with sleep or waking. Over time, these smells become powerful cues that help get your body and mind into the right state at the right time.
+                    </p>
+                </div>
+                <div class="mt-16 grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="content-card p-8 rounded-2xl">
+                        <h3 class="text-xl font-bold text-violet-400 mb-2">The Wind-Down (Evening)</h3>
+                        <p class="text-gray-400">The calming scent and warm, red-hued light help your body naturally produce melatonin. Through conditioning, the scent itself becomes a powerful trigger, signaling to your brain that it's time to rest.</p>
+                    </div>
+                    <div class="content-card p-8 rounded-2xl">
+                        <h3 class="text-xl font-bold text-violet-400 mb-2">The Gentle Wake-Up (Morning)</h3>
+                        <p class="text-gray-400">The morning scent can start before the light and sound, conditioning your body to begin raising cortisol, so you might even start waking up naturally before the alarm fully sounds.</p>
+                    </div>
+                    <div class="content-card p-8 rounded-2xl">
+                        <h3 class="text-xl font-bold text-violet-400 mb-2">The Habit Reinforcement</h3>
+                        <p class="text-gray-400">By performing a new habit while the morning scent is active, you create a powerful link. The clock can then re-introduce that scent during deep sleep to help solidify that new habit into your routine faster.</p>
+                    </div>
+                </div>
+             </div>
+        </section>
+        
+        <div class="aurora-separator"></div>
 
         <section id="features" class="py-20 md:py-32 bg-black">
             <div class="container mx-auto px-6">
@@ -193,20 +237,20 @@
                             Join Us & Build a Better Sleep Routine
                         </h2>
                         <p class="mt-6 text-lg md:text-xl text-gray-300">
-                            nuyu is an open-source project for everyone. You can support its development, pre-order a fully assembled device, or build one yourself.
+                            nuyu is an open-source project for everyone. You can support its development, get an early device, or build one yourself.
                         </p>
                         <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
                             <div class="content-card rounded-2xl p-8 flex flex-col justify-between">
                                 <h3 class="text-2xl font-bold text-white">Support Our Kickstarter</h3>
                                 <p class="text-gray-400 my-4">Be the first to get a polished, fully-assembled nuyu clock by backing our campaign. Your support directly funds production and future development.</p>
-                                <a href="#" class="inline-block px-8 py-4 font-bold text-white rounded-xl btn-gradient shadow-lg">
-                                    Pre-Order on Kickstarter
+                                <a href="#footer-subscribe" class="inline-block px-8 py-4 font-bold text-white rounded-xl btn-gradient shadow-lg">
+                                    Get Notified of Launch
                                 </a>
                             </div>
                             <div class="content-card rounded-2xl p-8 flex flex-col justify-between">
                                  <h3 class="text-2xl font-bold text-white">Build It Yourself</h3>
                                 <p class="text-gray-400 my-4">Are you a maker or DIY enthusiast? We'll release the complete build plans and code for free after a successful Kickstarter campaign.</p>
-                                <a href="#" class="inline-block px-8 py-4 font-bold bg-gray-700 text-white rounded-xl hover:bg-gray-600 transition-colors">
+                                <a href="#footer-subscribe" class="inline-block px-8 py-4 font-bold bg-gray-700 text-white rounded-xl hover:bg-gray-600 transition-colors">
                                     Notify Me on Release
                                 </a>
                             </div>
@@ -241,6 +285,8 @@
                 </div>
             </div>
         </section>
+        
+        <div class="aurora-separator"></div>
         
         <section id="roadmap" class="py-20 md:py-32 bg-black">
             <div class="container mx-auto px-6">
@@ -288,6 +334,8 @@
                 </div>
             </div>
         </section>
+        
+        <div class="aurora-separator"></div>
 
         <section class="py-20 md:py-24">
             <div class="container mx-auto px-6">
@@ -319,6 +367,8 @@
                 </div>
             </div>
         </section>
+        
+        <div class="aurora-separator"></div>
 
         <section id="faq" class="py-20 md:py-32">
             <div class="container mx-auto px-6 max-w-3xl">
@@ -406,7 +456,7 @@
                     <ul class="mt-4 space-y-3">
                         <li><a href="community.html" class="text-gray-400 hover:text-white transition-colors">Our Story</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="mailto:nuyu@reef.bio" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
                     </ul>
                 </div>
                  <div>
@@ -416,7 +466,7 @@
                         <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
                     </ul>
                 </div>
-                 <div class="col-span-2 md:col-span-1">
+                 <div id="footer-subscribe" class="col-span-2 md:col-span-1">
                     <h4 class="font-semibold text-white tracking-wider">Stay Updated</h4>
                     <div class="mt-4 flex">
                         <input type="email" placeholder="Enter your email" class="w-full px-4 py-2 rounded-l-lg text-gray-900 bg-gray-200 focus:outline-none">
@@ -430,7 +480,6 @@
         </div>
     </footer>
     
-    <!-- Quiz Modal -->
     <div id="quiz-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 opacity-0">
         <div id="quiz-container" class="bg-gray-900 text-white w-full max-w-2xl rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
             <div class="p-6 border-b border-gray-700 flex justify-between items-center">

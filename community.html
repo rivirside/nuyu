@@ -1,15 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NuYu Community</title>
+    <title>nuyu Community</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: #E4E4E7;
+        }
+        .btn-gradient { 
+            background-image: linear-gradient(to right, #8B5CF6, #6366F1); 
+            transition: all 0.3s ease; 
+        }
+        .btn-gradient:hover { 
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); 
+        }
+        .content-card { 
+            background-color: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(10px); 
+        }
+        
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .carousel-slide {
+            flex: 0 0 100%; /* Default to 1 card on mobile */
+            padding: 0 1rem;
+        }
+        .carousel-fader {
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: rgba(30, 30, 30, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        .carousel-button:hover {
+            background-color: rgba(139, 92, 246, 0.8);
+        }
+        .carousel-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .carousel-button.prev {
+            left: -1.5rem;
+        }
+        .carousel-button.next {
+            right: -1.5rem;
+        }
+        
+        @media (min-width: 768px) { /* Medium screens */
+            .carousel-slide {
+                flex: 0 0 50%;
+            }
+        }
+        @media (min-width: 1024px) { /* Large screens */
+            .carousel-slide {
+                flex: 0 0 33.3333%;
+            }
+        }
+    </style>
 </head>
 <body class="antialiased">
 
@@ -17,34 +91,28 @@
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <a href="index.html" class="flex items-center space-x-2">
-                    <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-                    <span class="text-2xl font-bold text-white">NuYu</span>
+                    <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                    <span class="text-2xl font-bold text-white">nuyu</span>
                 </a>
                 <nav class="hidden md:flex items-center space-x-8">
                     <a href="project.html" class="text-gray-300 hover:text-white transition-colors">The Project</a>
                     <a href="science.html" class="text-gray-300 hover:text-white transition-colors">The Science</a>
-                    <a href="community.html" class="text-gray-300 hover:text-white transition-colors">Community</a>
+                    <a href="community.html" class="text-white font-semibold transition-colors">Community</a>
                     <a href="faq.html" class="text-gray-300 hover:text-white transition-colors">FAQs</a>
                 </nav>
                 <div class="hidden md:block">
-                    <a href="index.html#kickstarter" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Support Us</a>
+                    <a href="survey.html" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Take the Survey</a>
                 </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-white focus:outline-none">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
-                </div>
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
             </div>
         </div>
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 bg-black/95">
             <nav class="flex flex-col space-y-4 pt-4">
-                <a href="project.html" class="nav-link text-gray-300 hover:text-white">The Project</a>
-                <a href="science.html" class="nav-link text-gray-300 hover:text-white">The Science</a>
-                <a href="community.html" class="nav-link text-gray-300 hover:text-white">Community</a>
-                <a href="faq.html" class="nav-link text-gray-300 hover:text-white">FAQs</a>
-                <a href="index.html#kickstarter" class="nav-link mt-2 inline-block w-full text-center px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Support Us</a>
+                <a href="project.html" class="text-gray-300 hover:text-white">The Project</a>
+                <a href="science.html" class="text-gray-300 hover:text-white">The Science</a>
+                <a href="community.html" class="text-white font-semibold">Community</a>
+                <a href="faq.html" class="text-gray-300 hover:text-white">FAQs</a>
+                <a href="survey.html" class="mt-2 inline-block w-full text-center px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Take our 5-Question Survey</a>
             </nav>
         </div>
     </header>
@@ -53,12 +121,67 @@
 
         <section class="py-20 md:py-32 text-center">
             <div class="container mx-auto px-6">
-                <h2 class="text-4xl md:text-5xl font-extrabold text-white">A Community Built Around Better Sleep.</h2>
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white">Join the open-source rebellion against burnout.</h2>
                 <p class="mt-6 text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
-                    We believe that understanding and improving our sleep is a fundamental part of a healthy life. NuYu is more than a device; it's a community-driven, open-source project for anyone who wants to build a better daily routine. Here, you can learn about our mission, our story, and how you can help shape the future of waking up.
+                    We've been sold a bad deal: that exhaustion is the price of success. That "rise and grind" is the only path forward. It's not. We're a community of builders, creators, and professionals who believe that true productivity doesn't come from hustle culture—it comes from a foundation of restorative rest. We're building the tools to reclaim our energy, and because we're open-source, we're sharing everything we learn along the way.
                 </p>
             </div>
         </section>
+
+        <section class="py-20 md:py-24 bg-black">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h3 class="text-3xl md:text-4xl font-bold text-white">Who is the nuyu Community?</h3>
+                    <p class="mt-4 text-lg text-gray-400">Our community is a diverse mix of dreamers, builders, and optimizers, all united by the drive to turn their ambitions into actions.</p>
+                </div>
+                
+                <div id="persona-carousel" class="carousel-container mt-16">
+                    <div class="carousel-fader overflow-hidden">
+                        <div class="carousel-track">
+                            <!-- Slide 1: Routine Architect -->
+                            <div class="carousel-slide">
+                                <div class="content-card rounded-2xl p-8 space-y-4 h-full flex flex-col">
+                                    <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-violet-500/10 text-violet-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg></span>
+                                    <h4 class="text-xl font-bold text-white">The Routine Architect</h4>
+                                    <p class="text-gray-400 flex-grow">They see life as a system to be optimized. They understand that a stable routine is the foundation for everything else, and they're looking for science-backed tools to build it.</p>
+                                </div>
+                            </div>
+                            <!-- Slide 2: Burnout Graduate -->
+                            <div class="carousel-slide">
+                                <div class="content-card rounded-2xl p-8 space-y-4 h-full flex flex-col">
+                                    <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-emerald-500/10 text-emerald-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg></span>
+                                    <h4 class="text-xl font-bold text-white">The Burnout Graduate</h4>
+                                    <p class="text-gray-400 flex-grow">They've already hit the wall of exhaustion and are done with "hustle culture." They're focused on building a sustainable, resilient life and reclaiming their energy, not just hacking it.</p>
+                                </div>
+                            </div>
+                            <!-- Slide 3: Open-Source Advocate -->
+                            <div class="carousel-slide">
+                                <div class="content-card rounded-2xl p-8 space-y-4 h-full flex flex-col">
+                                    <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-amber-500/10 text-amber-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg></span>
+                                    <h4 class="text-xl font-bold text-white">The Open-Source Advocate</h4>
+                                    <p class="text-gray-400 flex-grow">They're here for the mission and the method. A believer in transparency and community ownership, they want to understand and contribute to the technology they use.</p>
+                                </div>
+                            </div>
+                             <!-- Slide 4: Goal Maxi -->
+                            <div class="carousel-slide">
+                               <div class="content-card rounded-2xl p-8 space-y-4 h-full flex flex-col">
+                                    <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-red-500/10 text-red-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg></span>
+                                    <h4 class="text-xl font-bold text-white">The Goal Maxi</h4>
+                                    <p class="text-gray-400 flex-grow">They have a big goal—a side project, a marathon, a book—and they know their energy level is the only thing holding them back. They've always got an answer when you ask them, "what'll you do with a new you?"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-button prev">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+                    <button class="carousel-button next">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
 
         <section class="py-20 md:py-24 bg-black">
             <div class="container mx-auto px-6">
@@ -67,23 +190,17 @@
                 </div>
                 <div class="mt-16 grid md:grid-cols-3 gap-12 text-center">
                     <div class="space-y-4">
-                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-emerald-500/10 text-emerald-400">
-                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.962a3.75 3.75 0 015.968 0 3.75 3.75 0 01-5.968 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        </span>
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-emerald-500/10 text-emerald-400"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.962a3.75 3.75 0 015.968 0 3.75 3.75 0 01-5.968 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></span>
                         <h4 class="text-xl font-bold text-white">Accessibility</h4>
-                        <p class="text-gray-400">Great technology should be available to everyone. By developing NuYu as an open-source project, we are removing barriers and empowering people to build, modify, and learn from our work. A healthy circadian rhythm shouldn't have a paywall.</p>
+                        <p class="text-gray-400">Great technology should be available to everyone. By developing nuyu as an open-source project, we are removing barriers and empowering people to build, modify, and learn from our work. A healthy circadian rhythm shouldn't have a paywall.</p>
                     </div>
                     <div class="space-y-4">
-                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-blue-500/10 text-blue-400">
-                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>
-                        </span>
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-blue-500/10 text-blue-400"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg></span>
                         <h4 class="text-xl font-bold text-white">Collaboration</h4>
                         <p class="text-gray-400">We don't have all the answers. The most powerful ideas come from collective passion. We invite developers, designers, sleep science enthusiasts, and makers to challenge our assumptions and contribute to a tool that is truly built by and for its community.</p>
                     </div>
                     <div class="space-y-4">
-                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-violet-500/10 text-violet-400">
-                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0A2.25 2.25 0 015.625 7.5h12.75a2.25 2.25 0 012.25 2.25m-16.5 0v-1.125c0-.621.504-1.125 1.125-1.125h14.25c.621 0 1.125.504 1.125 1.125v1.125" /></svg>
-                        </span>
+                        <span class="mx-auto inline-flex items-center justify-center h-12 w-12 rounded-lg bg-violet-500/10 text-violet-400"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0v-1.125c0-.621.504-1.125 1.125-1.125h14.25c.621 0 1.125.504 1.125 1.125v1.125" /></svg></span>
                         <h4 class="text-xl font-bold text-white">Transparency</h4>
                         <p class="text-gray-400">In a world of closed-off technology, we choose a different path. From our circuit board schematics to the code that runs the alarm, everything is available for you to inspect. You have the right to understand and trust the technology in your home.</p>
                     </div>
@@ -94,55 +211,75 @@
         <section id="about" class="py-20 md:py-32">
              <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">The Founder's Story</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Our Story: From Frustration to a Shared Mission</h2>
                 </div>
                 <div class="mt-20 grid md:grid-cols-2 items-center gap-12 md:gap-16">
                     <div class="md:order-2">
                         <div class="bg-gray-900/50 p-2 rounded-2xl ring-1 ring-white/10">
-                            <img src="images/founder-story.jpg" alt="Founder Story" class="rounded-xl w-full h-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x450/171717/E4E4E7?text=Image+Not+Found';">
+                            <img src="images/founder-story.jpg" alt="A desk with electronics components, reflecting the project's origin." class="rounded-xl w-full h-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x450/171717/E4E4E7?text=Image+Not+Found';">
                         </div>
                     </div>
-                    <div class="space-y-4 md:order-1">
-                        <p class="text-gray-400">As a medical student, my life was a cycle of irregular sleep. Long hours of studying and clinical rotations made a consistent bedtime seem impossible. I found that it would take a long time to fix my sleep schedule, but once I was on it, maintaining other healthy habits like diet and exercise became easier. However, if I missed just a day or two, the entire structure would collapse, making it incredibly hard to get back on track.</p>
-                        <p class="text-gray-400">I realized I needed more than just willpower; I needed a tool to help anchor my routine. Frustrated by the lack of comprehensive solutions, the idea for the NuYu clock was born—not as a product to sell, but as a project to solve a personal, yet universal, problem.</p>
+                    <div class="space-y-4 md:order-1 text-gray-300 text-lg">
+                        <p>As a medical student, my life ran on an irregular schedule. The constant cycling between long study hours and clinical rotations meant that a 'normal' sleep pattern was a luxury. The real frustration wasn't just feeling tired; it was the slow, difficult process of clawing back to a stable routine, only to have it collapse after a single disruptive week.</p>
+                        <p>I searched for a tool to help, but every solution felt like a piece of a larger puzzle. Standard alarms were just a shock to the system. Wellness apps demanded discipline when I had none left. Nothing treated the day as a whole—a connected cycle of waking, sleeping, and habit formation.</p>
+                        <p>The idea for nuyu was born from that gap. It started as a personal project to build a single, comprehensive device that could anchor a routine using the principles of sleep science. But in sharing the concept, I realized this wasn't just my problem—it was a shared struggle. That realization transformed nuyu from a personal fix into a community-driven, open-source project dedicated to building a better tool for everyone.</p>
                     </div>
                 </div>
             </div>
         </section>
         
+        <!-- UPDATED 'GET INVOLVED' SECTION LAYOUT -->
         <section id="get-involved" class="py-20 md:py-32 bg-black">
              <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
-                      <h2 class="text-3xl md:text-4xl font-bold text-white">How You Can Contribute</h2>
-                      <p class="mt-4 text-lg text-gray-400">This is a community-driven project. Whether you're a maker, a developer, or someone passionate about health, there's a way for you to get involved.</p>
+                      <h2 class="text-3xl md:text-4xl font-bold text-white">How You Can Contribute Right Now</h2>
+                      <p class="mt-4 text-lg text-gray-400">This is a community-driven project. Your feedback is the most valuable contribution you can make at this stage. It directly shapes the product we build.</p>
                 </div>
-                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="content-card rounded-2xl p-8 text-center flex flex-col justify-between opacity-60">
-                        <div>
-                            <h3 class="text-2xl font-bold text-white">For the Makers</h3>
-                            <p class="text-gray-400 my-4">Ready to get hands-on? We'll be releasing all our 3D-printable files, PCB schematics, and a complete bill of materials after our Kickstarter campaign is successfully funded.</p>
+                <div class="mt-16 max-w-5xl mx-auto">
+                    <!-- Survey Card - Full Width -->
+                    <div class="mb-8">
+                        <div class="content-card rounded-2xl p-8 text-center flex flex-col md:flex-row md:text-left items-center gap-8 ring-2 ring-violet-500 shadow-2xl shadow-violet-500/10">
+                             <div class="flex-grow">
+                                <h3 class="text-2xl font-bold text-white">Shape the Project: Take Our 5-Question Survey</h3>
+                                <p class="text-gray-300 my-4 text-lg">This is the most important way you can help. Your answers to our short, anonymous survey will provide the critical data we need to build a product that solves real-world problems and secure funding for our first production run.</p>
+                            </div>
+                            <a href="survey.html" class="flex-shrink-0 mt-4 md:mt-0 inline-block px-8 py-4 font-bold text-white rounded-xl btn-gradient shadow-lg">
+                                Take the Survey & Get a Thank You Gift →
+                            </a>
                         </div>
-                        <span class="mt-4 inline-block px-8 py-4 font-bold bg-gray-700 text-gray-400 rounded-xl cursor-not-allowed">
-                            Coming After Kickstarter
-                        </span>
                     </div>
-                    <div class="content-card rounded-2xl p-8 text-center flex flex-col justify-between opacity-60">
-                         <div>
-                            <h3 class="text-2xl font-bold text-white">For the Developers</h3>
-                            <p class="text-gray-400 my-4">The heart of NuYu is its software. Our firmware and companion app code will be made public following the Kickstarter. Help us fix bugs and build new integrations.</p>
+
+                    <!-- Other Contribution Cards - 3 Columns -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+                        <div class="content-card rounded-2xl p-8 text-center flex flex-col justify-between">
+                             <div>
+                                <h3 class="text-2xl font-bold text-white">Become a Pioneer</h3>
+                                <p class="text-gray-400 my-4">We're looking for passionate individuals to receive early prototypes and provide feedback. As a beta tester, you will play a crucial role in refining the hardware and software.</p>
+                            </div>
+                            <a href="#" class="mt-4 inline-block px-8 py-4 font-bold bg-gray-700 text-white rounded-xl hover:bg-gray-600 transition-colors">
+                                Apply for the Beta Program
+                            </a>
                         </div>
-                        <span class="mt-4 inline-block px-8 py-4 font-bold bg-gray-700 text-gray-400 rounded-xl cursor-not-allowed">
-                            GitHub Repo (Coming Soon)
-                        </span>
-                    </div>
-                    <div class="content-card rounded-2xl p-8 text-center flex flex-col justify-between ring-2 ring-violet-500">
-                         <div>
-                            <h3 class="text-2xl font-bold text-white">For the Pioneers</h3>
-                            <p class="text-gray-400 my-4">We're looking for passionate individuals to receive early prototypes and provide critical feedback. As a beta tester, you will play a crucial role in refining the hardware and software.</p>
+
+                        <div class="content-card rounded-2xl p-8 text-center flex flex-col justify-between opacity-60">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">For the Makers</h3>
+                                <p class="text-gray-400 my-4">Ready to get hands-on? We'll be releasing all our 3D-printable files, PCB schematics, and a complete bill of materials after our Kickstarter campaign is successfully funded.</p>
+                            </div>
+                            <span class="mt-4 inline-block px-8 py-4 font-bold bg-gray-800 text-gray-500 rounded-xl cursor-not-allowed">
+                                Coming After Kickstarter
+                            </span>
                         </div>
-                        <a href="#" class="mt-4 inline-block px-8 py-4 font-bold text-white rounded-xl btn-gradient shadow-lg">
-                            Apply for the Beta Program →
-                        </a>
+                        
+                        <div class="content-card rounded-2xl p-8 text-center flex flex-col justify-between opacity-60">
+                             <div>
+                                <h3 class="text-2xl font-bold text-white">For the Developers</h3>
+                                <p class="text-gray-400 my-4">The heart of nuyu is its software. Our firmware and companion app code will be made public following the Kickstarter. Help us fix bugs and build new integrations.</p>
+                            </div>
+                            <span class="mt-4 inline-block px-8 py-4 font-bold bg-gray-800 text-gray-500 rounded-xl cursor-not-allowed">
+                                GitHub Repo (Coming Soon)
+                            </span>
+                        </div>
                     </div>
                 </div>
              </div>
@@ -153,7 +290,7 @@
                 <div class="max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-white">Discover Your Sleep Fingerprint</h2>
                     <p class="mt-4 text-lg text-gray-400">
-                        Your sleep is as unique as you are. This 5-minute, scientifically-validated quiz analyzes your sleep across 7 key dimensions to reveal your personal sleep archetype.
+                        Ready for a deeper dive? This 5-minute, scientifically-validated quiz analyzes your sleep across 7 key dimensions to reveal your personal sleep archetype.
                     </p>
                     <div class="mt-8">
                         <button id="start-quiz-button" class="px-10 py-5 text-xl font-bold text-white rounded-xl btn-gradient shadow-lg">
@@ -170,8 +307,8 @@
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
                 <div class="col-span-2 lg:col-span-1">
                       <a href="index.html" class="flex items-center space-x-2">
-                         <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-                        <span class="text-2xl font-bold text-white">NuYu</span>
+                         <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                        <span class="text-2xl font-bold text-white">nuyu</span>
                     </a>
                     <p class="mt-4 text-sm text-gray-400">An open-source sleep project.</p>
                 </div>
@@ -181,15 +318,15 @@
                         <li><a href="project.html" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
                         <li><a href="science.html" class="text-gray-400 hover:text-white transition-colors">The Science</a></li>
                         <li><a href="index.html#kickstarter" class="text-gray-400 hover:text-white transition-colors">Kickstarter</a></li>
-                        <li><a href="community.html#get-involved" class="text-gray-400 hover:text-white transition-colors">Beta Program</a></li>
+                        <li><a href="#get-involved" class="text-gray-400 hover:text-white transition-colors">Beta Program</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-semibold text-white tracking-wider">Community</h4>
                     <ul class="mt-4 space-y-3">
-                        <li><a href="community.html" class="text-gray-400 hover:text-white transition-colors">Our Story</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">Our Story</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="mailto:nuyu@reef.bio" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
                     </ul>
                 </div>
                  <div>
@@ -201,36 +338,81 @@
                 </div>
                  <div class="col-span-2 md:col-span-1">
                     <h4 class="font-semibold text-white tracking-wider">Stay Updated</h4>
-                    <div class="mt-4 flex">
-                        <input type="email" placeholder="Enter your email" class="w-full px-4 py-2 rounded-l-lg text-gray-900 bg-gray-200 focus:outline-none">
-                        <button class="px-4 py-2 font-semibold text-white rounded-r-lg btn-gradient">Subscribe</button>
-                    </div>
+                     <form action="https://formsubmit.co/nuyu@reef.bio" method="POST">
+                        <div class="mt-4 flex">
+                            <input type="email" name="email" placeholder="Enter your email" required class="w-full px-4 py-2 rounded-l-lg text-gray-900 bg-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                            <button type="submit" class="px-4 py-2 font-semibold text-white rounded-r-lg btn-gradient">Subscribe</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="mt-16 pt-8 border-t border-white/10 text-center text-sm text-gray-500">
-                <p>&copy; 2025 NuYu Project. All rights reserved.</p>
+                <p>&copy; 2025 nuyu Project. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <div id="quiz-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 opacity-0">
-        <div id="quiz-container" class="bg-gray-900 text-white w-full max-w-2xl rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
-            <div class="p-6 border-b border-gray-700 flex justify-between items-center">
-                <h2 id="quiz-title" class="text-2xl font-bold">Your Sleep Fingerprint</h2>
-                <button id="close-quiz-button" class="text-gray-400 hover:text-white">&times;</button>
-            </div>
-            <div class="w-full bg-gray-700 rounded-full h-2.5">
-                <div id="progress-bar-fill" class="bg-violet-500 h-2.5 rounded-full" style="width: 0%"></div>
-            </div>
-            <div id="quiz-content" class="p-8 overflow-y-auto flex-grow"></div>
-            <div class="p-6 border-t border-gray-700 flex justify-between items-center bg-gray-900/50 backdrop-blur-sm">
-                 <button id="back-button" class="px-6 py-2 font-semibold bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">Back</button>
-                 <button id="next-button" class="px-6 py-2 font-semibold text-white rounded-lg btn-gradient disabled:opacity-50 disabled:cursor-not-allowed" disabled>Next</button>
-            </div>
-        </div>
-    </div>
+    <!-- Quiz Modal is part of the quiz.js script -->
+    <div id="quiz-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 opacity-0"></div>
 
     <script src="js/main.js"></script>
     <script src="js/quiz.js"></script>
+    
+    <!-- Carousel JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.getElementById('persona-carousel');
+            if (!carousel) return;
+
+            const track = carousel.querySelector('.carousel-track');
+            const slides = Array.from(track.children);
+            const nextButton = carousel.querySelector('.next');
+            const prevButton = carousel.querySelector('.prev');
+            
+            let itemsPerScreen = 3;
+            const updateItemsPerScreen = () => {
+                if (window.innerWidth < 768) {
+                    itemsPerScreen = 1;
+                } else if (window.innerWidth < 1024) {
+                    itemsPerScreen = 2;
+                } else {
+                    itemsPerScreen = 3;
+                }
+            };
+            
+            updateItemsPerScreen();
+            window.addEventListener('resize', updateItemsPerScreen);
+
+            let currentIndex = 0;
+            const slideCount = slides.length;
+
+            const updateCarousel = () => {
+                const slideWidth = slides[0].getBoundingClientRect().width;
+                const newTransform = -currentIndex * slideWidth;
+                track.style.transform = `translateX(${newTransform}px)`;
+
+                // Update button states
+                prevButton.disabled = currentIndex === 0;
+                nextButton.disabled = currentIndex >= slideCount - itemsPerScreen;
+            };
+
+            nextButton.addEventListener('click', () => {
+                if (currentIndex < slideCount - itemsPerScreen) {
+                    currentIndex++;
+                    updateCarousel();
+                }
+            });
+
+            prevButton.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            });
+            
+            // Initial button state
+            updateCarousel();
+        });
+    </script>
 </body>
 </html>

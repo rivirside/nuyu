@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Science of NuYu</title>
+    <title>The Science of nuyu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="css/style.css">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #000000; color: #E4E4E7; }
         .btn-gradient { background-image: linear-gradient(to right, #8B5CF6, #6366F1); transition: all 0.3s ease; }
@@ -37,7 +36,7 @@
             <div class="flex items-center justify-between">
                 <a href="index.html" class="flex items-center space-x-2">
                     <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-                    <span class="text-2xl font-bold text-white">NuYu</span>
+                    <span class="text-2xl font-bold text-white">nuyu</span>
                 </a>
                 <nav class="hidden md:flex items-center space-x-8">
                     <a href="project.html" class="text-gray-300 hover:text-white transition-colors">The Project</a>
@@ -45,7 +44,7 @@
                     <a href="community.html" class="text-gray-300 hover:text-white transition-colors">Community</a>
                     <a href="faq.html" class="text-gray-300 hover:text-white transition-colors">FAQs</a>
                 </nav>
-                <div class="hidden md:block"><a href="index.html#kickstarter" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Support Us</a></div>
+                <div class="hidden md:block"><a href="survey.html" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Take the Survey</a></div>
                 <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
             </div>
         </div>
@@ -55,7 +54,7 @@
                 <a href="science.html" class="nav-link text-white font-semibold">The Science</a>
                 <a href="community.html" class="nav-link text-gray-300 hover:text-white">Community</a>
                 <a href="faq.html" class="nav-link text-gray-300 hover:text-white">FAQs</a>
-                <a href="index.html#kickstarter" class="nav-link mt-2 inline-block w-full text-center px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Support Us</a>
+                <a href="survey.html" class="nav-link mt-2 inline-block w-full text-center px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Take the Survey</a>
             </nav>
         </div>
     </header>
@@ -63,95 +62,32 @@
     <main class="pt-24 bg-black">
         <div class="container mx-auto px-6 py-20">
             <div class="text-center max-w-4xl mx-auto">
-                <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">The Science of NuYu</h1>
-                <p class="mt-6 text-lg text-gray-300">NuYu is built upon a deep understanding of neurobiology. This page explores the four core scientific pillars that inform our approach. Explore the science below to see how we leverage these principles to create a powerful system for change.</p>
+                <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">The Science of nuyu</h1>
+                <p class="mt-6 text-lg text-gray-300">At its core, nuyu is a question: can we build a better, more accessible tool for well-being? The answer lies in the science, and this is where we share our work. Below, you'll find the research on sleep, habits, and scent that inspired this project. But this isn't a lecture. It's an invitation. As an open-source project rooted in the principles of DeSci, our research is a collaborative effort. We invite you to learn with us, challenge our assumptions, and help us build this tool in the open.</p>
+            </div>
+
+            <div class="mt-12 max-w-2xl mx-auto">
+                <div class="content-card rounded-2xl p-8 text-center ring-2 ring-violet-500 shadow-2xl shadow-violet-500/10">
+                    <h3 class="text-2xl font-bold text-white">Help Us Build the Future of Wellness</h3>
+                    <p class="text-gray-300 my-4 text-lg">Our research is community-driven. Your answers to our 5-question survey provide the data we need to build a better tool and prove its value. Be a part of the project from day one.</p>
+                    <a href="survey.html" class="mt-2 inline-block px-8 py-3 font-bold text-white rounded-xl btn-gradient shadow-lg">
+                        Take the 5-Question Survey →
+                    </a>
+                </div>
             </div>
             
-            <div class="mt-20 space-y-20">
-                <div class="content-card p-8 md:p-12 rounded-2xl">
-                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-                        <div class="order-2 md:order-1">
-                            <h2 class="text-3xl font-bold text-violet-400 mb-4">The Science of Sleep</h2>
-                            <p class="text-gray-300 mb-6">Sleep isn't just rest; it's a critical maintenance period. Your brain cycles through structured stages, from deep NREM sleep that physically restores and cleanses the brain via the glymphatic system, to REM sleep which is vital for memory and emotional regulation.</p>
-                            <button data-topic="sleep" class="topic-button px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Explore the Science of Sleep</button>
-                        </div>
-                        <div class="order-1 md:order-2">
-                             <img src="https://placehold.co/600x400/000000/a78bfa?text=Sleep+Cycles" alt="Illustration of brain waves during sleep" class="rounded-lg shadow-lg">
-                        </div>
-                    </div>
+            <div id="join-desci" class="mt-20">
+                 <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Join the DeSci Movement: Shape the Future of Sleep</h2>
+                    <p class="mt-4 text-lg text-gray-400">nuyu is more than a product; it’s a commitment to open and collaborative research. We invite you to be part of the decentralized science (DeSci) movement to collectively advance our understanding of sleep.</p>
                 </div>
-
-                <div class="content-card p-8 md:p-12 rounded-2xl">
-                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-                         <div>
-                             <img src="https://placehold.co/600x400/000000/a78bfa?text=Habit+Loop" alt="Illustration of the habit loop" class="rounded-lg shadow-lg">
-                        </div>
-                        <div>
-                            <h2 class="text-3xl font-bold text-violet-400 mb-4">The Science of Habit</h2>
-                            <p class="text-gray-300 mb-6">Habits form by offloading tasks from the conscious prefrontal cortex to the automatic basal ganglia. This automation frees up mental energy. The timing of when you practice a habit matters—leveraging your body's natural hormonal rhythms, like the morning cortisol peak, can significantly speed up learning.</p>
-                            <button data-topic="habit" class="topic-button px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Explore the Science of Habit</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="content-card p-8 md:p-12 rounded-2xl">
-                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-                        <div class="order-2 md:order-1">
-                            <h2 class="text-3xl font-bold text-violet-400 mb-4">The Science of Scent</h2>
-                            <p class="text-gray-300 mb-6">The sense of smell has a unique 'superhighway' to the brain's emotion and memory centers, bypassing the usual sensory filter. This direct link is why scents can trigger such powerful responses and makes them an ideal tool for associating a cue with a new behavior.</p>
-                            <button data-topic="scent" class="topic-button px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Explore the Science of Scent</button>
-                        </div>
-                        <div class="order-1 md:order-2">
-                             <img src="https://placehold.co/600x400/000000/a78bfa?text=Olfactory+Pathway" alt="Illustration of the olfactory pathway to the brain" class="rounded-lg shadow-lg">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="content-card p-8 md:p-12 rounded-2xl">
-                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-                         <div>
-                            <img src="https://placehold.co/600x400/000000/a78bfa?text=NuYu+Synthesis" alt="Illustration showing Sleep, Habit and Scent combined" class="rounded-lg shadow-lg">
-                        </div>
-                        <div>
-                            <h2 class="text-3xl font-bold text-violet-400 mb-4">The NuYu Synthesis</h2>
-                            <p class="text-gray-300 mb-6">NuYu integrates these principles into a 24-hour system. By pairing a novel scent with a new habit, and then re-exposing the brain to that scent during deep sleep, we use Targeted Memory Reactivation (TMR) to dramatically accelerate how quickly the new behavior becomes ingrained.</p>
-                            <button data-topic="synthesis" class="topic-button px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Explore the Synthesis</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-             <div class="mt-28">
-                <div class="text-center max-w-3xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">From Research to a Real-World Solution</h2>
-                    <p class="mt-4 text-lg text-gray-400">Understanding the science is the first step. The next is applying it. Here’s how the NuYu project translates these powerful scientific principles into tangible features designed to help you.</p>
-                </div>
-                <div class="mt-16 grid md:grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div class="content-card p-8 rounded-2xl">
-                        <h3 class="text-xl font-bold text-violet-400 mb-2">Engineering for Your Circadian Rhythm</h3>
-                        <p class="text-gray-400">The science shows that light is a primary regulator of your internal clock. That's why NuYu features a sunrise-simulating light to naturally boost morning cortisol and a time-based night light to support evening melatonin production.</p>
-                    </div>
-                    <div class="content-card p-8 rounded-2xl">
-                        <h3 class="text-xl font-bold text-violet-400 mb-2">A Toolkit for Olfactory Entrainment</h3>
-                        <p class="text-gray-400">Targeted Memory Reactivation requires distinct cues. That's why NuYu has two independent wells for separate "Wake" and "Sleep" scents, allowing you to build the associative links needed to reinforce your habits while you sleep.</p>
-                    </div>
-                    <div class="content-card p-8 rounded-2xl">
-                         <h3 class="text-xl font-bold text-violet-400 mb-2">Personalized for Your Biology</h3>
-                        <p class="text-gray-400">Chronotype matters for complex habits. Our future companion app will incorporate a validated quiz to help you understand your unique sleep profile and tailor your routines for maximum effectiveness.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-28 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-white">Join the DeSci Movement: Shape the Future of Sleep</h2>
-                <p class="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">NuYu is more than a product; it’s a commitment to open and collaborative research. We invite you to be part of the decentralized science (DeSci) movement to collectively advance our understanding of sleep.</p>
-                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch max-w-4xl mx-auto">
                     <div class="content-card rounded-2xl p-8 flex flex-col justify-between text-left">
                         <div>
-                           <h3 class="text-2xl font-bold text-white">Become a Research Collaborator</h3>
-                           <p class="text-gray-400 my-4">Join our beta program and contribute to a landmark study. With your consent, your anonymized sleep data will help build one of the largest open datasets for sleep science, fueling new discoveries for years to come.</p>
+                           <h3 class="text-2xl font-bold text-white">Contribute to the Research</h3>
+                           <p class="text-gray-400 my-4">Our initial research relies on understanding the real-world challenges people face. By taking our 5-question survey, you provide the essential data that fuels our project and helps us build a better tool for everyone.</p>
                         </div>
-                        <a href="community.html#get-involved" class="inline-block mt-4 text-center px-8 py-3 font-semibold text-white rounded-lg btn-gradient">Apply for the Beta Program</a>
+                        <a href="survey.html" class="inline-block mt-4 text-center px-8 py-3 font-semibold text-white rounded-lg btn-gradient">Take the Survey & Earn Rewards</a>
                     </div>
                     <div class="content-card rounded-2xl p-8 flex flex-col justify-between text-left">
                          <div>
@@ -163,6 +99,61 @@
                 </div>
             </div>
             
+            <div class="mt-28">
+                <div class="text-center max-w-3xl mx-auto">
+                     <h2 class="text-3xl md:text-4xl font-bold text-white">The Scientific Pillars of nuyu</h2>
+                     <p class="mt-4 text-lg text-gray-400">Our approach is an integration of four distinct but interconnected fields of science. Explore them to understand how nuyu works.</p>
+                </div>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="content-card p-8 rounded-2xl flex flex-col">
+                        <img src="https://placehold.co/600x400/000000/a78bfa?text=Sleep+Cycles" alt="Illustration of brain waves during sleep" class="rounded-lg shadow-lg mb-6">
+                        <h3 class="text-2xl font-bold text-violet-400 mb-4">The Science of Sleep</h3>
+                        <p class="text-gray-300 mb-6 flex-grow">Sleep isn't just rest; it's a critical maintenance period where the brain cleanses itself, consolidates memories, and regulates emotions.</p>
+                        <button data-topic="sleep" class="topic-button mt-auto px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Explore Sleep</button>
+                    </div>
+                    <div class="content-card p-8 rounded-2xl flex flex-col">
+                        <img src="https://placehold.co/600x400/000000/a78bfa?text=Habit+Loop" alt="Illustration of the habit loop" class="rounded-lg shadow-lg mb-6">
+                        <h3 class="text-2xl font-bold text-violet-400 mb-4">The Science of Habit</h3>
+                        <p class="text-gray-300 mb-6 flex-grow">Habits form by offloading tasks to the brain's automatic systems. Leveraging natural rhythms, like the morning cortisol peak, can significantly accelerate this process.</p>
+                        <button data-topic="habit" class="topic-button mt-auto px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Explore Habit</button>
+                    </div>
+                    <div class="content-card p-8 rounded-2xl flex flex-col">
+                        <img src="https://placehold.co/600x400/000000/a78bfa?text=Olfactory+Pathway" alt="Illustration of the olfactory pathway to the brain" class="rounded-lg shadow-lg mb-6">
+                        <h3 class="text-2xl font-bold text-violet-400 mb-4">The Science of Scent</h3>
+                        <p class="text-gray-300 mb-6 flex-grow">Smell has a unique 'superhighway' to the brain's emotion and memory centers, making it an ideal tool to create powerful associations for new behaviors.</p>
+                        <button data-topic="scent" class="topic-button mt-auto px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Explore Scent</button>
+                    </div>
+                    <div class="content-card p-8 rounded-2xl flex flex-col">
+                        <img src="https://placehold.co/600x400/000000/a78bfa?text=nuyu+Synthesis" alt="Illustration showing Sleep, Habit and Scent combined" class="rounded-lg shadow-lg mb-6">
+                        <h3 class="text-2xl font-bold text-violet-400 mb-4">The nuyu Synthesis</h3>
+                        <p class="text-gray-300 mb-6 flex-grow">We integrate these principles into a 24-hour system, using scent to link waking habits with nighttime memory consolidation (TMR) for accelerated learning.</p>
+                        <button data-topic="synthesis" class="topic-button mt-auto px-6 py-3 font-semibold text-white rounded-lg btn-gradient">Explore the Synthesis</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESTORED SECTION -->
+            <div class="mt-28">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">From Research to a Real-World Solution</h2>
+                    <p class="mt-4 text-lg text-gray-400">Understanding the science is the first step. The next is applying it. Here’s how the nuyu project translates these powerful scientific principles into tangible features designed to help you.</p>
+                </div>
+                <div class="mt-16 grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="content-card p-8 rounded-2xl">
+                        <h3 class="text-xl font-bold text-violet-400 mb-2">Engineering for Your Circadian Rhythm</h3>
+                        <p class="text-gray-400">The science shows that light is a primary regulator of your internal clock. That's why nuyu features a sunrise-simulating light to naturally boost morning cortisol and a time-based night light to support evening melatonin production.</p>
+                    </div>
+                    <div class="content-card p-8 rounded-2xl">
+                        <h3 class="text-xl font-bold text-violet-400 mb-2">A Toolkit for Olfactory Entrainment</h3>
+                        <p class="text-gray-400">Targeted Memory Reactivation requires distinct cues. That's why nuyu has two independent wells for separate "Wake" and "Sleep" scents, allowing you to build the associative links needed to reinforce your habits while you sleep.</p>
+                    </div>
+                    <div class="content-card p-8 rounded-2xl">
+                         <h3 class="text-xl font-bold text-violet-400 mb-2">Personalized for Your Biology</h3>
+                        <p class="text-gray-400">Chronotype matters for complex habits. Our future companion app will incorporate a validated quiz to help you understand your unique sleep profile and tailor your routines for maximum effectiveness.</p>
+                    </div>
+                </div>
+            </div>
+
             <div id="faq" class="mt-28 max-w-3xl mx-auto">
                  <div class="text-center">
                       <h2 class="text-3xl md:text-4xl font-bold text-white">Scientific Questions</h2>
@@ -176,7 +167,7 @@
                     <div class="max-w-3xl mx-auto">
                         <h2 class="text-3xl md:text-4xl font-bold text-white">Discover Your Sleep Fingerprint</h2>
                         <p class="mt-4 text-lg text-gray-400">
-                            Your sleep is as unique as you are. This 5-minute, scientifically-validated quiz analyzes your sleep across 7 key dimensions to reveal your personal sleep archetype.
+                            Ready for a deeper dive? This 5-minute, scientifically-validated quiz analyzes your sleep across 7 key dimensions to reveal your personal sleep archetype.
                         </p>
                         <div class="mt-8">
                             <button id="start-quiz-button" class="px-10 py-5 text-xl font-bold text-white rounded-xl btn-gradient shadow-lg">
@@ -190,12 +181,13 @@
     </main>
 
      <footer class="bg-black border-t border-white/10">
+        <!-- Footer content remains the same -->
         <div class="container mx-auto px-6 py-16">
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
                 <div class="col-span-2 lg:col-span-1">
                      <a href="index.html" class="flex items-center space-x-2">
                          <svg class="h-8 w-8 text-violet-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
-                         <span class="text-2xl font-bold text-white">NuYu</span>
+                         <span class="text-2xl font-bold text-white">nuyu</span>
                     </a>
                     <p class="mt-4 text-sm text-gray-400">An open-source sleep project.</p>
                 </div>
@@ -213,7 +205,7 @@
                     <ul class="mt-4 space-y-3">
                         <li><a href="community.html" class="text-gray-400 hover:text-white transition-colors">Our Story</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="mailto:nuyu@reef.bio" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
                     </ul>
                 </div>
                  <div>
@@ -225,14 +217,16 @@
                 </div>
                  <div class="col-span-2 md:col-span-1">
                     <h4 class="font-semibold text-white tracking-wider">Stay Updated</h4>
-                    <div class="mt-4 flex">
-                        <input type="email" placeholder="Enter your email" class="w-full px-4 py-2 rounded-l-lg text-gray-900 bg-gray-200 focus:outline-none">
-                        <button class="px-4 py-2 font-semibold text-white rounded-r-lg btn-gradient">Subscribe</button>
-                    </div>
+                     <form action="https://formsubmit.co/nuyu@reef.bio" method="POST">
+                        <div class="mt-4 flex">
+                            <input type="email" name="email" placeholder="Enter your email" required class="w-full px-4 py-2 rounded-l-lg text-gray-900 bg-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500">
+                            <button type="submit" class="px-4 py-2 font-semibold text-white rounded-r-lg btn-gradient">Subscribe</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="mt-16 pt-8 border-t border-white/10 text-center text-sm text-gray-500">
-                <p>&copy; 2025 NuYu Project. All rights reserved.</p>
+                <p>&copy; 2025 nuyu Project. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -280,8 +274,6 @@
         initMobileMenu();
 
         // --- All Modal and Chart Logic ---
-        
-        // scienceData object for detailed modal content
         const scienceData = {
             sleep: {
                 title: 'The Science of Sleep',
@@ -379,7 +371,7 @@
                         </div>
                          <div class="content-card p-8 rounded-2xl">
                              <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">Psychoactive Effects of Aromatics</h3>
-                              <p class="mb-8">Research has documented the ability of specific fragrances to directly modulate brain activity. The table below summarizes key findings for scents relevant to the NuYu system.</p>
+                              <p class="mb-8">Research has documented the ability of specific fragrances to directly modulate brain activity. The table below summarizes key findings for scents relevant to the nuyu system.</p>
                               <div class="overflow-x-auto bg-black/50 rounded-2xl p-2"><table class="w-full text-left">
                                  <thead class="border-b border-white/20"><tr><th class="p-4 text-sm font-semibold text-white">Aromatic</th><th class="p-4 text-sm font-semibold text-white">Effect</th><th class="p-4 text-sm font-semibold text-white hidden md:table-cell">Key Mechanism / Brainwave Effect</th></tr></thead>
                                  <tbody class="divide-y divide-white/10">
@@ -395,12 +387,12 @@
                 `
             },
             synthesis: {
-                title: 'The NuYu Synthesis',
+                title: 'The nuyu Synthesis',
                 content: `
                     <div class="space-y-12 text-gray-300">
                          <div class="content-card p-8 rounded-2xl">
                              <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">The Triad of Transformation</h3>
-                             <p>The NuYu framework integrates three scientific pillars into a synergistic system:</p>
+                             <p>The nuyu framework integrates three scientific pillars into a synergistic system:</p>
                              <ul class="list-disc list-inside space-y-2 mt-4">
                                  <li><strong class="text-white">Habit Formation</strong> provides the "What" and "How": It defines the target behavior within the cue-routine-reward loop.</li>
                                  <li><strong class="text-white">Sleep</strong> provides the "When": It offers the essential window for memory consolidation and neural recalibration.</li>
@@ -413,15 +405,15 @@
                             <div class="max-w-4xl mx-auto">
                                 <div class="relative grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div class="absolute w-full top-1/2 -translate-y-1/2 h-px bg-transparent hidden md:block" style="background-image: linear-gradient(to right, #4c1d95, #4f46e5, transparent 90%);"></div>
-                                    <div class="relative text-center p-6 bg-gray-800 rounded-xl"><div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-violet-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold ring-4 ring-gray-900">1</div><h4 class="font-bold text-lg mt-4 text-violet-400">Morning Encode</h4><p class="text-sm text-gray-400 mt-2">Perform your habit during your morning cortisol peak. NuYu's sunrise light and "Wake" scent create a powerful memory link.</p></div>
-                                    <div class="relative text-center p-6 bg-gray-800 rounded-xl"><div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-violet-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold ring-4 ring-gray-900">2</div><h4 class="font-bold text-lg mt-4 text-violet-400">Nighttime Consolidation</h4><p class="text-sm text-gray-400 mt-2">During deep sleep, NuYu covertly re-introduces the "Wake" scent, triggering TMR to strengthen the habit's neural pathways.</p></div>
+                                    <div class="relative text-center p-6 bg-gray-800 rounded-xl"><div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-violet-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold ring-4 ring-gray-900">1</div><h4 class="font-bold text-lg mt-4 text-violet-400">Morning Encode</h4><p class="text-sm text-gray-400 mt-2">Perform your habit during your morning cortisol peak. nuyu's sunrise light and "Wake" scent create a powerful memory link.</p></div>
+                                    <div class="relative text-center p-6 bg-gray-800 rounded-xl"><div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-violet-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold ring-4 ring-gray-900">2</div><h4 class="font-bold text-lg mt-4 text-violet-400">Nighttime Consolidation</h4><p class="text-sm text-gray-400 mt-2">During deep sleep, nuyu covertly re-introduces the "Wake" scent, triggering TMR to strengthen the habit's neural pathways.</p></div>
                                     <div class="relative text-center p-6 bg-gray-800 rounded-xl"><div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-violet-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold ring-4 ring-gray-900">3</div><h4 class="font-bold text-lg mt-4 text-violet-400">Reinforced Behavior</h4><p class="text-sm text-gray-400 mt-2">You wake with the habit more deeply ingrained, strengthening the positive feedback loop for continuous improvement.</p></div>
                                 </div>
                             </div>
                         </div>
                         <div class="content-card p-8 rounded-2xl">
                             <h3 class="text-2xl md:text-3xl font-bold text-violet-400 mb-4">Olfactory Entrainment as a Zeitgeber</h3>
-                            <p>Beyond TMR, NuYu uses scent for <strong class="text-white">circadian entrainment</strong>. A consistent, stimulating morning scent and a calming evening scent act as non-photic *zeitgebers* ("time givers"). This helps anchor the body's internal clock, stabilizing the cortisol/melatonin rhythm, which in turn enhances both the morning "cortisol advantage" for learning and the quality of nighttime SWS for consolidation. This creates a more resilient and well-regulated biological foundation for change.</p>
+                            <p>Beyond TMR, nuyu uses scent for <strong class="text-white">circadian entrainment</strong>. A consistent, stimulating morning scent and a calming evening scent act as non-photic *zeitgebers* ("time givers"). This helps anchor the body's internal clock, stabilizing the cortisol/melatonin rhythm, which in turn enhances both the morning "cortisol advantage" for learning and the quality of nighttime SWS for consolidation. This creates a more resilient and well-regulated biological foundation for change.</p>
                         </div>
                     </div>
                 `
@@ -437,8 +429,8 @@
         // FAQ data and functions
         const faqs = [
             { question: "Is there a risk of becoming dependent on the scents?", answer: "No. The scents are used as associative cues, not pharmacological agents. The goal of TMR is to strengthen a neural pathway so that the habit becomes automatic and no longer requires the cue. Think of it like training wheels for your brain; eventually, you won't need them." },
-            { question: "How do you ensure the TMR scent doesn't wake me up?", answer: "The NuYu system is designed to release scents at a low, sub-arousal threshold. The olfactory system is unique in that it can process these cues during sleep without causing arousal, unlike a loud noise. The intensity is calibrated to be just enough for the brain to process, but not enough to disturb your sleep." },
-            { question: "What if I'm a night owl? Will this still work for me?", answer: "Yes. The 'cortisol advantage' is about aligning with your *personal* morning peak. The NuYu app will incorporate a chronotype assessment to help you identify your optimal window for habit formation, whether that's 7 AM or 10 AM. The principle is about working with your body's clock, not forcing a universal 'early bird' schedule." },
+            { question: "How do you ensure the TMR scent doesn't wake me up?", answer: "The nuyu system is designed to release scents at a low, sub-arousal threshold. The olfactory system is unique in that it can process these cues during sleep without causing arousal, unlike a loud noise. The intensity is calibrated to be just enough for the brain to process, but not enough to disturb your sleep." },
+            { question: "What if I'm a night owl? Will this still work for me?", answer: "Yes. The 'cortisol advantage' is about aligning with your *personal* morning peak. The nuyu app will incorporate a chronotype assessment to help you identify your optimal window for habit formation, whether that's 7 AM or 10 AM. The principle is about working with your body's clock, not forcing a universal 'early bird' schedule." },
             { question: "Why is a synthetic scent better for TMR?", answer: "While natural scents are great for general mood, their chemical complexity can carry pre-existing associations. For TMR to be most effective, the scent cue should be novel and precise. A synthetic fragrance, engineered for consistency, creates a 'clean' slate for your brain to form a strong, unambiguous link between the scent and your new habit." }
         ];
 
@@ -462,7 +454,6 @@
                     const icon = button.querySelector('.faq-icon');
                     const isOpening = answer.classList.contains('hidden');
                     
-                    // Close all others
                     faqContainer.querySelectorAll('.faq-answer').forEach(ans => ans.classList.add('hidden'));
                     faqContainer.querySelectorAll('.faq-icon').forEach(icn => icn.classList.remove('rotate-180'));
                     
@@ -574,7 +565,7 @@
             if(!stepsContainer) return;
             const infoContainer = document.getElementById('habit-loop-info');
             const steps = [
-                { title: 'The Cue', desc: 'A trigger that tells your brain to go into automatic mode. This shifts control from the conscious <strong class="text-white">Prefrontal Cortex</strong> to the automatic <strong class="text-white">Basal Ganglia</strong>. NuYu uses light and sound as consistent morning cues.' },
+                { title: 'The Cue', desc: 'A trigger that tells your brain to go into automatic mode. This shifts control from the conscious <strong class="text-white">Prefrontal Cortex</strong> to the automatic <strong class="text-white">Basal Ganglia</strong>. nuyu uses light and sound as consistent morning cues.' },
                 { title: 'The Routine', desc: 'The physical or mental action you take. This is the behavior you want to build. Each repetition strengthens the neural pathway for this routine within the basal ganglia, making it more efficient.' },
                 { title: 'The Reward', desc: 'A positive outcome that tells your brain this loop is worth remembering. The reward triggers a <strong class="text-white">dopamine</strong> release, which reinforces the connection between the cue and the routine, making the habit more likely to be repeated.' }
             ];
@@ -594,4 +585,4 @@
     </script>
     <script src="js/quiz.js"></script>
 </body>
-</html>
+</html

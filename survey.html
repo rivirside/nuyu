@@ -68,21 +68,19 @@
         <div class="container mx-auto px-6">
             <div class="max-w-3xl mx-auto">
                 <div class="text-center">
-                    <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">Help Shape the Future of NuYu</h1>
+                    <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">Help Shape the Future of nuyu</h1>
                     <p class="mt-4 text-lg text-gray-300">Your anonymous responses will help us understand the real challenges people face with sleep and wellness. This short, 5-question survey is crucial for guiding our development. Thank you!</p>
                 </div>
 
-                <!-- FORM START -->
                 <div class="mt-12 bg-gray-900/50 border border-white/10 rounded-2xl p-8 md:p-12">
-                    <form action="https://formsubmit.co/nuyu@reef.bio" method="POST">
+                    <form id="survey-form" action="https://formsubmit.co/a8d9a89cb73ab0c95b2364581e648758" method="POST">
                         
-                        <!-- FormSubmit.co Settings -->
                         <input type="hidden" name="_next" value="https://rivirside.github.io/nuyu/survey-thanks.html">
                         <input type="hidden" name="_subject" value="New nuyu Market Research Submission!">
+                        <input type="hidden" name="generated_reward_code" id="generated-code-field">
 
                         <div class="space-y-10">
                             
-                            <!-- Question 1: Sleep Quality -->
                             <div>
                                 <label class="block text-xl font-semibold text-white mb-4">1. On a scale of 1 to 5, how satisfied are you with your current sleep quality?</label>
                                 <div class="grid grid-cols-1 sm:grid-cols-5 gap-3">
@@ -124,12 +122,10 @@
                                 </div>
                             </div>
                             
-                            <!-- Question 2: Two-Part Challenge Question -->
                             <div>
                                 <fieldset class="mb-8">
                                     <legend class="block text-xl font-semibold text-white mb-4">2. Which of these challenges have you experienced with your sleep/wake routine? <span class="text-gray-400 font-normal">(Check all that apply)</span></legend>
                                     <div class="space-y-3">
-                                        <!-- Checkbox options... -->
                                         <div class="relative flex items-start"><div class="flex items-center h-5"><input id="chall-falling-asleep" name="challenges_experienced[]" type="checkbox" value="falling-asleep" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="chall-falling-asleep" class="font-medium text-gray-300">Falling asleep quickly</label></div></div>
                                         <div class="relative flex items-start"><div class="flex items-center h-5"><input id="chall-waking-night" name="challenges_experienced[]" type="checkbox" value="waking-up-at-night" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="chall-waking-night" class="font-medium text-gray-300">Waking up during the night</label></div></div>
                                         <div class="relative flex items-start"><div class="flex items-center h-5"><input id="chall-waking-tired" name="challenges_experienced[]" type="checkbox" value="waking-up-tired" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="chall-waking-tired" class="font-medium text-gray-300">Waking up feeling tired or groggy</label></div></div>
@@ -150,7 +146,6 @@
                                 </select>
                             </div>
 
-                            <!-- Question 4: Current Solutions Used -->
                             <div>
                                 <label class="block text-xl font-semibold text-white mb-4">4. In the past year, which have you used to improve your wellness or sleep? <span class="text-gray-400 font-normal">(Check all that apply)</span></label>
                                 <div class="space-y-3">
@@ -205,7 +200,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Question 5: Spending -->
                             <div>
                                 <label for="spending" class="block text-xl font-semibold text-white mb-4">5. How much would you estimate you have spent on sleep-related products in the last 12 months?</label>
                                 <select id="spending" name="spending_last_12_months" required class="w-full p-4 rounded-lg bg-gray-800 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:outline-none">
@@ -218,8 +212,7 @@
                                 </select>
                             </div>
 
-                             <!-- Demographics Section -->
-                            <div class="pt-6 border-t border-white/10">
+                             <div class="pt-6 border-t border-white/10">
                                 <h3 class="text-2xl font-bold text-white mb-4">About You (Optional)</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     <div>
@@ -248,8 +241,7 @@
                                 </div>
                             </div>
                             
-                            <!-- Email Signup -->
-                             <div class="pt-6 border-t border-white/10">
+                            <div class="pt-6 border-t border-white/10">
                                 <label for="email" class="block text-xl font-semibold text-white mb-2">Join the NuYu Community</label>
                                 <p class="text-gray-400 mb-4">Enter your email to follow our journey, get your reward code, and be notified when our Kickstarter launches. (Optional)</p>
                                 <input type="email" id="email" name="email" placeholder="you@example.com" class="w-full p-4 rounded-lg bg-gray-800 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:outline-none">
@@ -258,7 +250,6 @@
 
                         </div>
 
-                        <!-- Submit Button -->
                         <div class="mt-12 text-center">
                             <button type="submit" class="w-full md:w-auto px-12 py-5 text-xl font-bold text-white rounded-xl btn-gradient shadow-lg">
                                 Submit & Get My Reward Code
@@ -267,8 +258,7 @@
                         </div>
                     </form>
                 </div>
-                <!-- FORM END -->
-            </div>
+                </div>
         </div>
     </main>
     
@@ -281,6 +271,52 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const surveyForm = document.getElementById('survey-form');
+        if (surveyForm) {
+            surveyForm.addEventListener('submit', function(e) {
+                const emailInput = document.getElementById('email');
+                if (emailInput && emailInput.value) {
+                    // 1. Generate the code from the email
+                    const generatedCode = generateCodeFromEmail(emailInput.value);
+
+                    // 2. Set the hidden form field's value (so you get it in the email)
+                    document.getElementById('generated-code-field').value = generatedCode;
+
+                    // 3. Save the code to browser storage (for the thank you page)
+                    localStorage.setItem('nuyuRewardCode', generatedCode);
+                }
+                // The form will now submit as usual with the new data
+            });
+        }
+    });
+
+    function generateCodeFromEmail(email) {
+        // This is our substitution cipher. You can change these mappings to whatever you want.
+        const cipherMap = {
+            'a': 'W', 'b': 'E', 'c': 'R', 'd': 'T', 'e': 'Y', 'f': 'U', 'g': 'I',
+            'h': 'O', 'i': 'P', 'j': 'A', 'k': 'S', 'l': 'D', 'm': 'F', 'n': 'G',
+            'o': 'H', 'p': 'J', 'q': 'K', 'r': 'L', 's': 'Z', 't': 'X', 'u': 'C',
+            'v': 'V', 'w': 'B', 'x': 'N', 'y': 'M', 'z': 'Q',
+            '0': '9', '1': '8', '2': '7', '3': '6', '4': '5',
+            '5': '4', '6': '3', '7': '2', '8': '1', '9': '0'
+        };
+
+        // Step 1: Sanitize the email - make it lowercase and remove non-alphanumeric chars
+        const sanitizedEmail = email.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+        // Step 2: Apply the cipher
+        let resultCode = 'NUYU-';
+        for (let i = 0; i < sanitizedEmail.length; i++) {
+            const char = sanitizedEmail[i];
+            // If the character is in our map, use the substitution, otherwise keep the original
+            resultCode += cipherMap[char] || char;
+        }
+
+        return resultCode;
+    }
+    </script>
 
 </body>
 </html>

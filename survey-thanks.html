@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanks for your feedback!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: #E4E4E7; }
+    </style>
+</head>
+<body class="antialiased flex items-center justify-center h-screen">
+    <div class="text-center p-8 max-w-2xl">
+        <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">Thank You!</h1>
+        <p class="mt-4 text-lg text-gray-300">Your feedback is invaluable and helps bring the nuyu project to life. As promised, here is your unique reward code for a discount on our future Kickstarter campaign.</p>
+        
+        <div class="my-8 p-4 border-2 border-dashed border-violet-500 rounded-lg bg-gray-900/50">
+            <p id="reward-code-display" class="text-3xl md:text-4xl font-bold text-violet-400 tracking-widest break-all">Loading...</p>
+        </div>
+
+        <p class="text-gray-400">We'll keep you updated on our progress. You can now close this window.</p>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the code from browser storage
+        const rewardCode = localStorage.getItem('nuyuRewardCode');
+        const displayElement = document.getElementById('reward-code-display');
+
+        if (rewardCode && displayElement) {
+            // Display the code
+            displayElement.textContent = rewardCode;
+            
+            // Clean up the storage so the code doesn't stay there forever
+            localStorage.removeItem('nuyuRewardCode');
+        } else if (displayElement) {
+            displayElement.textContent = "Error: Code not found.";
+        }
+    });
+    </script>
+</body>
+</html>

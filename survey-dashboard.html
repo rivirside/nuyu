@@ -70,6 +70,10 @@
                 <div class="chart-container lg:col-span-2">
                     <canvas id="biggestChallengeChart"></canvas>
                 </div>
+                <!-- NEW CHART for All Challenges -->
+                <div class="chart-container lg:col-span-3">
+                    <canvas id="allChallengesChart"></canvas>
+                </div>
                 <div class="chart-container lg:col-span-2">
                     <canvas id="solutionsChart"></canvas>
                 </div>
@@ -136,14 +140,14 @@
             });
 
             // --- 2. Biggest Challenge Chart (Bar) ---
-            const challengeData = countOccurrences(data, 'Biggest Challenge');
+            const biggestChallengeData = countOccurrences(data, 'Biggest Challenge');
             new Chart(document.getElementById('biggestChallengeChart'), {
                 type: 'bar',
                 data: {
-                    labels: Object.keys(challengeData),
+                    labels: Object.keys(biggestChallengeData),
                     datasets: [{
                         label: 'Number of Respondents',
-                        data: Object.values(challengeData),
+                        data: Object.values(biggestChallengeData),
                         backgroundColor: '#8B5CF6',
                     }]
                 },
@@ -152,12 +156,34 @@
                     responsive: true,
                     plugins: {
                         legend: { display: false },
-                        title: { display: true, text: 'Biggest Sleep Challenge' }
+                        title: { display: true, text: 'Single Biggest Sleep Challenge' }
+                    }
+                }
+            });
+
+            // --- 3. All Challenges Chart (Horizontal Bar) ---
+            const allChallengesData = countMultipleChoice(data, 'Challenges');
+            new Chart(document.getElementById('allChallengesChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(allChallengesData),
+                    datasets: [{
+                        label: 'Times Mentioned',
+                        data: Object.values(allChallengesData),
+                        backgroundColor: '#a78bfa',
+                    }]
+                },
+                 options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'All Reported Sleep Challenges' }
                     }
                 }
             });
             
-            // --- 3. Solutions Used Chart (Horizontal Bar) ---
+            // --- 4. Solutions Used Chart (Horizontal Bar) ---
             const solutionsData = countMultipleChoice(data, 'Solutions');
             new Chart(document.getElementById('solutionsChart'), {
                 type: 'bar',
@@ -178,7 +204,7 @@
                 }
             });
 
-            // --- 4. Spending Chart (Doughnut) ---
+            // --- 5. Spending Chart (Doughnut) ---
             const spendingData = countOccurrences(data, 'Spending');
              new Chart(document.getElementById('spendingChart'), {
                 type: 'doughnut',
@@ -199,7 +225,7 @@
                 }
             });
 
-            // --- 5. Interest Level (Bar) ---
+            // --- 6. Interest Level (Bar) ---
             const interestData = countOccurrences(data, 'Interest');
             new Chart(document.getElementById('interestChart'), {
                 type: 'bar',
@@ -208,7 +234,7 @@
                     datasets: [{
                         label: 'Number of Respondents',
                         data: Object.values(interestData),
-                        backgroundColor: '#a78bfa',
+                        backgroundColor: '#4f46e5',
                     }]
                 },
                 options: {
@@ -247,7 +273,7 @@
                         });
                     }
                 } catch (e) {
-                    // Ignore parsing errors for empty or malformed data
+                    // This handles cases where the field is empty or not a valid JSON array
                 }
             }
             return counts;

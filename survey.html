@@ -73,10 +73,8 @@
                 </div>
 
                 <div class="mt-12 bg-gray-900/50 border border-white/10 rounded-2xl p-8 md:p-12">
-                    <form id="survey-form" action="https://formsubmit.co/a8d9a89cb73ab0c95b2364581e648758" method="POST">
+                    <form id="survey-form" action="https://script.google.com/macros/s/AKfycbxDtHwkqUMdGSX8FsPvmdiqhpIOfTPNdrbsdO3QnwKku0Q0WjmtgucLaPZPj5-zQvbe-Q/exec" method="POST">
                         
-                        <input type="hidden" name="_next" value="https://rivirside.github.io/nuyu/survey-thanks.html">
-                        <input type="hidden" name="_subject" value="New nuyu Market Research Submission!">
                         <input type="hidden" name="generated_reward_code" id="generated-code-field">
 
                         <div class="space-y-10">
@@ -161,7 +159,7 @@
                             <div>
                                 <label for="spending" class="block text-xl font-semibold text-white mb-4">4. How much would you estimate you have spent on sleep-related products in the last 12 months?</label>
                                 <select id="spending" name="spending_last_12_months" required class="w-full p-4 rounded-lg bg-gray-800 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:outline-none">
-                                    <option value="" disabled selected>Select a range...</option>
+                                    <option value="" disabled selected>Select an option...</option>
                                     <option value="0">$0</option>
                                     <option value="1-50">$1 - $50</option>
                                     <option value="51-150">$51 - $150</option>
@@ -270,8 +268,9 @@
     </footer>
 
     <script>
-    // Handles mobile menu toggle
+    // This simplified script allows the form to submit directly to the Google Apps Script endpoint.
     document.addEventListener('DOMContentLoaded', function() {
+        // --- Mobile Menu Toggle ---
         const button = document.getElementById('mobile-menu-button');
         const menu = document.getElementById('mobile-menu');
         if (button && menu) {
@@ -279,25 +278,19 @@
                 menu.classList.toggle('hidden');
             });
         }
-    });
 
-    // Handles form submission logic for reward code
-    document.addEventListener('DOMContentLoaded', function() {
+        // --- Reward Code Generation Logic ---
         const surveyForm = document.getElementById('survey-form');
         if (surveyForm) {
             surveyForm.addEventListener('submit', function(e) {
+                // This code runs just before the browser sends the form data
                 const emailInput = document.getElementById('email');
                 if (emailInput && emailInput.value) {
-                    // 1. Generate the code from the email
                     const generatedCode = generateCodeFromEmail(emailInput.value);
-
-                    // 2. Set the hidden form field's value (so you get it in the email)
                     document.getElementById('generated-code-field').value = generatedCode;
-
-                    // 3. Save the code to browser storage (for the thank you page)
                     localStorage.setItem('nuyuRewardCode', generatedCode);
                 }
-                // The form will now submit as usual with the new data
+                // The form will now submit normally. The redirect is handled by the Google Apps Script.
             });
         }
     });
@@ -312,16 +305,12 @@
             '0': '9', '1': '8', '2': '7', '3': '6', '4': '5',
             '5': '4', '6': '3', '7': '2', '8': '1', '9': '0'
         };
-
-        // Sanitize the email to ensure consistency
         const sanitizedEmail = email.toLowerCase().replace(/[^a-z0-9]/g, '');
-
         let resultCode = 'NUYU-';
         for (let i = 0; i < sanitizedEmail.length; i++) {
             const char = sanitizedEmail[i];
             resultCode += cipherMap[char] || char;
         }
-
         return resultCode;
     }
     </script>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nuyu - Community Stats Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: #E4E4E7;
+        }
+        .chart-container {
+            background-color: rgba(30, 30, 30, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/80 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                 <a href="index.html" class="flex items-center space-x-2">
+                    <img src="images/nuyu-logo.png" alt="nuyu logo" class="h-8 w-8" onerror="this.style.display='none'">
+                    <span class="text-2xl font-bold text-white">nuyu</span>
+                </a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="project.html" class="text-gray-300 hover:text-white transition-colors">The Project</a>
+                    <a href="science.html" class="text-gray-300 hover:text-white transition-colors">The Science</a>
+                    <a href="community.html" class="text-gray-300 hover:text-white transition-colors">Community</a>
+                    <a href="faq.html" class="text-gray-300 hover:text-white transition-colors">FAQs</a>
+                    <a href="dashboard.html" class="text-white font-semibold transition-colors">Community Stats</a>
+                </nav>
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 bg-black/95">
+            <nav class="flex flex-col space-y-4 pt-4">
+                <a href="project.html" class="text-gray-300 hover:text-white">The Project</a>
+                <a href="science.html" class="text-gray-300 hover:text-white">The Science</a>
+                <a href="community.html" class="text-gray-300 hover:text-white">Community</a>
+                <a href="faq.html" class="text-gray-300 hover:text-white">FAQs</a>
+                <a href="dashboard.html" class="text-white font-semibold">Community Stats</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">Community Insights</h1>
+                <p class="mt-4 text-lg text-gray-300">Live results from our community survey. This dashboard is built in the open, just like our project.</p>
+                <p id="loading-message" class="mt-8 text-violet-400">Loading live data...</p>
+            </div>
+
+            <div id="dashboard-grid" class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                <!-- Chart containers -->
+                <div class="chart-container lg:col-span-1">
+                    <canvas id="sleepQualityChart"></canvas>
+                </div>
+                <div class="chart-container lg:col-span-2">
+                    <canvas id="biggestChallengeChart"></canvas>
+                </div>
+                <div class="chart-container lg:col-span-2">
+                    <canvas id="solutionsChart"></canvas>
+                </div>
+                <div class="chart-container lg:col-span-1">
+                    <canvas id="spendingChart"></canvas>
+                </div>
+                 <div class="chart-container lg:col-span-3">
+                    <canvas id="interestChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Menu Toggle ---
+            const button = document.getElementById('mobile-menu-button');
+            const menu = document.getElementById('mobile-menu');
+            if (button && menu) {
+                button.addEventListener('click', () => menu.classList.toggle('hidden'));
+            }
+
+            // --- Fetch and Render Dashboard Data ---
+            const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzAWCm78IFKHgRa4dcJzGk6CSuKnlZ2rPZwl0Uo6RO6PB87t-LX0kWtnlmJLpWtWmH3jg/exec";
+
+            fetch(WEB_APP_URL)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('loading-message').style.display = 'none';
+                    document.getElementById('dashboard-grid').classList.remove('hidden');
+                    processAndRenderCharts(data);
+                })
+                .catch(error => {
+                    console.error("Error fetching dashboard data:", error);
+                    document.getElementById('loading-message').textContent = "Failed to load dashboard data. Please try again later.";
+                });
+        });
+
+        function processAndRenderCharts(data) {
+            // --- Chart.js Global Config ---
+            Chart.defaults.color = '#a1a1aa';
+            Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+
+            // --- 1. Sleep Quality Chart (Pie) ---
+            const qualityData = countOccurrences(data, 'Sleep Quality');
+            new Chart(document.getElementById('sleepQualityChart'), {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(qualityData),
+                    datasets: [{
+                        label: 'Sleep Quality',
+                        data: Object.values(qualityData),
+                        backgroundColor: ['#ef4444', '#f97316', '#eab308', '#22c55e', '#14b8a6'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: { display: true, text: 'Sleep Quality Satisfaction' }
+                    }
+                }
+            });
+
+            // --- 2. Biggest Challenge Chart (Bar) ---
+            const challengeData = countOccurrences(data, 'Biggest Challenge');
+            new Chart(document.getElementById('biggestChallengeChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(challengeData),
+                    datasets: [{
+                        label: 'Number of Respondents',
+                        data: Object.values(challengeData),
+                        backgroundColor: '#8B5CF6',
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Biggest Sleep Challenge' }
+                    }
+                }
+            });
+            
+            // --- 3. Solutions Used Chart (Horizontal Bar) ---
+            const solutionsData = countMultipleChoice(data, 'Solutions');
+            new Chart(document.getElementById('solutionsChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(solutionsData),
+                    datasets: [{
+                        label: 'Times Mentioned',
+                        data: Object.values(solutionsData),
+                        backgroundColor: '#6366F1',
+                    }]
+                },
+                 options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Solutions Used to Improve Sleep' }
+                    }
+                }
+            });
+
+            // --- 4. Spending Chart (Doughnut) ---
+            const spendingData = countOccurrences(data, 'Spending');
+             new Chart(document.getElementById('spendingChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(spendingData),
+                    datasets: [{
+                        label: 'Spending',
+                        data: Object.values(spendingData),
+                        backgroundColor: ['#1f2937', '#374151', '#4b5563', '#6b7280', '#9ca3af'],
+                    }]
+                },
+                 options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: { display: true, text: 'Spending on Sleep Products (Last 12 Months)' }
+                    }
+                }
+            });
+
+            // --- 5. Interest Level (Bar) ---
+            const interestData = countOccurrences(data, 'Interest');
+            new Chart(document.getElementById('interestChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(interestData).sort(), // Sort to keep order logical
+                    datasets: [{
+                        label: 'Number of Respondents',
+                        data: Object.values(interestData),
+                        backgroundColor: '#a78bfa',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Interest in nuyu Device' }
+                    }
+                }
+            });
+        }
+
+        // --- Helper Functions for Data Processing ---
+        function countOccurrences(data, fieldName) {
+            const counts = {};
+            for (const item of data) {
+                const value = item[fieldName];
+                if (value) {
+                    counts[value] = (counts[value] || 0) + 1;
+                }
+            }
+            return counts;
+        }
+
+        function countMultipleChoice(data, fieldName) {
+            const counts = {};
+            for (const item of data) {
+                try {
+                    // The data is stored as a JSON string like '["value1","value2"]'
+                    const values = JSON.parse(item[fieldName]);
+                    if (Array.isArray(values)) {
+                        values.forEach(value => {
+                            if (value) {
+                                counts[value] = (counts[value] || 0) + 1;
+                            }
+                        });
+                    }
+                } catch (e) {
+                    // Ignore parsing errors for empty or malformed data
+                }
+            }
+            return counts;
+        }
+    </script>
+
+</body>
+</html>

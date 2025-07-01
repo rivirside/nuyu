@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nuyu - Market Research Survey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: #E4E4E7;
+        }
+        .btn-gradient { 
+            background-image: linear-gradient(to right, #8B5CF6, #6366F1); 
+            transition: all 0.3s ease; 
+        }
+        .btn-gradient:hover { 
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); 
+        }
+        /* Custom radio button styles */
+        .custom-radio-label {
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .custom-radio:checked + .custom-radio-label {
+            background-color: rgba(139, 92, 246, 0.1);
+            border-color: #8B5CF6;
+        }
+        .custom-radio:focus + .custom-radio-label {
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/80 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                 <a href="index.html" class="flex items-center space-x-2">
+                    <img src="images/nuyu-logo.png" alt="nuyu logo" class="h-8 w-8" onerror="this.style.display='none'">
+                    <span class="text-2xl font-bold text-white">nuyu</span>
+                </a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="project.html" class="text-gray-300 hover:text-white transition-colors">The Project</a>
+                    <a href="science.html" class="text-gray-300 hover:text-white transition-colors">The Science</a>
+                    <a href="community.html" class="text-gray-300 hover:text-white transition-colors">Community</a>
+                    <a href="faq.html" class="text-gray-300 hover:text-white transition-colors">FAQs</a>
+                </nav>
+                <div class="hidden md:block"><a href="survey.html" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Take the Survey</a></div>
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 bg-black/95">
+            <nav class="flex flex-col space-y-4 pt-4">
+                <a href="project.html" class="text-gray-300 hover:text-white">The Project</a>
+                <a href="science.html" class="text-gray-300 hover:text-white">The Science</a>
+                <a href="community.html" class="text-gray-300 hover:text-white">Community</a>
+                <a href="faq.html" class="text-gray-300 hover:text-white">FAQs</a>
+                <a href="survey.html" class="mt-2 inline-block w-full text-center px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Take the Survey</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-20">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto">
+                <div class="text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">Help Shape the Future of nuyu</h1>
+                    <p class="mt-4 text-lg text-gray-300">Your anonymous responses will help us understand the real challenges people face with sleep and wellness. This short survey is crucial for guiding our development. Thank you!</p>
+                </div>
+
+                <div class="mt-12 bg-gray-900/50 border border-white/10 rounded-2xl p-8 md:p-12">
+                    <form id="survey-form" action="https://script.google.com/macros/s/AKfycbzilR6Yn62IGYbdyE5bJTM38r8WSUtXoxINr7MVNcFQVHVvICxRyn93cKf1EFy55W2YGQ/exec" method="POST">
+                        
+                        <input type="hidden" name="generated_reward_code" id="generated-code-field">
+
+                        <div class="space-y-10">
+                            
+                            <div>
+                                <label class="block text-xl font-semibold text-white mb-4">1. On a scale of 1 to 5, how satisfied are you with your current sleep quality?</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-5 gap-3">
+                                    <div class="relative">
+                                        <input class="sr-only custom-radio" type="radio" id="quality-1" name="sleep_quality_satisfaction" value="1-very-dissatisfied" required>
+                                        <label for="quality-1" class="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-600 cursor-pointer custom-radio-label text-center">
+                                            <span class="text-2xl mb-1">😩</span>
+                                            <span class="text-sm">Very Dissatisfied</span>
+                                        </label>
+                                    </div>
+                                    <div class="relative">
+                                        <input class="sr-only custom-radio" type="radio" id="quality-2" name="sleep_quality_satisfaction" value="2-dissatisfied">
+                                        <label for="quality-2" class="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-600 cursor-pointer custom-radio-label text-center">
+                                            <span class="text-2xl mb-1">😟</span>
+                                            <span class="text-sm">Dissatisfied</span>
+                                        </label>
+                                    </div>
+                                    <div class="relative">
+                                        <input class="sr-only custom-radio" type="radio" id="quality-3" name="sleep_quality_satisfaction" value="3-neutral">
+                                        <label for="quality-3" class="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-600 cursor-pointer custom-radio-label text-center">
+                                            <span class="text-2xl mb-1">😐</span>
+                                            <span class="text-sm">Neutral</span>
+                                        </label>
+                                    </div>
+                                    <div class="relative">
+                                        <input class="sr-only custom-radio" type="radio" id="quality-4" name="sleep_quality_satisfaction" value="4-satisfied">
+                                        <label for="quality-4" class="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-600 cursor-pointer custom-radio-label text-center">
+                                            <span class="text-2xl mb-1">😊</span>
+                                            <span class="text-sm">Satisfied</span>
+                                        </label>
+                                    </div>
+                                    <div class="relative">
+                                        <input class="sr-only custom-radio" type="radio" id="quality-5" name="sleep_quality_satisfaction" value="5-very-satisfied">
+                                        <label for="quality-5" class="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-600 cursor-pointer custom-radio-label text-center">
+                                            <span class="text-2xl mb-1">😁</span>
+                                            <span class="text-sm">Very Satisfied</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <fieldset class="mb-8">
+                                    <legend class="block text-xl font-semibold text-white mb-4">2a. Which of these challenges have you experienced with your sleep/wake routine? <span class="text-gray-400 font-normal">(Check all that apply)</span></legend>
+                                    <div class="space-y-3">
+                                        <div class="relative flex items-start"><div class="flex items-center h-5"><input id="chall-falling-asleep" name="challenges_experienced[]" type="checkbox" value="falling-asleep" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="chall-falling-asleep" class="font-medium text-gray-300">Falling asleep quickly</label></div></div>
+                                        <div class="relative flex items-start"><div class="flex items-center h-5"><input id="chall-waking-night" name="challenges_experienced[]" type="checkbox" value="waking-up-at-night" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="chall-waking-night" class="font-medium text-gray-300">Waking up during the night</label></div></div>
+                                        <div class="relative flex items-start"><div class="flex items-center h-5"><input id="chall-waking-tired" name="challenges_experienced[]" type="checkbox" value="waking-up-tired" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="chall-waking-tired" class="font-medium text-gray-300">Waking up feeling tired or groggy</label></div></div>
+                                        <div class="relative flex items-start"><div class="flex items-center h-5"><input id="chall-schedule" name="challenges_experienced[]" type="checkbox" value="sticking-to-schedule" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="chall-schedule" class="font-medium text-gray-300">Sticking to a consistent sleep schedule</label></div></div>
+                                        <div class="relative flex items-start"><div class="flex items-center h-5"><input id="chall-phone" name="challenges_experienced[]" type="checkbox" value="phone-use-before-bed" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="chall-phone" class="font-medium text-gray-300">Using my phone or computer too close to bedtime</label></div></div>
+                                    </div>
+                                </fieldset>
+
+                                <label for="biggest-challenge" class="block text-xl font-semibold text-white mb-4">2b. Of the challenges you face, which one is the <span class="text-violet-400">single biggest</span>?</label>
+                                <select id="biggest-challenge" name="biggest_challenge" required class="w-full p-4 rounded-lg bg-gray-800 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                                    <option value="" disabled selected>Select an option...</option>
+                                    <option value="falling-asleep">Falling asleep quickly</option>
+                                    <option value="waking-up-at-night">Waking up during the night</option>
+                                    <option value="waking-up-tired">Waking up feeling tired or groggy</option>
+                                    <option value="sticking-to-schedule">Sticking to a consistent sleep schedule</option>
+                                    <option value="phone-use-before-bed">Using my phone or computer too close to bedtime</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xl font-semibold text-white mb-4">3. In the past year, which have you used to improve your wellness or sleep? <span class="text-gray-400 font-normal">(Check all that apply)</span></label>
+                                <div class="space-y-3">
+                                    <div class="relative flex items-start"><div class="flex items-center h-5"><input id="sol-meds" name="solutions_used[]" type="checkbox" value="medication" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="sol-meds" class="font-medium text-gray-300">Prescription sleep medication</label></div></div>
+                                    <div class="relative flex items-start"><div class="flex items-center h-5"><input id="sol-supps" name="solutions_used[]" type="checkbox" value="supplements" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="sol-supps" class="font-medium text-gray-300">Melatonin or other supplements</label></div></div>
+                                    <div class="relative flex items-start"><div class="flex items-center h-5"><input id="sol-apps" name="solutions_used[]" type="checkbox" value="apps" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="sol-apps" class="font-medium text-gray-300">Meditation or mindfulness apps</label></div></div>
+                                    <div class="relative flex items-start"><div class="flex items-center h-5"><input id="sol-trackers" name="solutions_used[]" type="checkbox" value="trackers" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="sol-trackers" class="font-medium text-gray-300">Sleep tracking devices (Oura, Whoop, etc.)</label></div></div>
+                                    <div class="relative flex items-start"><div class="flex items-center h-5"><input id="sol-aroma" name="solutions_used[]" type="checkbox" value="aromatherapy" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="sol-aroma" class="font-medium text-gray-300">Aromatherapy diffusers or essential oils</label></div></div>
+                                    <div class="relative flex items-start"><div class="flex items-center h-5"><input id="sol-nothing" name="solutions_used[]" type="checkbox" value="nothing" class="h-4 w-4 rounded border-gray-500 text-violet-500 focus:ring-violet-500"></div><div class="ml-3 text-sm"><label for="sol-nothing" class="font-medium text-gray-300">Nothing</label></div></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="spending" class="block text-xl font-semibold text-white mb-4">4. How much would you estimate you have spent on sleep-related products in the last 12 months?</label>
+                                <select id="spending" name="spending_last_12_months" required class="w-full p-4 rounded-lg bg-gray-800 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                                    <option value="" disabled selected>Select an option...</option>
+                                    <option value="0">$0</option>
+                                    <option value="1-50">$1 - $50</option>
+                                    <option value="51-150">$51 - $150</option>
+                                    <option value="151-300">$151 - $300</option>
+                                    <option value="300+">More than $300</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xl font-semibold text-white mb-4">5. How interested would you be in using a device that applies proven science (light, sound, and scent) to help regulate your body's natural sleep/wake cycle?</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-5 gap-3">
+                                    <div class="relative">
+                                        <input class="sr-only custom-radio" type="radio" id="interest-5" name="nuyu_interest_level" value="5-very-interested" required>
+                                        <label for="interest-5" class="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-600 cursor-pointer custom-radio-label text-center">
+                                            <span class="text-2xl mb-1">🤩</span>
+                                            <span class="text-sm">Very Interested</span>
+                                        </label>
+                                    </div>
+                                    <div class="relative">
+                                        <input class="sr-only custom-radio" type="radio" id="interest-4" name="nuyu_interest_level" value="4-somewhat-interested">
+                                        <label for="interest-4" class="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-600 cursor-pointer custom-radio-label text-center">
+                                            <span class="text-2xl mb-1">🤔</span>
+                                            <span class="text-sm">Somewhat Interested</span>
+                                        </label>
+                                    </div>
+                                    <div class="relative">
+                                        <input class="sr-only custom-radio" type="radio" id="interest-3" name="nuyu_interest_level" value="3-neutral">
+                                        <label for="interest-3" class="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-600 cursor-pointer custom-radio-label text-center">
+                                            <span class="text-2xl mb-1">😐</span>
+                                            <span class="text-sm">Neutral</span>
+                                        </label>
+                                    </div>
+                                    <div class="relative">
+                                        <input class="sr-only custom-radio" type="radio" id="interest-2" name="nuyu_interest_level" value="2-not-very-interested">
+                                        <label for="interest-2" class="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-600 cursor-pointer custom-radio-label text-center">
+                                            <span class="text-2xl mb-1">🤨</span>
+                                            <span class="text-sm">Not Very Interested</span>
+                                        </label>
+                                    </div>
+                                    <div class="relative">
+                                        <input class="sr-only custom-radio" type="radio" id="interest-1" name="nuyu_interest_level" value="1-not-at-all-interested">
+                                        <label for="interest-1" class="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-600 cursor-pointer custom-radio-label text-center">
+                                            <span class="text-2xl mb-1">😒</span>
+                                            <span class="text-sm">Not at All Interested</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="pt-6 border-t border-white/10">
+                                <h3 class="text-2xl font-bold text-white mb-4">About You (Optional)</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div>
+                                        <label for="age-range" class="block text-lg font-semibold text-white mb-3">Age Range</label>
+                                        <select id="age-range" name="age_range" class="w-full p-4 rounded-lg bg-gray-800 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                                            <option value="" disabled selected>Select an option...</option>
+                                            <option value="under-18">Under 18</option>
+                                            <option value="18-24">18 - 24</option>
+                                            <option value="25-34">25 - 34</option>
+                                            <option value="35-44">35 - 44</option>
+                                            <option value="45-54">45 - 54</option>
+                                            <option value="55+">55+</option>
+                                            <option value="prefer-not-to-say">Prefer not to say</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="gender" class="block text-lg font-semibold text-white mb-3">Gender</label>
+                                        <select id="gender" name="gender" class="w-full p-4 rounded-lg bg-gray-800 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                                            <option value="" disabled selected>Select an option...</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="non-binary">Non-binary</option>
+                                            <option value="prefer-not-to-say">Prefer not to say</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="pt-6 border-t border-white/10">
+                                <label for="email" class="block text-xl font-semibold text-white mb-2">Join the nuyu Community</label>
+                                <p class="text-gray-400 mb-4">Enter your email to follow our journey, get your reward code, and be notified when our Kickstarter launches. (Optional)</p>
+                                <input type="email" id="email" name="email" placeholder="you@example.com" class="w-full p-4 rounded-lg bg-gray-800 border border-gray-600 focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                            </div>
+
+
+                        </div>
+
+                        <div class="mt-12 text-center">
+                            <button type="submit" class="w-full md:w-auto px-12 py-5 text-xl font-bold text-white rounded-xl btn-gradient shadow-lg">
+                                Submit & Get My Reward Code
+                            </button>
+                            <p class="text-sm text-gray-500 mt-4">By submitting, you agree to share your anonymous responses with the nuyu Project.</p>
+                        </div>
+                    </form>
+                </div>
+                </div>
+        </div>
+    </main>
+    
+    <footer class="bg-black border-t border-white/10 mt-20">
+        <div class="container mx-auto px-6 py-16">
+            <div class="mt-16 pt-8 border-t border-white/10 text-center text-sm text-gray-500">
+                <p>&copy; 2025 nuyu Project. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // This simplified script allows the form to submit directly to the Google Apps Script endpoint.
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Mobile Menu Toggle ---
+        const button = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+        if (button && menu) {
+            button.addEventListener('click', function() {
+                menu.classList.toggle('hidden');
+            });
+        }
+
+        // --- Reward Code Generation Logic ---
+        const surveyForm = document.getElementById('survey-form');
+        if (surveyForm) {
+            surveyForm.addEventListener('submit', function(e) {
+                // This code runs just before the browser sends the form data
+                const emailInput = document.getElementById('email');
+                if (emailInput && emailInput.value) {
+                    const generatedCode = generateCodeFromEmail(emailInput.value);
+                    document.getElementById('generated-code-field').value = generatedCode;
+                    localStorage.setItem('nuyuRewardCode', generatedCode);
+                }
+                // The form will now submit normally. The redirect is handled by the Google Apps Script.
+            });
+        }
+    });
+
+    function generateCodeFromEmail(email) {
+        // This is a simple substitution cipher for demonstration.
+        const cipherMap = {
+            'a': 'W', 'b': 'E', 'c': 'R', 'd': 'T', 'e': 'Y', 'f': 'U', 'g': 'I',
+            'h': 'O', 'i': 'P', 'j': 'A', 'k': 'S', 'l': 'D', 'm': 'F', 'n': 'G',
+            'o': 'H', 'p': 'J', 'q': 'K', 'r': 'L', 's': 'Z', 't': 'X', 'u': 'C',
+            'v': 'V', 'w': 'B', 'x': 'N', 'y': 'M', 'z': 'Q',
+            '0': '9', '1': '8', '2': '7', '3': '6', '4': '5',
+            '5': '4', '6': '3', '7': '2', '8': '1', '9': '0'
+        };
+        const sanitizedEmail = email.toLowerCase().replace(/[^a-z0-9]/g, '');
+        let resultCode = 'NUYU-';
+        for (let i = 0; i < sanitizedEmail.length; i++) {
+            const char = sanitizedEmail[i];
+            resultCode += cipherMap[char] || char;
+        }
+        return resultCode;
+    }
+    </script>
+
+</body>
+</html>

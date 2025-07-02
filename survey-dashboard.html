@@ -17,7 +17,7 @@
             background-image: radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.1), transparent 40%),
                               radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.1), transparent 40%);
         }
-        .chart-container {
+        .chart-container, .scorecard {
             background-color: rgba(17, 24, 39, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
@@ -25,7 +25,7 @@
             padding: 1.5rem;
             transition: all 0.3s ease;
         }
-        .chart-container:hover {
+        .chart-container:hover, .scorecard:hover {
             transform: translateY(-5px);
             box-shadow: 0 0 25px rgba(139, 92, 246, 0.15);
             border-color: rgba(139, 92, 246, 0.4);
@@ -74,20 +74,46 @@
                 <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">Community Insights</h1>
                 <p class="mt-4 text-lg text-gray-300">Live results from our community survey. This dashboard is built in the open, just like our project.</p>
                 <p id="loading-message" class="mt-8 text-violet-400 animate-pulse">Loading live data...</p>
+                <p id="last-updated" class="text-sm text-gray-500 mt-2 hidden"></p>
             </div>
 
-            <div id="dashboard-grid" class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
-                <!-- Chart containers -->
-                <div class="chart-container lg:col-span-1"><canvas id="sleepQualityChart"></canvas></div>
-                <div class="chart-container lg:col-span-2"><canvas id="biggestChallengeChart"></canvas></div>
-                <div class="chart-container lg:col-span-3"><canvas id="allChallengesChart"></canvas></div>
-                <div class="chart-container lg:col-span-2"><canvas id="solutionsChart"></canvas></div>
-                <div class="chart-container lg:col-span-1"><canvas id="spendingChart"></canvas></div>
-                <div class="chart-container lg:col-span-3"><canvas id="interestChart"></canvas></div>
+            <!-- Data Filters -->
+            <div id="filter-section" class="my-12 p-6 chart-container hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <h3 class="text-lg font-semibold text-white md:col-span-3">Filter Data</h3>
+                    <div>
+                        <label for="filter-age" class="text-sm text-gray-400">Age Range</label>
+                        <select id="filter-age" class="custom-select w-full mt-1 p-2 bg-gray-900 border border-gray-700 rounded-md focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                            <option value="all">All</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="filter-gender" class="text-sm text-gray-400">Gender</label>
+                        <select id="filter-gender" class="custom-select w-full mt-1 p-2 bg-gray-900 border border-gray-700 rounded-md focus:ring-2 focus:ring-violet-500 focus:outline-none">
+                             <option value="all">All</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metrics Scorecards -->
+            <div id="scorecard-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 hidden">
+                <div class="scorecard text-center">
+                    <h3 class="text-lg font-semibold text-gray-400">Total Respondents</h3>
+                    <p id="total-respondents" class="text-5xl font-bold text-violet-400 mt-2">0</p>
+                </div>
+                <div class="scorecard text-center">
+                    <h3 class="text-lg font-semibold text-gray-400">Avg. Sleep Quality</h3>
+                    <p id="avg-sleep-quality" class="text-5xl font-bold text-violet-400 mt-2">0.0 <span class="text-2xl text-gray-500">/ 5</span></p>
+                </div>
+                <div class="scorecard text-center">
+                    <h3 class="text-lg font-semibold text-gray-400">Avg. Interest Level</h3>
+                    <p id="avg-interest-level" class="text-5xl font-bold text-violet-400 mt-2">0.0 <span class="text-2xl text-gray-500">/ 5</span></p>
+                </div>
             </div>
 
             <!-- Interactive Data Explorer Section -->
-            <div id="interactive-section" class="mt-16 hidden">
+            <div id="interactive-section" class="my-12 hidden">
                 <div class="text-center mb-8">
                     <h2 class="text-3xl font-bold text-white">Interactive Data Explorer</h2>
                     <p class="mt-2 text-gray-400">Create your own chart to explore the data.</p>
@@ -95,11 +121,11 @@
                 <div class="chart-container">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end mb-8">
                         <div>
-                            <label for="dimension-select" class="block text-sm font-medium text-gray-400 mb-1">Group By (X-Axis)</label>
+                            <label for="dimension-select" class="block text-sm font-medium text-gray-400 mb-1">Group By</label>
                             <select id="dimension-select" class="custom-select w-full p-3 bg-gray-900 border border-gray-700 rounded-md focus:ring-2 focus:ring-violet-500 focus:outline-none"></select>
                         </div>
                         <div>
-                            <label for="metric-select" class="block text-sm font-medium text-gray-400 mb-1">Measure (Y-Axis)</label>
+                            <label for="metric-select" class="block text-sm font-medium text-gray-400 mb-1">Measure</label>
                             <select id="metric-select" class="custom-select w-full p-3 bg-gray-900 border border-gray-700 rounded-md focus:ring-2 focus:ring-violet-500 focus:outline-none"></select>
                         </div>
                         <button id="generate-chart-btn" class="w-full p-3 font-semibold text-white bg-violet-600 rounded-md hover:bg-violet-500 transition-colors">Generate Chart</button>
@@ -109,185 +135,213 @@
                     </div>
                 </div>
             </div>
+            
+            <div id="dashboard-grid" class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                <!-- Chart containers -->
+                <div class="chart-container lg:col-span-1"><canvas id="sleepQualityChart"></canvas></div>
+                <div class="chart-container lg:col-span-2"><canvas id="biggestChallengeChart"></canvas></div>
+                <div class="chart-container lg:col-span-3"><canvas id="allChallengesChart"></canvas></div>
+                <div class="chart-container lg:col-span-2"><canvas id="solutionsChart"></canvas></div>
+                <div class="chart-container lg:col-span-1"><canvas id="spendingChart"></canvas></div>
+                <div class="chart-container lg:col-span-3"><canvas id="interestChart"></canvas></div>
+            </div>
+
         </div>
     </main>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Mobile Menu Toggle ---
+            // --- Start of Main Script Scope ---
             const button = document.getElementById('mobile-menu-button');
             const menu = document.getElementById('mobile-menu');
             if (button && menu) {
                 button.addEventListener('click', () => menu.classList.toggle('hidden'));
             }
 
-            // --- Fetch and Render Dashboard Data ---
             const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKatK31Czd7S5p9cGHl2fa3AWwmBHyc0iTTkxx-aRQDtY7HEw7YRdSOtqQ4DmWv4vjIw/exec";
             let surveyData = [];
-            let interactiveChartInstance = null;
+            let chartInstances = {}; // Holds all chart objects
 
             fetch(WEB_APP_URL)
                 .then(response => response.json())
                 .then(data => {
                     surveyData = data;
-                    document.getElementById('loading-message').style.display = 'none';
-                    document.getElementById('dashboard-grid').classList.remove('hidden');
-                    document.getElementById('interactive-section').classList.remove('hidden');
+                    if (data.length === 0) {
+                        document.getElementById('loading-message').textContent = "No survey responses yet. Be the first to contribute!";
+                        return;
+                    }
                     
-                    processAndRenderCharts(surveyData);
-                    setupInteractiveExplorer(surveyData);
+                    document.getElementById('loading-message').style.display = 'none';
+                    ['scorecard-grid', 'dashboard-grid', 'filter-section', 'interactive-section'].forEach(id => document.getElementById(id).classList.remove('hidden'));
+                    document.getElementById('last-updated').textContent = `Last updated: ${new Date().toLocaleString()}`;
+                    document.getElementById('last-updated').classList.remove('hidden');
+                    
+                    setupFilters(surveyData);
+                    updateDashboard(surveyData);
                 })
                 .catch(error => {
                     console.error("Error fetching dashboard data:", error);
                     document.getElementById('loading-message').textContent = "Failed to load dashboard data. Please try again later.";
                 });
 
+            function setupFilters(data) {
+                const ageFilter = document.getElementById('filter-age');
+                const genderFilter = document.getElementById('filter-gender');
+
+                const uniqueAges = [...new Set(data.map(item => item.Age).filter(Boolean))];
+                const uniqueGenders = [...new Set(data.map(item => item.Gender).filter(Boolean))];
+
+                uniqueAges.sort().forEach(age => ageFilter.innerHTML += `<option value="${age}">${age}</option>`);
+                uniqueGenders.sort().forEach(gender => genderFilter.innerHTML += `<option value="${gender}">${gender}</option>`);
+
+                ageFilter.addEventListener('change', () => applyFiltersAndRedraw());
+                genderFilter.addEventListener('change', () => applyFiltersAndRedraw());
+            }
+
+            function applyFiltersAndRedraw() {
+                const ageFilterValue = document.getElementById('filter-age').value;
+                const genderFilterValue = document.getElementById('filter-gender').value;
+
+                const filteredData = surveyData.filter(item => {
+                    const ageMatch = ageFilterValue === 'all' || item.Age === ageFilterValue;
+                    const genderMatch = genderFilterValue === 'all' || item.Gender === genderFilterValue;
+                    return ageMatch && genderMatch;
+                });
+                
+                updateDashboard(filteredData);
+            }
+
+            function updateDashboard(data) {
+                Object.values(chartInstances).forEach(chart => {
+                    if (chart) chart.destroy();
+                });
+                processAndRenderCharts(data);
+                setupInteractiveExplorer(data);
+            }
+
             function setupInteractiveExplorer(data) {
                 const dimensionSelect = document.getElementById('dimension-select');
                 const metricSelect = document.getElementById('metric-select');
                 const generateBtn = document.getElementById('generate-chart-btn');
+                
+                const allFields = ['Biggest Challenge', 'Age', 'Gender', 'Sleep Quality', 'Spending', 'Solutions', 'Challenges', 'Interest'];
+                
+                dimensionSelect.innerHTML = '';
+                metricSelect.innerHTML = '';
 
-                const dimensions = ['Biggest Challenge', 'Age', 'Gender', 'Sleep Quality', 'Spending'];
-                const metrics = ['Respondent Count', 'Average Interest'];
+                allFields.forEach(d => {
+                    dimensionSelect.innerHTML += `<option value="${d}">${d}</option>`;
+                    metricSelect.innerHTML += `<option value="${d}">${d}</option>`;
+                });
+                metricSelect.innerHTML += `<option value="Respondent Count" selected>Respondent Count</option>`;
 
-                dimensions.forEach(d => dimensionSelect.innerHTML += `<option value="${d}">${d}</option>`);
-                metrics.forEach(m => metricSelect.innerHTML += `<option value="${m}">${m}</option>`);
 
-                generateBtn.addEventListener('click', () => {
+                const generate = () => {
                     const dimension = dimensionSelect.value;
                     const metric = metricSelect.value;
                     generateInteractiveChart(data, dimension, metric);
-                });
+                };
+
+                generateBtn.addEventListener('click', generate);
                 
-                // Generate initial chart
-                generateInteractiveChart(data, dimensions[0], metrics[0]);
+                generate(); // Initial chart
             }
             
             function generateInteractiveChart(data, dimension, metric) {
-                let chartData;
-                let yAxisLabel = '';
+                let chartData, yAxisLabel, xAxisLabel;
+                const isMultiSelectDim = ['Challenges', 'Solutions'].includes(dimension);
 
                 if (metric === 'Respondent Count') {
-                    chartData = countOccurrences(data, dimension);
+                    chartData = isMultiSelectDim ? countMultipleChoice(data, dimension) : countOccurrences(data, dimension);
                     yAxisLabel = 'Number of Respondents';
-                } else if (metric === 'Average Interest') {
-                    chartData = calculateAverage(data, dimension, 'Interest'); 
-                    yAxisLabel = 'Average Interest Level (1-5)';
+                } else {
+                    chartData = calculateAverage(data, dimension, metric);
+                    const isSpending = metric === 'Spending';
+                    yAxisLabel = `Average ${metric} ${isSpending ? '($)' : '(1-5)'}`;
                 }
                 
-                if (interactiveChartInstance) {
-                    interactiveChartInstance.destroy();
-                }
+                if (chartInstances.interactive) chartInstances.interactive.destroy();
 
                 const ctx = document.getElementById('interactiveChart').getContext('2d');
-                interactiveChartInstance = new Chart(ctx, {
+                chartInstances.interactive = new Chart(ctx, {
                     type: 'bar',
-                    data: {
-                        labels: Object.keys(chartData),
-                        datasets: [{
-                            label: `${metric} by ${dimension}`,
-                            data: Object.values(chartData),
-                            backgroundColor: '#10b981',
-                            borderRadius: 4,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false },
-                            title: { display: true, text: `${metric} by ${dimension}`, font: { size: 18 }, padding: 20 }
-                        },
-                        scales: {
-                            y: { title: { display: true, text: yAxisLabel } }
-                        }
-                    }
+                    data: { labels: Object.keys(chartData).sort(), datasets: [{ label: `${metric} by ${dimension}`, data: Object.values(chartData), backgroundColor: '#10b981', borderRadius: 4 }] },
+                    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false }, title: { display: true, text: `${metric} by ${dimension}`, font: { size: 18 }, padding: 20 } }, scales: { y: { title: { display: true, text: dimension } }, x: { title: { display: true, text: yAxisLabel }, beginAtZero: true, max: (metric.includes('Average') && !metric.includes('Spending')) ? 5 : undefined } } }
                 });
             }
+
+            function processAndRenderCharts(data) {
+                Chart.defaults.color = '#a1a1aa';
+                Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+                Chart.defaults.font.family = "'Inter', sans-serif";
+
+                const createGradient = (ctx, chartArea, color1, color2) => {
+                    if (!chartArea) return null;
+                    const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                    gradient.addColorStop(0, color1);
+                    gradient.addColorStop(1, color2);
+                    return gradient;
+                };
+
+                // --- Scorecards ---
+                document.getElementById('total-respondents').textContent = data.length;
+                document.getElementById('avg-sleep-quality').innerHTML = `${calculateOverallAverage(data, 'Sleep Quality').toFixed(1)} <span class="text-2xl text-gray-500">/ 5</span>`;
+                document.getElementById('avg-interest-level').innerHTML = `${calculateOverallAverage(data, 'Interest').toFixed(1)} <span class="text-2xl text-gray-500">/ 5</span>`;
+
+                // --- Static Charts ---
+                const redToBlueScale = ['#ef4444', '#f87171', '#d1d5db', '#60a5fa', '#2563eb'];
+                const qualityData = countOccurrences(data, 'Sleep Quality');
+                chartInstances.sleepQuality = new Chart(document.getElementById('sleepQualityChart'), { type: 'pie', data: { labels: Object.keys(qualityData).sort(), datasets: [{ data: Object.values(qualityData), backgroundColor: redToBlueScale, borderColor: '#111827', borderWidth: 2, hoverOffset: 8 }] }, options: { responsive: true, plugins: { legend: { position: 'top', labels: { padding: 20 } }, title: { display: true, text: 'Sleep Quality Satisfaction', padding: { bottom: 20 }, font: { size: 16 } } } } });
+                const biggestChallengeData = countOccurrences(data, 'Biggest Challenge');
+                chartInstances.biggestChallenge = new Chart(document.getElementById('biggestChallengeChart'), { type: 'bar', data: { labels: Object.keys(biggestChallengeData), datasets: [{ label: 'Number of Respondents', data: Object.values(biggestChallengeData), backgroundColor: (c) => createGradient(c.chart.ctx, c.chart.chartArea, '#6d28d9', '#a78bfa'), borderRadius: 4, maxBarThickness: 40, }] }, options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'Single Biggest Sleep Challenge', padding: { bottom: 20 }, font: { size: 16 } } }, scales: { x: { grid: { color: 'rgba(255, 255, 255, 0.05)' } }, y: { grid: { display: false } } } } });
+                const allChallengesData = countMultipleChoice(data, 'Challenges');
+                chartInstances.allChallenges = new Chart(document.getElementById('allChallengesChart'), { type: 'bar', data: { labels: Object.keys(allChallengesData), datasets: [{ label: 'Times Mentioned', data: Object.values(allChallengesData), backgroundColor: (c) => createGradient(c.chart.ctx, c.chart.chartArea, '#312e81', '#4f46e5'), borderRadius: 4, }] }, options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'All Reported Sleep Challenges', padding: { bottom: 20 }, font: { size: 16 } } }, scales: { x: { grid: { color: 'rgba(255, 255, 255, 0.05)' } }, y: { grid: { display: false } } } } });
+                const solutionsData = countMultipleChoice(data, 'Solutions');
+                chartInstances.solutions = new Chart(document.getElementById('solutionsChart'), { type: 'bar', data: { labels: Object.keys(solutionsData), datasets: [{ label: 'Times Mentioned', data: Object.values(solutionsData), backgroundColor: (c) => createGradient(c.chart.ctx, c.chart.chartArea, '#1d4ed8', '#3b82f6'), borderRadius: 4, }] }, options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'Solutions Used to Improve Sleep', padding: { bottom: 20 }, font: { size: 16 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(255, 255, 255, 0.05)' } } } } });
+                const spendingData = countOccurrences(data, 'Spending');
+                chartInstances.spending = new Chart(document.getElementById('spendingChart'), { type: 'doughnut', data: { labels: Object.keys(spendingData), datasets: [{ data: Object.values(spendingData), backgroundColor: ['#1e3a8a', '#1e40af', '#1d4ed8', '#2563eb', '#3b82f6'], borderColor: '#111827', borderWidth: 2, hoverOffset: 8 }] }, options: { responsive: true, plugins: { legend: { position: 'top', labels: { padding: 20 } }, title: { display: true, text: 'Spending on Sleep Products', padding: { bottom: 20 }, font: { size: 16 } } } } });
+                const interestData = countOccurrences(data, 'Interest');
+                chartInstances.interest = new Chart(document.getElementById('interestChart'), { type: 'bar', data: { labels: Object.keys(interestData).sort(), datasets: [{ label: 'Number of Respondents', data: Object.values(interestData), backgroundColor: redToBlueScale, borderRadius: 4, }] }, options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'Interest in nuyu Device', padding: { bottom: 20 }, font: { size: 16 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(255, 255, 255, 0.05)' } } } } });
+            }
+
+            function countOccurrences(data, fieldName) { const counts = {}; for (const item of data) { const value = item[fieldName]; if (value) { counts[value] = (counts[value] || 0) + 1; } } return counts; }
+            function countMultipleChoice(data, fieldName) { const counts = {}; for (const item of data) { try { const values = JSON.parse(item[fieldName]); if (Array.isArray(values)) { values.forEach(value => { if (value) { counts[value] = (counts[value] || 0) + 1; } }); } } catch (e) { /* Ignore */ } } return counts; }
+            function calculateAverage(data, dimensionField, metricField) {
+                const groupData = {};
+                const groupCounts = {};
+                const isSpending = metricField === 'Spending';
+
+                for (const item of data) {
+                    const dimensionValue = item[dimensionField];
+                    const metricRawValue = item[metricField];
+
+                    if (dimensionValue && metricRawValue) {
+                        let metricValue;
+                        if (isSpending) {
+                            if (metricRawValue === "$0") metricValue = 0;
+                            else if (metricRawValue === "$1 - $50") metricValue = 25.5;
+                            else if (metricRawValue === "$51 - $150") metricValue = 100.5;
+                            else if (metricRawValue === "$151 - $300") metricValue = 225.5;
+                            else if (metricRawValue === "More than $300") metricValue = 350; // Approximation
+                        } else {
+                            metricValue = parseInt(String(metricRawValue).split('-')[0], 10);
+                        }
+
+                        if (!isNaN(metricValue)) {
+                            groupData[dimensionValue] = (groupData[dimensionValue] || 0) + metricValue;
+                            groupCounts[dimensionValue] = (groupCounts[dimensionValue] || 0) + 1;
+                        }
+                    }
+                }
+                const averages = {};
+                for (const group in groupData) {
+                    averages[group] = groupData[group] / groupCounts[group];
+                }
+                return averages;
+            }
+            function calculateOverallAverage(data, metricField) { let total = 0; let count = 0; for (const item of data) { const metricRawValue = item[metricField]; if (metricRawValue) { const metricValue = parseInt(String(metricRawValue).split('-')[0], 10); if (!isNaN(metricValue)) { total += metricValue; count++; } } } return count > 0 ? total / count : 0; }
+            
         });
-
-        function processAndRenderCharts(data) {
-            // --- Chart.js Global Config ---
-            Chart.defaults.color = '#a1a1aa';
-            Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
-            Chart.defaults.font.family = "'Inter', sans-serif";
-
-            const createGradient = (ctx, chartArea, color1, color2) => {
-                if (!chartArea) return null;
-                const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-                gradient.addColorStop(0, color1);
-                gradient.addColorStop(1, color2);
-                return gradient;
-            };
-
-            // --- Static Charts ---
-            const qualityData = countOccurrences(data, 'Sleep Quality');
-            new Chart(document.getElementById('sleepQualityChart'), { type: 'pie', data: { labels: Object.keys(qualityData), datasets: [{ data: Object.values(qualityData), backgroundColor: ['#be123c', '#f97316', '#ca8a04', '#16a34a', '#0d9488'], borderColor: '#111827', borderWidth: 2, hoverOffset: 8 }] }, options: { responsive: true, plugins: { legend: { position: 'top', labels: { padding: 20 } }, title: { display: true, text: 'Sleep Quality Satisfaction', padding: { bottom: 20 }, font: { size: 16 } } } } });
-            const biggestChallengeData = countOccurrences(data, 'Biggest Challenge');
-            new Chart(document.getElementById('biggestChallengeChart'), { type: 'bar', data: { labels: Object.keys(biggestChallengeData), datasets: [{ label: 'Number of Respondents', data: Object.values(biggestChallengeData), backgroundColor: (c) => createGradient(c.chart.ctx, c.chart.chartArea, '#6d28d9', '#a78bfa'), borderRadius: 4, maxBarThickness: 40, }] }, options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'Single Biggest Sleep Challenge', padding: { bottom: 20 }, font: { size: 16 } } }, scales: { x: { grid: { color: 'rgba(255, 255, 255, 0.05)' } }, y: { grid: { display: false } } } } });
-            const allChallengesData = countMultipleChoice(data, 'Challenges');
-            new Chart(document.getElementById('allChallengesChart'), { type: 'bar', data: { labels: Object.keys(allChallengesData), datasets: [{ label: 'Times Mentioned', data: Object.values(allChallengesData), backgroundColor: (c) => createGradient(c.chart.ctx, c.chart.chartArea, '#312e81', '#4f46e5'), borderRadius: 4, }] }, options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'All Reported Sleep Challenges', padding: { bottom: 20 }, font: { size: 16 } } }, scales: { x: { grid: { color: 'rgba(255, 255, 255, 0.05)' } }, y: { grid: { display: false } } } } });
-            const solutionsData = countMultipleChoice(data, 'Solutions');
-            new Chart(document.getElementById('solutionsChart'), { type: 'bar', data: { labels: Object.keys(solutionsData), datasets: [{ label: 'Times Mentioned', data: Object.values(solutionsData), backgroundColor: (c) => createGradient(c.chart.ctx, c.chart.chartArea, '#1d4ed8', '#3b82f6'), borderRadius: 4, }] }, options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'Solutions Used to Improve Sleep', padding: { bottom: 20 }, font: { size: 16 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(255, 255, 255, 0.05)' } } } } });
-            const spendingData = countOccurrences(data, 'Spending');
-            new Chart(document.getElementById('spendingChart'), { type: 'doughnut', data: { labels: Object.keys(spendingData), datasets: [{ data: Object.values(spendingData), backgroundColor: ['#1e3a8a', '#1e40af', '#1d4ed8', '#2563eb', '#3b82f6'], borderColor: '#111827', borderWidth: 2, hoverOffset: 8 }] }, options: { responsive: true, plugins: { legend: { position: 'top', labels: { padding: 20 } }, title: { display: true, text: 'Spending on Sleep Products', padding: { bottom: 20 }, font: { size: 16 } } } } });
-            const interestData = countOccurrences(data, 'Interest');
-            new Chart(document.getElementById('interestChart'), { type: 'bar', data: { labels: Object.keys(interestData).sort(), datasets: [{ label: 'Number of Respondents', data: Object.values(interestData), backgroundColor: (c) => createGradient(c.chart.ctx, c.chart.chartArea, '#0e7490', '#06b6d4'), borderRadius: 4, }] }, options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'Interest in nuyu Device', padding: { bottom: 20 }, font: { size: 16 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(255, 255, 255, 0.05)' } } } } });
-        }
-
-        // --- Helper Functions for Data Processing ---
-        function countOccurrences(data, fieldName) {
-            const counts = {};
-            for (const item of data) {
-                const value = item[fieldName];
-                if (value) {
-                    counts[value] = (counts[value] || 0) + 1;
-                }
-            }
-            return counts;
-        }
-
-        function countMultipleChoice(data, fieldName) {
-            const counts = {};
-            for (const item of data) {
-                try {
-                    const values = JSON.parse(item[fieldName]);
-                    if (Array.isArray(values)) {
-                        values.forEach(value => {
-                            if (value) {
-                                counts[value] = (counts[value] || 0) + 1;
-                            }
-                        });
-                    }
-                } catch (e) { /* Ignore errors */ }
-            }
-            return counts;
-        }
-
-        // UPDATED: More robust function to calculate averages
-        function calculateAverage(data, dimensionField, metricField) {
-            const groupData = {};
-            const groupCounts = {};
-
-            for (const item of data) {
-                const dimensionValue = item[dimensionField];
-                const metricRawValue = item[metricField];
-
-                if (dimensionValue && metricRawValue) {
-                    const metricValue = parseInt(String(metricRawValue).split('-')[0], 10);
-                    if (!isNaN(metricValue)) {
-                        groupData[dimensionValue] = (groupData[dimensionValue] || 0) + metricValue;
-                        groupCounts[dimensionValue] = (groupCounts[dimensionValue] || 0) + 1;
-                    }
-                }
-            }
-
-            const averages = {};
-            for (const group in groupData) {
-                averages[group] = groupData[group] / groupCounts[group];
-            }
-            return averages;
-        }
     </script>
 
 </body>

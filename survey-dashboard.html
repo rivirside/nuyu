@@ -14,13 +14,27 @@
             font-family: 'Inter', sans-serif;
             background-color: #000;
             color: #E4E4E7;
+            background-image: radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.1), transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.1), transparent 40%);
         }
         .chart-container {
-            background-color: rgba(30, 30, 30, 0.5);
+            background-color: rgba(17, 24, 39, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border-radius: 1rem;
             padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.15);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+        .custom-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
         }
     </style>
 </head>
@@ -59,29 +73,40 @@
             <div class="text-center">
                 <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">Community Insights</h1>
                 <p class="mt-4 text-lg text-gray-300">Live results from our community survey. This dashboard is built in the open, just like our project.</p>
-                <p id="loading-message" class="mt-8 text-violet-400">Loading live data...</p>
+                <p id="loading-message" class="mt-8 text-violet-400 animate-pulse">Loading live data...</p>
             </div>
 
             <div id="dashboard-grid" class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
                 <!-- Chart containers -->
-                <div class="chart-container lg:col-span-1">
-                    <canvas id="sleepQualityChart"></canvas>
+                <div class="chart-container lg:col-span-1"><canvas id="sleepQualityChart"></canvas></div>
+                <div class="chart-container lg:col-span-2"><canvas id="biggestChallengeChart"></canvas></div>
+                <div class="chart-container lg:col-span-3"><canvas id="allChallengesChart"></canvas></div>
+                <div class="chart-container lg:col-span-2"><canvas id="solutionsChart"></canvas></div>
+                <div class="chart-container lg:col-span-1"><canvas id="spendingChart"></canvas></div>
+                <div class="chart-container lg:col-span-3"><canvas id="interestChart"></canvas></div>
+            </div>
+
+            <!-- Interactive Data Explorer Section -->
+            <div id="interactive-section" class="mt-16 hidden">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-white">Interactive Data Explorer</h2>
+                    <p class="mt-2 text-gray-400">Create your own chart to explore the data.</p>
                 </div>
-                <div class="chart-container lg:col-span-2">
-                    <canvas id="biggestChallengeChart"></canvas>
-                </div>
-                <!-- NEW CHART for All Challenges -->
-                <div class="chart-container lg:col-span-3">
-                    <canvas id="allChallengesChart"></canvas>
-                </div>
-                <div class="chart-container lg:col-span-2">
-                    <canvas id="solutionsChart"></canvas>
-                </div>
-                <div class="chart-container lg:col-span-1">
-                    <canvas id="spendingChart"></canvas>
-                </div>
-                 <div class="chart-container lg:col-span-3">
-                    <canvas id="interestChart"></canvas>
+                <div class="chart-container">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end mb-8">
+                        <div>
+                            <label for="dimension-select" class="block text-sm font-medium text-gray-400 mb-1">Group By (X-Axis)</label>
+                            <select id="dimension-select" class="custom-select w-full p-3 bg-gray-900 border border-gray-700 rounded-md focus:ring-2 focus:ring-violet-500 focus:outline-none"></select>
+                        </div>
+                        <div>
+                            <label for="metric-select" class="block text-sm font-medium text-gray-400 mb-1">Measure (Y-Axis)</label>
+                            <select id="metric-select" class="custom-select w-full p-3 bg-gray-900 border border-gray-700 rounded-md focus:ring-2 focus:ring-violet-500 focus:outline-none"></select>
+                        </div>
+                        <button id="generate-chart-btn" class="w-full p-3 font-semibold text-white bg-violet-600 rounded-md hover:bg-violet-500 transition-colors">Generate Chart</button>
+                    </div>
+                    <div class="h-96">
+                        <canvas id="interactiveChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,153 +123,116 @@
 
             // --- Fetch and Render Dashboard Data ---
             const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKatK31Czd7S5p9cGHl2fa3AWwmBHyc0iTTkxx-aRQDtY7HEw7YRdSOtqQ4DmWv4vjIw/exec";
+            let surveyData = [];
+            let interactiveChartInstance = null;
 
             fetch(WEB_APP_URL)
                 .then(response => response.json())
                 .then(data => {
+                    surveyData = data;
                     document.getElementById('loading-message').style.display = 'none';
                     document.getElementById('dashboard-grid').classList.remove('hidden');
-                    processAndRenderCharts(data);
+                    document.getElementById('interactive-section').classList.remove('hidden');
+                    
+                    processAndRenderCharts(surveyData);
+                    setupInteractiveExplorer(surveyData);
                 })
                 .catch(error => {
                     console.error("Error fetching dashboard data:", error);
                     document.getElementById('loading-message').textContent = "Failed to load dashboard data. Please try again later.";
                 });
+
+            function setupInteractiveExplorer(data) {
+                const dimensionSelect = document.getElementById('dimension-select');
+                const metricSelect = document.getElementById('metric-select');
+                const generateBtn = document.getElementById('generate-chart-btn');
+
+                const dimensions = ['Biggest Challenge', 'Age', 'Gender', 'Sleep Quality', 'Spending'];
+                const metrics = ['Respondent Count', 'Average Interest'];
+
+                dimensions.forEach(d => dimensionSelect.innerHTML += `<option value="${d}">${d}</option>`);
+                metrics.forEach(m => metricSelect.innerHTML += `<option value="${m}">${m}</option>`);
+
+                generateBtn.addEventListener('click', () => {
+                    const dimension = dimensionSelect.value;
+                    const metric = metricSelect.value;
+                    generateInteractiveChart(data, dimension, metric);
+                });
+                
+                // Generate initial chart
+                generateInteractiveChart(data, dimensions[0], metrics[0]);
+            }
+            
+            function generateInteractiveChart(data, dimension, metric) {
+                let chartData;
+                let yAxisLabel = '';
+
+                if (metric === 'Respondent Count') {
+                    chartData = countOccurrences(data, dimension);
+                    yAxisLabel = 'Number of Respondents';
+                } else if (metric === 'Average Interest') {
+                    chartData = calculateAverage(data, dimension, 'Interest'); 
+                    yAxisLabel = 'Average Interest Level (1-5)';
+                }
+                
+                if (interactiveChartInstance) {
+                    interactiveChartInstance.destroy();
+                }
+
+                const ctx = document.getElementById('interactiveChart').getContext('2d');
+                interactiveChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(chartData),
+                        datasets: [{
+                            label: `${metric} by ${dimension}`,
+                            data: Object.values(chartData),
+                            backgroundColor: '#10b981',
+                            borderRadius: 4,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            title: { display: true, text: `${metric} by ${dimension}`, font: { size: 18 }, padding: 20 }
+                        },
+                        scales: {
+                            y: { title: { display: true, text: yAxisLabel } }
+                        }
+                    }
+                });
+            }
         });
 
         function processAndRenderCharts(data) {
             // --- Chart.js Global Config ---
             Chart.defaults.color = '#a1a1aa';
             Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+            Chart.defaults.font.family = "'Inter', sans-serif";
 
-            // --- 1. Sleep Quality Chart (Pie) ---
+            const createGradient = (ctx, chartArea, color1, color2) => {
+                if (!chartArea) return null;
+                const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                gradient.addColorStop(0, color1);
+                gradient.addColorStop(1, color2);
+                return gradient;
+            };
+
+            // --- Static Charts ---
             const qualityData = countOccurrences(data, 'Sleep Quality');
-            new Chart(document.getElementById('sleepQualityChart'), {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(qualityData),
-                    datasets: [{
-                        label: 'Sleep Quality',
-                        data: Object.values(qualityData),
-                        backgroundColor: ['#ef4444', '#f97316', '#eab308', '#22c55e', '#14b8a6'],
-                        hoverOffset: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' },
-                        title: { display: true, text: 'Sleep Quality Satisfaction' }
-                    }
-                }
-            });
-
-            // --- 2. Biggest Challenge Chart (Bar) ---
+            new Chart(document.getElementById('sleepQualityChart'), { type: 'pie', data: { labels: Object.keys(qualityData), datasets: [{ data: Object.values(qualityData), backgroundColor: ['#be123c', '#f97316', '#ca8a04', '#16a34a', '#0d9488'], borderColor: '#111827', borderWidth: 2, hoverOffset: 8 }] }, options: { responsive: true, plugins: { legend: { position: 'top', labels: { padding: 20 } }, title: { display: true, text: 'Sleep Quality Satisfaction', padding: { bottom: 20 }, font: { size: 16 } } } } });
             const biggestChallengeData = countOccurrences(data, 'Biggest Challenge');
-            new Chart(document.getElementById('biggestChallengeChart'), {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(biggestChallengeData),
-                    datasets: [{
-                        label: 'Number of Respondents',
-                        data: Object.values(biggestChallengeData),
-                        backgroundColor: '#8B5CF6',
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    plugins: {
-                        legend: { display: false },
-                        title: { display: true, text: 'Single Biggest Sleep Challenge' }
-                    }
-                }
-            });
-
-            // --- 3. All Challenges Chart (Horizontal Bar) ---
+            new Chart(document.getElementById('biggestChallengeChart'), { type: 'bar', data: { labels: Object.keys(biggestChallengeData), datasets: [{ label: 'Number of Respondents', data: Object.values(biggestChallengeData), backgroundColor: (c) => createGradient(c.chart.ctx, c.chart.chartArea, '#6d28d9', '#a78bfa'), borderRadius: 4, maxBarThickness: 40, }] }, options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'Single Biggest Sleep Challenge', padding: { bottom: 20 }, font: { size: 16 } } }, scales: { x: { grid: { color: 'rgba(255, 255, 255, 0.05)' } }, y: { grid: { display: false } } } } });
             const allChallengesData = countMultipleChoice(data, 'Challenges');
-            new Chart(document.getElementById('allChallengesChart'), {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(allChallengesData),
-                    datasets: [{
-                        label: 'Times Mentioned',
-                        data: Object.values(allChallengesData),
-                        backgroundColor: '#a78bfa',
-                    }]
-                },
-                 options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    plugins: {
-                        legend: { display: false },
-                        title: { display: true, text: 'All Reported Sleep Challenges' }
-                    }
-                }
-            });
-            
-            // --- 4. Solutions Used Chart (Horizontal Bar) ---
+            new Chart(document.getElementById('allChallengesChart'), { type: 'bar', data: { labels: Object.keys(allChallengesData), datasets: [{ label: 'Times Mentioned', data: Object.values(allChallengesData), backgroundColor: (c) => createGradient(c.chart.ctx, c.chart.chartArea, '#312e81', '#4f46e5'), borderRadius: 4, }] }, options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'All Reported Sleep Challenges', padding: { bottom: 20 }, font: { size: 16 } } }, scales: { x: { grid: { color: 'rgba(255, 255, 255, 0.05)' } }, y: { grid: { display: false } } } } });
             const solutionsData = countMultipleChoice(data, 'Solutions');
-            new Chart(document.getElementById('solutionsChart'), {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(solutionsData),
-                    datasets: [{
-                        label: 'Times Mentioned',
-                        data: Object.values(solutionsData),
-                        backgroundColor: '#6366F1',
-                    }]
-                },
-                 options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { display: false },
-                        title: { display: true, text: 'Solutions Used to Improve Sleep' }
-                    }
-                }
-            });
-
-            // --- 5. Spending Chart (Doughnut) ---
+            new Chart(document.getElementById('solutionsChart'), { type: 'bar', data: { labels: Object.keys(solutionsData), datasets: [{ label: 'Times Mentioned', data: Object.values(solutionsData), backgroundColor: (c) => createGradient(c.chart.ctx, c.chart.chartArea, '#1d4ed8', '#3b82f6'), borderRadius: 4, }] }, options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'Solutions Used to Improve Sleep', padding: { bottom: 20 }, font: { size: 16 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(255, 255, 255, 0.05)' } } } } });
             const spendingData = countOccurrences(data, 'Spending');
-             new Chart(document.getElementById('spendingChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(spendingData),
-                    datasets: [{
-                        label: 'Spending',
-                        data: Object.values(spendingData),
-                        backgroundColor: ['#1f2937', '#374151', '#4b5563', '#6b7280', '#9ca3af'],
-                    }]
-                },
-                 options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' },
-                        title: { display: true, text: 'Spending on Sleep Products (Last 12 Months)' }
-                    }
-                }
-            });
-
-            // --- 6. Interest Level (Bar) ---
+            new Chart(document.getElementById('spendingChart'), { type: 'doughnut', data: { labels: Object.keys(spendingData), datasets: [{ data: Object.values(spendingData), backgroundColor: ['#1e3a8a', '#1e40af', '#1d4ed8', '#2563eb', '#3b82f6'], borderColor: '#111827', borderWidth: 2, hoverOffset: 8 }] }, options: { responsive: true, plugins: { legend: { position: 'top', labels: { padding: 20 } }, title: { display: true, text: 'Spending on Sleep Products', padding: { bottom: 20 }, font: { size: 16 } } } } });
             const interestData = countOccurrences(data, 'Interest');
-            new Chart(document.getElementById('interestChart'), {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(interestData).sort(), // Sort to keep order logical
-                    datasets: [{
-                        label: 'Number of Respondents',
-                        data: Object.values(interestData),
-                        backgroundColor: '#4f46e5',
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { display: false },
-                        title: { display: true, text: 'Interest in nuyu Device' }
-                    }
-                }
-            });
+            new Chart(document.getElementById('interestChart'), { type: 'bar', data: { labels: Object.keys(interestData).sort(), datasets: [{ label: 'Number of Respondents', data: Object.values(interestData), backgroundColor: (c) => createGradient(c.chart.ctx, c.chart.chartArea, '#0e7490', '#06b6d4'), borderRadius: 4, }] }, options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'Interest in nuyu Device', padding: { bottom: 20 }, font: { size: 16 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(255, 255, 255, 0.05)' } } } } });
         }
 
         // --- Helper Functions for Data Processing ---
@@ -263,7 +251,6 @@
             const counts = {};
             for (const item of data) {
                 try {
-                    // The data is stored as a JSON string like '["value1","value2"]'
                     const values = JSON.parse(item[fieldName]);
                     if (Array.isArray(values)) {
                         values.forEach(value => {
@@ -272,11 +259,34 @@
                             }
                         });
                     }
-                } catch (e) {
-                    // This handles cases where the field is empty or not a valid JSON array
-                }
+                } catch (e) { /* Ignore errors */ }
             }
             return counts;
+        }
+
+        // UPDATED: More robust function to calculate averages
+        function calculateAverage(data, dimensionField, metricField) {
+            const groupData = {};
+            const groupCounts = {};
+
+            for (const item of data) {
+                const dimensionValue = item[dimensionField];
+                const metricRawValue = item[metricField];
+
+                if (dimensionValue && metricRawValue) {
+                    const metricValue = parseInt(String(metricRawValue).split('-')[0], 10);
+                    if (!isNaN(metricValue)) {
+                        groupData[dimensionValue] = (groupData[dimensionValue] || 0) + metricValue;
+                        groupCounts[dimensionValue] = (groupCounts[dimensionValue] || 0) + 1;
+                    }
+                }
+            }
+
+            const averages = {};
+            for (const group in groupData) {
+                averages[group] = groupData[group] / groupCounts[group];
+            }
+            return averages;
         }
     </script>
 

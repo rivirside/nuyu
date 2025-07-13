@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initial Setup - nuyu Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #FAFAFA;
+            color: #1F2937;
+        }
+        .docs-sidebar {
+            background-color: #F9FAFB;
+            border-right: 1px solid #E5E7EB;
+        }
+        .docs-nav-link {
+            transition: all 0.2s;
+        }
+        .docs-nav-link:hover {
+            background-color: #F3F4F6;
+            color: #6B21A8;
+        }
+        .docs-nav-link.active {
+            background-color: #EDE9FE;
+            color: #6B21A8;
+            font-weight: 600;
+            border-left: 3px solid #6B21A8;
+        }
+        .btn-gradient { 
+            background-image: linear-gradient(to right, #8B5CF6, #6366F1); 
+            transition: all 0.3s ease; 
+        }
+        .btn-gradient:hover { 
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); 
+        }
+        .prose h1, .prose h2, .prose h3 {
+            color: #111827;
+            font-weight: 700;
+        }
+        .prose h2 {
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+        }
+        .prose h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .prose p {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        .prose ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .prose ol {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+        .prose a {
+            color: #6B21A8;
+            text-decoration: underline;
+        }
+        .prose a:hover {
+            color: #8B5CF6;
+        }
+        .prose h2 {
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #E5E7EB;
+            padding-bottom: 0.5rem;
+        }
+        .prose h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #6B21A8;
+        }
+        .callout {
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0.75rem;
+            border-left: 4px solid;
+        }
+        .callout-tip {
+            background-color: #F0F9FF;
+            border-color: #0EA5E9;
+            color: #0C4A6E;
+        }
+        .callout-warning {
+            background-color: #FFFBEB;
+            border-color: #F59E0B;
+            color: #92400E;
+        }
+        .callout-insight {
+            background-color: #F3E8FF;
+            border-color: #8B5CF6;
+            color: #6B21A8;
+        }
+        .callout-success {
+            background-color: #F0FDF4;
+            border-color: #22C55E;
+            color: #166534;
+        }
+        .step-box {
+            background-color: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .step-number {
+            position: absolute;
+            top: -12px;
+            left: 2rem;
+            background: linear-gradient(to right, #8B5CF6, #6366F1);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #E5E7EB;
+        }
+        .page-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: #6B21A8;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .page-nav a:hover {
+            border-color: #8B5CF6;
+            background-color: #F3E8FF;
+        }
+        .emoji {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        .stack-visual {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+        }
+        .mistake-box {
+            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+            border: 2px solid #F87171;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        .mistake-box h4 {
+            color: #DC2626;
+            margin-bottom: 0.5rem;
+        }
+        .fix-reveal {
+            background-color: #ECFDF5;
+            border-left: 4px solid #10B981;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.375rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center space-x-2">
+                    <img src="../images/nuyu-logo.png" alt="nuyu logo" class="h-8 w-8" onerror="this.style.display='none'">
+                    <span class="text-2xl font-bold text-gray-900">nuyu</span>
+                    <span class="text-sm text-gray-500 border-l border-gray-300 pl-2 ml-2">docs</span>
+                </a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="../index.html" class="text-gray-600 hover:text-gray-900 transition-colors">Home</a>
+                    <a href="../project.html" class="text-gray-600 hover:text-gray-900 transition-colors">The Project</a>
+                    <a href="../science.html" class="text-gray-600 hover:text-gray-900 transition-colors">The Science</a>
+                    <a href="../community.html" class="text-gray-600 hover:text-gray-900 transition-colors">Community</a>
+                </nav>
+                <div class="hidden md:block">
+                    <a href="../survey.html" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Take Survey</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex min-h-screen pt-16">
+        <!-- Sidebar -->
+        <aside class="docs-sidebar w-64 fixed left-0 top-16 bottom-0 overflow-y-auto hidden lg:block">
+            <nav class="p-6">
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Getting Started</h3>
+                        <ul class="space-y-2">
+                            <li><a href="index.html" class="docs-nav-link  block px-3 py-2 rounded-md">Introduction</a></li>
+                            <li><a href="quick-start.html" class="docs-nav-link  block px-3 py-2 rounded-md">Quick Start Guide</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">The nuyu Method</h3>
+                        <ul class="space-y-2">
+                            <li><a href="nuyu-method.html" class="docs-nav-link  block px-3 py-2 rounded-md">Overview</a></li>
+                            <li><a href="sleep-foundation.html" class="docs-nav-link  block px-3 py-2 rounded-md">Sleep as Foundation</a></li>
+                            <li><a href="habit-stacking.html" class="docs-nav-link  block px-3 py-2 rounded-md">Habit Stacking</a></li>
+                            <li><a href="tracking-progress.html" class="docs-nav-link  block px-3 py-2 rounded-md">Tracking Progress</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Device Manual</h3>
+                        <ul class="space-y-2">
+                            <li><a href="device-setup.html" class="docs-nav-link active block px-3 py-2 rounded-md">Initial Setup</a></li>
+                            <li><a href="device-features.html" class="docs-nav-link  block px-3 py-2 rounded-md">Features & Controls</a></li>
+                            <li><a href="scent-guide.html" class="docs-nav-link  block px-3 py-2 rounded-md">Scent Selection Guide</a></li>
+                            <li><a href="troubleshooting.html" class="docs-nav-link  block px-3 py-2 rounded-md">Troubleshooting</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Science Deep Dive</h3>
+                        <ul class="space-y-2">
+                            <li><a href="science-overview.html" class="docs-nav-link  block px-3 py-2 rounded-md">Research Overview</a></li>
+                            <li><a href="circadian-rhythms.html" class="docs-nav-link  block px-3 py-2 rounded-md">Circadian Rhythms</a></li>
+                            <li><a href="scent-memory.html" class="docs-nav-link  block px-3 py-2 rounded-md">Scent & Memory</a></li>
+                            <li><a href="references.html" class="docs-nav-link  block px-3 py-2 rounded-md">References</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 lg:ml-64">
+            <article class="max-w-4xl mx-auto px-6 py-12 prose prose-lg">
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">Setting Up Your Sleep Revolution</h1>
+                <p class="text-xl text-gray-600 mb-8">From unboxing anxiety to your first perfect night's sleep</p>
+                
+                <div class="callout callout-insight">
+                    <div class="flex items-start">
+                        <span class="emoji">✨</span>
+                        <div>
+                            <h4 class="font-bold mb-2">Before We Begin</h4>
+                            <p class="mb-0">I know what you're thinking. "Another gadget to set up." But this isn't just another device—this is your personal sleep laboratory, your habit-building partner, and honestly? Your ticket to mornings that don't feel like punishment. Give me 15 minutes, and I'll show you how to transform your bedroom into a sanctuary.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>The Unboxing Moment</h2>
+                
+                <p>Let's talk about that moment when you first open the box. I've watched hundreds of people do this, and there's always this little pause—like you're not just unboxing a product, but unboxing the possibility of actually loving your mornings again.</p>
+
+                <p>That feeling? Hold onto it. Because what you have in front of you isn't just hardware—it's a carefully designed system to hack your brain's most fundamental rhythms.</p>
+
+                <div class="grid md:grid-cols-2 gap-6 my-8">
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg p-6 border-2 border-blue-200">
+                        <h3 class="text-blue-800 font-bold mb-4 flex items-center">
+                            <span class="emoji">📦</span>
+                            What's Actually In Here
+                        </h3>
+                        <div class="space-y-3 text-blue-700">
+                            <div class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                                <span>Your nuyu device (the main character)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                                <span>USB-C power adapter (universal, travels anywhere)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                                <span>Two starter cartridges (lavender & peppermint)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                                <span>Bedside journal & pen (for tracking insights)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                                <span>Quick reference card (your cheat sheet)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-purple-50 to-pink-100 rounded-lg p-6 border-2 border-purple-200">
+                        <h3 class="text-purple-800 font-bold mb-4 flex items-center">
+                            <span class="emoji">🧠</span>
+                            What's Actually Happening
+                        </h3>
+                        <div class="text-purple-700 space-y-2">
+                            <p class="text-sm">Each item serves a specific purpose in rewiring your brain:</p>
+                            <p class="text-sm"><strong>The device:</strong> Creates consistent environmental cues</p>
+                            <p class="text-sm"><strong>The scents:</strong> Trigger memory and habit formation</p>
+                            <p class="text-sm"><strong>The journal:</strong> Reinforces progress and awareness</p>
+                            <p class="text-sm">This isn't random—it's based on decades of sleep and habit research.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Finding the Perfect Spot (It's More Important Than You Think)</h2>
+                
+                <p>Here's where most people mess up. They treat device placement like they're setting up a phone charger—just find an empty surface and call it good. But your nuyu device isn't just sitting there; it's <em>working</em> with your sleep cycles, and placement affects everything.</p>
+
+                <p>I learned this the hard way. My first week, I put the device on my dresser across the room because it "looked neat." The scent barely reached me, my sleep didn't improve, and I almost gave up. Then I moved it to my nightstand, and suddenly everything clicked.</p>
+
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <h3>The Goldilocks Zone</h3>
+                    <p>You want your device close enough to work its magic, but not so close that it becomes a distraction. Here's exactly how to find that sweet spot:</p>
+                    
+                    <div class="bg-green-50 rounded-lg p-6 mt-4">
+                        <h4 class="font-bold text-green-800 mb-3">The Perfect Placement Checklist:</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-semibold text-green-700 mb-2">Distance & Height</h5>
+                                <ul class="text-green-600 text-sm space-y-1">
+                                    <li>• 2-3 feet from your pillow</li>
+                                    <li>• At or below head level when lying down</li>
+                                    <li>• Clear line of "scent" to your nose</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-green-700 mb-2">Environment</h5>
+                                <ul class="text-green-600 text-sm space-y-1">
+                                    <li>• Stable surface (no wobbling)</li>
+                                    <li>• Away from direct air vents</li>
+                                    <li>• Easy to reach for adjustments</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="callout callout-warning">
+                    <div class="flex items-start">
+                        <span class="emoji">❌</span>
+                        <div>
+                            <h4 class="font-bold mb-2">Avoid These Common Placement Mistakes</h4>
+                            <p class="mb-2">I've seen these setups fail over and over:</p>
+                            <ul class="mb-0">
+                                <li><strong>The "Instagram Shot":</strong> Placing it for looks, not function (too far away)</li>
+                                <li><strong>The "Right Next to Me":</strong> So close it's overwhelming and you fidget with it</li>
+                                <li><strong>The "Hidden in the Corner":</strong> Behind other objects where scent can't circulate</li>
+                                <li><strong>The "Unstable Surface":</strong> Precariously balanced where you'll worry about it falling</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <h3>Power Up & First Contact</h3>
+                    <p>This is the moment your device comes to life. It's surprisingly satisfying—like introducing yourself to a helpful new roommate who happens to be really good at optimizing your sleep.</p>
+                    
+                    <p><strong>The physical connection:</strong> Plug the USB-C cable into the back of your device (there's only one port, so you can't mess this up), then connect to the wall adapter. The device powers on automatically—no buttons to hunt for.</p>
+                    
+                    <p><strong>The first hello:</strong> You'll see a gentle glow from the display. This isn't just pretty—it's your device calibrating to your environment and preparing to learn your patterns.</p>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <h3>The Setup Conversation</h3>
+                    <p>Your device is about to ask you some questions. These aren't just technical requirements—they're how your device learns to work with your unique sleep needs.</p>
+                    
+                    <div class="space-y-4 mt-6">
+                        <div class="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-400">
+                            <h4 class="font-bold text-blue-800">Language Selection</h4>
+                            <p class="text-blue-700 text-sm">Choose what feels natural. You can change this later in settings if needed.</p>
+                        </div>
+                        
+                        <div class="bg-purple-50 rounded-lg p-4 border-l-4 border-purple-400">
+                            <h4 class="font-bold text-purple-800">Time Zone Setup</h4>
+                            <p class="text-purple-700 text-sm">Critical for syncing with your local sunrise/sunset. This affects when your device triggers morning and evening routines.</p>
+                        </div>
+                        
+                        <div class="bg-green-50 rounded-lg p-4 border-l-4 border-green-400">
+                            <h4 class="font-bold text-green-800">WiFi Connection (Optional)</h4>
+                            <p class="text-green-700 text-sm">Enables app features, automatic updates, and sleep data insights. You can skip this and add it later, but I recommend connecting if possible.</p>
+                        </div>
+                        
+                        <div class="bg-orange-50 rounded-lg p-4 border-l-4 border-orange-400">
+                            <h4 class="font-bold text-orange-800">Your Sleep Schedule</h4>
+                            <p class="text-orange-700 text-sm">Be honest here. Don't put your ideal bedtime—put your actual bedtime. The device will help you gradually improve it.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Installing Your Scent Cartridges (The Fun Part)</h2>
+                
+                <p>Okay, this is where it gets real. You're about to install the actual scents that will become part of your daily rhythm. I still remember the first time I opened a lavender cartridge—it was like getting a preview of how relaxed I was about to feel every evening.</p>
+
+                <div class="stack-visual">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Understanding Your Scent Wells</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-indigo-100 rounded-lg p-6 text-indigo-900">
+                            <div class="text-center mb-4">
+                                <span class="text-4xl">🌙</span>
+                                <h4 class="font-bold text-lg">Evening Well (Left)</h4>
+                            </div>
+                            <p class="text-sm">This is your "wind-down" scent. It activates 30-60 minutes before your target bedtime, signaling to your brain that it's time to start relaxing. Most people start with lavender—it's incredibly effective for most people.</p>
+                        </div>
+                        
+                        <div class="bg-yellow-100 rounded-lg p-6 text-yellow-900">
+                            <div class="text-center mb-4">
+                                <span class="text-4xl">☀️</span>
+                                <h4 class="font-bold text-lg">Morning Well (Right)</h4>
+                            </div>
+                            <p class="text-sm">Your "wake-up" scent. It activates at your target wake time, helping your brain recognize it's time to be alert and energized. Peppermint is the classic choice—clean, energizing, and instantly recognizable.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-number">4</div>
+                    <h3>The Installation Ritual</h3>
+                    <p>Here's how to install your cartridges properly. It's simple, but doing it right ensures optimal scent diffusion:</p>
+                    
+                    <ol class="space-y-3">
+                        <li><strong>Lift the magnetic cover:</strong> It's on top of the device and comes off easily. You'll hear a satisfying "click" when it releases.</li>
+                        <li><strong>Unwrap your cartridges:</strong> Remove them from their protective packaging. Notice how each one is clearly labeled.</li>
+                        <li><strong>Match symbols to wells:</strong> Moon symbol (lavender) goes in the left well, sun symbol (peppermint) in the right.</li>
+                        <li><strong>Insert with confidence:</strong> Press down firmly until you hear a click. The cartridge should sit flush with the surface.</li>
+                        <li><strong>Replace the cover:</strong> The magnetic cover snaps back into place, creating an airtight seal when not in use.</li>
+                    </ol>
+                </div>
+
+                <div class="callout callout-tip">
+                    <div class="flex items-start">
+                        <span class="emoji">💡</span>
+                        <div>
+                            <h4 class="font-bold mb-2">Pro Installation Tip</h4>
+                            <p class="mb-0">When you install your first cartridges, take a moment to inhale each scent. This isn't just checking that they work—you're beginning to build the neural associations that will make your sleep routine automatic. Your brain is already starting to learn.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="callout callout-success">
+                    <div class="flex items-start">
+                        <span class="emoji">🎯</span>
+                        <div>
+                            <h4 class="font-bold mb-2">What Happens Next</h4>
+                            <p class="mb-0">Your device is now ready to begin learning your patterns and optimizing your sleep. Tonight will be your first night with scent-guided sleep cues. Don't expect miracles immediately—give it 3-5 nights to start working its magic. Your brain needs time to build the associations that make this system so powerful.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>The Cartridge Lifecycle (And When to Worry)</h2>
+                
+                <p>Let me address the elephant in the room: cartridge replacement. Yes, you'll need to replace them eventually. But here's what nobody tells you—by the time your first cartridges run out (typically 30-45 days), you'll be so attached to your improved sleep that replacing them feels like refilling a prescription you actually want to take.</p>
+
+                <div class="mistake-box">
+                    <h4 class="flex items-center">
+                        <span class="emoji">⏰</span>
+                        Don't Wait for the Warning
+                    </h4>
+                    <p class="mb-2">Your device will alert you when cartridges need replacing, but here's a pro tip: order your replacements when you get the "low" warning, not when they're empty. Nothing ruins a good sleep routine like a gap where your scent cues disappear.</p>
+                    <div class="fix-reveal">
+                        <h5 class="font-bold text-green-800 mb-2">The Smart Approach:</h5>
+                        <p class="text-green-700 mb-0">Set a calendar reminder for 25-30 days after installation to order replacements. This way, they arrive before you need them, and your routine never skips a beat.</p>
+                    </div>
+                </div>
+
+                <h2>Your First Night</h2>
+                
+                <p>Tonight, you're going to experience something different. When that evening scent activates, you might notice a subtle shift in how you feel. It won't be dramatic—good sleep habits never are—but it will be the beginning of something remarkable.</p>
+
+                <p>Don't overthink it. Don't lie there analyzing every sensation. Just let your brain start to learn this new pattern. Tomorrow morning, when that peppermint scent wakes you up, you'll understand why we spent so much time getting the setup right.</p>
+
+                <!-- Page Navigation -->
+                <div class="page-nav">
+                    <a href="tracking-progress.html">
+                        <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        ← Tracking Progress
+                    </a>
+                    <a href="device-features.html">
+                        Features & Controls →
+                        <svg class="h-5 w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 border-t border-gray-200 lg:ml-64">
+        <div class="max-w-4xl mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-gray-600 mb-4 md:mb-0">
+                    © 2025 nuyu Project. All rights reserved.
+                </div>
+                <div class="flex items-center space-x-6">
+                    <a href="../index.html" class="text-gray-600 hover:text-gray-900">Back to Main Site</a>
+                    <a href="mailto:nuyu@reef.bio" class="text-gray-600 hover:text-gray-900">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

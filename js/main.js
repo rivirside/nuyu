@@ -66,4 +66,42 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // --- Email Subscription Logic ---
+    const subscribeForm = document.getElementById('footer-subscribe');
+    if (subscribeForm) {
+        const emailInput = subscribeForm.querySelector('input[type="email"]');
+        const subscribeButton = subscribeForm.querySelector('button');
+        
+        if (emailInput && subscribeButton) {
+            subscribeButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                const email = emailInput.value.trim();
+                
+                if (!email) {
+                    alert('Please enter your email address');
+                    return;
+                }
+                
+                // Basic email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address');
+                    return;
+                }
+                
+                // For now, just show a success message
+                // In production, this would send the email to a backend service
+                alert('Thank you for subscribing! We\'ll notify you when nuyu launches.');
+                emailInput.value = '';
+            });
+            
+            // Allow Enter key to submit
+            emailInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    subscribeButton.click();
+                }
+            });
+        }
+    }
 });

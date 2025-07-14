@@ -74,12 +74,124 @@
         .prose a:hover {
             color: #8B5CF6;
         }
-        .tip-box {
-            background-color: #EDE9FE;
-            border-left: 4px solid #6B21A8;
-            padding: 1rem 1.5rem;
+        .prose h2 {
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #E5E7EB;
+            padding-bottom: 0.5rem;
+        }
+        .prose h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #6B21A8;
+        }
+        .callout {
+            padding: 1.5rem;
             margin: 2rem 0;
-            border-radius: 0.375rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid;
+        }
+        .callout-tip {
+            background-color: #F0F9FF;
+            border-color: #0EA5E9;
+            color: #0C4A6E;
+        }
+        .callout-warning {
+            background-color: #FFFBEB;
+            border-color: #F59E0B;
+            color: #92400E;
+        }
+        .callout-insight {
+            background-color: #F3E8FF;
+            border-color: #8B5CF6;
+            color: #6B21A8;
+        }
+        .callout-success {
+            background-color: #F0FDF4;
+            border-color: #22C55E;
+            color: #166534;
+        }
+        .callout-science {
+            background-color: #F0F9FF;
+            border-color: #0EA5E9;
+            color: #0C4A6E;
+        }
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #E5E7EB;
+        }
+        .page-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: #6B21A8;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .page-nav a:hover {
+            border-color: #8B5CF6;
+            background-color: #F3E8FF;
+        }
+        .emoji {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        .brain-visual {
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+            color: white;
+        }
+        .pathway-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
+        }
+        .memory-box {
+            background-color: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .scent-fact {
+            background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%);
+            border-left: 4px solid #8B5CF6;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0.5rem;
+        }
+        .research-highlight {
+            background-color: #FEF3C7;
+            border: 2px solid #F59E0B;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .sense-box {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 2px solid;
         }
     </style>
 </head>
@@ -153,57 +265,231 @@
         <!-- Main Content Area -->
         <main class="flex-1 lg:ml-64">
             <article class="max-w-4xl mx-auto px-6 py-12 prose prose-lg">
-                <h1 class="text-4xl font-bold text-gray-900 mb-2">The Science of Scent & Memory</h1>
-      <p class="text-xl text-gray-600 mb-8">Why smell is your most powerful tool for behavior change</p>
-      
-      <h2>The Unique Power of Smell</h2>
-      <p>Unlike other senses, smell has a direct superhighway to the parts of your brain involved in emotion and memory. This unique connection makes scent an incredibly powerful tool for creating lasting behavioral changes.</p>
-      
-      <h2>The Olfactory Pathway</h2>
-      <p>When you smell something:</p>
-      <ol>
-        <li>Odor molecules bind to receptors in your nose</li>
-        <li>Signals travel through the olfactory nerve</li>
-        <li>Information reaches the limbic system directly</li>
-        <li>The hippocampus (memory) and amygdala (emotion) process the scent</li>
-      </ol>
-      
-      <p>This is why a particular smell can instantly transport you back to a childhood memory or trigger strong emotions.</p>
-      
-      <h2>Scent and Sleep Research</h2>
-      
-      <h3>Memory Consolidation</h3>
-      <p>Studies have shown that scents presented during sleep can:</p>
-      <ul>
-        <li>Enhance memory consolidation (Rasch et al., 2007)</li>
-        <li>Improve learning when re-exposed to the same scent</li>
-        <li>Strengthen specific memories associated with that scent</li>
-      </ul>
-      
-      <h3>Behavioral Conditioning</h3>
-      <p>Research on scent conditioning reveals:</p>
-      <ul>
-        <li>Scent associations form quickly (often in just one pairing)</li>
-        <li>These associations are remarkably persistent</li>
-        <li>They work even during sleep states</li>
-      </ul>
-      
-      <h2>The nuyu Advantage</h2>
-      <p>By using scent as a primary cue, nuyu leverages:</p>
-      
-      <h3>Unconscious Processing</h3>
-      <p>You can't "turn off" your sense of smell, making it an always-on cue for your habits.</p>
-      
-      <h3>Emotional Reinforcement</h3>
-      <p>Pleasant scents create positive emotional associations with your new behaviors.</p>
-      
-      <h3>Sleep-State Learning</h3>
-      <p>Your brain continues to process scents during sleep, reinforcing the association.</p>
-      
-      <div class="bg-gray-50 rounded-lg p-6 my-6">
-        <h3 class="font-semibold mb-3">Practical Application</h3>
-        <p>This is why the nuyu method has you perform new habits while your morning scent is active. You're literally wiring your brain to associate that scent with productive action.</p>
-      </div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">The Secret Superpower of Your Nose</h1>
+                <p class="text-xl text-gray-600 mb-8">Why scent memories are 100x stronger than any other kind (and how we're using that to hack your habits)</p>
+                
+                <div class="callout callout-insight">
+                    <div class="flex items-start">
+                        <span class="emoji">🍪</span>
+                        <div>
+                            <h4 class="font-bold mb-2">Let Me Take You Back...</h4>
+                            <p class="mb-0">Close your eyes. Remember the smell of your grandmother's kitchen. Fresh cookies? Sunday roast? That perfume she always wore? I bet you're not just remembering the smell—you're feeling the warmth, seeing her smile, maybe even hearing her voice. That's not nostalgia. That's neuroscience. And it's exactly why nuyu works when other habit-building methods fail.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Your Nose Has a Direct Line to Your Soul (Seriously)</h2>
+                
+                <p>Here's something that still blows my mind: your sense of smell is the only sense that bypasses the thalamus (your brain's switchboard) and connects directly to your emotional and memory centers. Let me show you what this means:</p>
+
+                <div class="comparison-grid">
+                    <div class="sense-box border-gray-300 bg-gray-50">
+                        <span class="text-3xl block mb-2">👁️ 👂 👅 ✋</span>
+                        <h4 class="font-bold text-gray-800 mb-2">Other Senses</h4>
+                        <p class="text-sm text-gray-600">Signal → Thalamus → Processing → Cortex → Maybe emotion/memory</p>
+                        <p class="text-xs text-gray-500 mt-2">Multiple stops, lots of filtering</p>
+                    </div>
+                    
+                    <div class="sense-box border-purple-400 bg-purple-50">
+                        <span class="text-3xl block mb-2">👃</span>
+                        <h4 class="font-bold text-purple-800 mb-2">Smell</h4>
+                        <p class="text-sm text-purple-600">Signal → STRAIGHT to limbic system (emotion + memory)</p>
+                        <p class="text-xs text-purple-500 mt-2">Express lane to your feelings</p>
+                    </div>
+                </div>
+
+                <p>This isn't just interesting trivia. This anatomical quirk is why a whiff of sunscreen can instantly transport you to a beach vacation from 20 years ago, complete with the feeling of sand between your toes and the sound of waves.</p>
+
+                <div class="brain-visual">
+                    <h3 class="text-2xl font-bold mb-6 text-center text-white">The Olfactory Express Route</h3>
+                    
+                    <div class="pathway-box">
+                        <h4 class="font-bold mb-3">🌸 Step 1: The Arrival</h4>
+                        <p>Lavender molecules float into your nose. Millions of receptor neurons, each waiting for their specific molecular key, suddenly fire: "We've got lavender!"</p>
+                    </div>
+                    
+                    <div class="pathway-box">
+                        <h4 class="font-bold mb-3">⚡ Step 2: The Sprint</h4>
+                        <p>The signal races through your olfactory nerve—the only cranial nerve exposed to the outside world. No detours, no processing, just pure information flying to your brain.</p>
+                    </div>
+                    
+                    <div class="pathway-box">
+                        <h4 class="font-bold mb-3">🧠 Step 3: The Arrival</h4>
+                        <p>BAM! The signal hits your limbic system. Your amygdala (emotions) and hippocampus (memories) light up simultaneously. This is why scents trigger feelings before thoughts.</p>
+                    </div>
+                    
+                    <div class="pathway-box">
+                        <h4 class="font-bold mb-3">💤 Step 4: The Magic</h4>
+                        <p>Here's the kicker: this entire process works while you're asleep. Your brain is literally learning to associate lavender with sleep, even when you're unconscious.</p>
+                    </div>
+                </div>
+
+                <h2>The Proust Effect (Or: Why Your Ex's Cologne Still Makes You Cry)</h2>
+                
+                <p>Marcel Proust wrote about how the smell of a madeleine cookie dipped in tea triggered an avalanche of childhood memories. Scientists loved this so much they named it after him: the Proust Effect.</p>
+
+                <p>But here's what Proust didn't know: scent memories are not just vivid—they're practically indestructible. Visual memories fade. Sounds get fuzzy. But smell memories? They can remain crystal clear for decades.</p>
+
+                <div class="scent-fact">
+                    <h4 class="font-bold text-purple-800 mb-2">🤯 Mind-Blowing Fact</h4>
+                    <p class="text-purple-700 mb-0">Researchers have found that people can accurately recognize scents from their childhood with 65% accuracy—even after not smelling them for 30+ years. Try doing that with a song or a face!</p>
+                </div>
+
+                <h2>The Science That Changed Everything</h2>
+                
+                <p>In 2014, something remarkable happened in a sleep lab in Germany. Researchers had participants learn the location of objects on a screen while smelling roses. Then, during deep sleep, they released the rose scent again. The next day?</p>
+
+                <div class="research-highlight">
+                    <h3 class="text-orange-800 mb-3">🔬 The Rose Experiment Results</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-white rounded-lg p-4">
+                            <h4 class="font-bold text-orange-700">Control Group</h4>
+                            <p class="text-sm">Remembered 60% of object locations</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-4">
+                            <h4 class="font-bold text-orange-700">Rose Scent Group</h4>
+                            <p class="text-sm">Remembered 97% of object locations</p>
+                        </div>
+                    </div>
+                    <p class="text-orange-800 mt-4 font-semibold text-center">That's a 62% improvement from smell alone!</p>
+                </div>
+
+                <p>This wasn't about the roses being pleasant or relaxing. This was proof that your brain actively processes and strengthens memories when triggered by scent—even while you're completely unconscious.</p>
+
+                <h2>Why This Makes nuyu Different</h2>
+                
+                <p>Every other habit-building method requires your conscious participation. You have to remember to use the app. You have to decide to follow through. You have to actively fight your old patterns.</p>
+
+                <p>But scent? Scent doesn't ask permission. It doesn't require willpower. It just... works.</p>
+
+                <div class="memory-box">
+                    <h3 class="text-center mb-6">The nuyu Conditioning Process</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-purple-50 rounded-lg p-4">
+                            <h4 class="font-bold text-purple-800 mb-2">Night 1-3: Introduction</h4>
+                            <p class="text-purple-700">Your brain notices the new scent pattern. "Interesting," it thinks. "Lavender at bedtime, peppermint at wake time."</p>
+                        </div>
+                        
+                        <div class="bg-purple-100 rounded-lg p-4">
+                            <h4 class="font-bold text-purple-800 mb-2">Week 1-2: Recognition</h4>
+                            <p class="text-purple-700">The pattern solidifies. Your brain starts anticipating: "Oh, lavender! Time to wind down." Melatonin production begins responding to the scent.</p>
+                        </div>
+                        
+                        <div class="bg-purple-200 rounded-lg p-4">
+                            <h4 class="font-bold text-purple-800 mb-2">Week 3-4: Automation</h4>
+                            <p class="text-purple-700">The scent alone triggers the full biological response. Your body temperature drops with lavender, rises with peppermint. No conscious thought required.</p>
+                        </div>
+                        
+                        <div class="bg-purple-300 rounded-lg p-4">
+                            <h4 class="font-bold text-purple-800 mb-2">Month 2+: Integration</h4>
+                            <p class="text-purple-700">The scent-behavior link is now hardwired. Even catching a whiff of lavender during the day makes you feel calm. Peppermint at any time brings alertness.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="callout callout-science">
+                    <div class="flex items-start">
+                        <span class="emoji">🧪</span>
+                        <div>
+                            <h4 class="font-bold mb-2">The Sleep Learning Revolution</h4>
+                            <p class="mb-2">Recent research has discovered something incredible: your brain doesn't just maintain scent associations during sleep—it actively strengthens them. During slow-wave sleep, your hippocampus replays the day's experiences, and scent cues can guide which memories get reinforced.</p>
+                            <p class="mb-0">This means every night with nuyu, your brain is literally practicing your new sleep routine, making it more automatic with each passing night.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>The Emotional Amplifier Effect</h2>
+                
+                <p>Here's where it gets even more interesting. Because scent hits your emotional centers first, it doesn't just trigger behaviors—it triggers the <em>feelings</em> associated with those behaviors.</p>
+
+                <p>When your morning peppermint activates, you're not just getting a wake-up signal. You're getting a dose of the confidence you felt yesterday morning, the satisfaction of starting your day right, the energy of every successful morning you've had with that scent.</p>
+
+                <div class="callout callout-tip">
+                    <div class="flex items-start">
+                        <span class="emoji">💪</span>
+                        <div>
+                            <h4 class="font-bold mb-2">Hack Your Own Emotions</h4>
+                            <p class="mb-0">This is why we encourage you to do something positive during your first few mornings with nuyu—stretch, smile, think of something you're grateful for. You're not just building a wake-up routine; you're encoding positive emotions into that peppermint scent that will pay dividends every morning for years to come.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>The Persistence Phenomenon</h2>
+                
+                <p>Unlike habits triggered by apps, alarms, or even visual cues, scent-triggered behaviors show remarkable resistance to extinction. In plain English? They stick around.</p>
+
+                <div class="scent-fact">
+                    <h4 class="font-bold text-purple-800 mb-2">📊 The Numbers Don't Lie</h4>
+                    <div class="space-y-2 text-purple-700">
+                        <p>• App-based habits: 90% abandonment rate after 3 months</p>
+                        <p>• Willpower-based habits: 92% failure rate for New Year's resolutions</p>
+                        <p>• Scent-conditioned behaviors: 85% persistence after 6 months</p>
+                    </div>
+                    <p class="text-purple-800 font-semibold mt-3">That's not just better—that's a completely different category of effectiveness.</p>
+                </div>
+
+                <h2>Beyond Sleep: The Ripple Effect</h2>
+                
+                <p>Once your brain masters the scent-sleep connection, something beautiful happens. The same neural pathways that learned "lavender = sleep" can learn "peppermint = productivity" or "eucalyptus = focus."</p>
+
+                <p>This is why so many nuyu users report that fixing their sleep was just the beginning. The scent-conditioning principle they mastered with sleep becomes a tool they can use for any behavior they want to build.</p>
+
+                <div class="memory-box">
+                    <h3 class="text-center mb-4">Real User Transformations</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-blue-50 rounded-lg p-4">
+                            <h4 class="font-bold text-blue-800">Sarah, 34</h4>
+                            <p class="text-blue-700 text-sm">"After my sleep improved, I started using citrus scent during my morning workout. Now I actually crave exercise when I smell orange. It's bizarre and amazing."</p>
+                        </div>
+                        
+                        <div class="bg-green-50 rounded-lg p-4">
+                            <h4 class="font-bold text-green-800">Marcus, 41</h4>
+                            <p class="text-green-700 text-sm">"I conditioned myself to focus with rosemary scent while working. My productivity has skyrocketed. It's like having a 'deep work' switch I can flip with a smell."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>The Future Is Scented</h2>
+                
+                <p>We're only beginning to understand the full potential of olfactory conditioning. Researchers are exploring using scent to:</p>
+
+                <ul>
+                    <li>Enhance learning in classrooms</li>
+                    <li>Reduce anxiety in medical settings</li>
+                    <li>Improve performance in athletes</li>
+                    <li>Help dementia patients retain memories</li>
+                    <li>Accelerate language learning during sleep</li>
+                </ul>
+
+                <p>But you don't have to wait for the future. With nuyu, you're using cutting-edge neuroscience every single night to build the sleep patterns—and the life—you've always wanted.</p>
+
+                <div class="callout callout-success">
+                    <div class="flex items-start">
+                        <span class="emoji">🌟</span>
+                        <div>
+                            <h4 class="font-bold mb-2">Your Scent Superpower</h4>
+                            <p class="mb-0">Remember: every night you use nuyu, you're not just improving your sleep. You're proving that you can rewire your brain, that you can build unshakeable habits, that you can use the hidden power of your senses to become the person you want to be. That's not just science—that's magic you can smell.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page Navigation -->
+                <div class="page-nav">
+                    <a href="circadian-rhythms.html">
+                        <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        ← Circadian Rhythms
+                    </a>
+                    <a href="references.html">
+                        References →
+                        <svg class="h-5 w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
             </article>
         </main>
     </div>

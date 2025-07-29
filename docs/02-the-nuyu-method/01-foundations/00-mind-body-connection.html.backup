@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mind-Body Connection - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .connection-diagram {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .thought-experiment {
+            background-color: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 20px 30px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .thought-experiment h4 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .research-highlight {
+            background-color: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .research-highlight h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .myth-reality {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .myth-card, .reality-card {
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .myth-card {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .reality-card {
+            background-color: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .practical-exercise {
+            background-color: var(--hover-bg);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .practical-exercise h4 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+        }
+        
+        .quote-box {
+            font-style: italic;
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            border-left: 4px solid var(--accent-primary);
+            padding-left: 30px;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <h2>nuyu Docs</h2>
+            
+            <!-- Introduction Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    <span class="chevron">▼</span>
+                    Introduction
+                </div>
+                <div class="nav-items">
+                    <a href="../../index.html" class="nav-item">Welcome</a>
+                    <a href="../../index.html#what-is-nuyu" class="nav-item">What is nuyu?</a>
+                    <a href="../../index.html#how-to-use" class="nav-item">How to Use These Docs</a>
+                </div>
+            </div>
+            
+            <!-- The nuyu Method Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    <span class="chevron">▼</span>
+                    The nuyu Method
+                </div>
+                <div class="nav-items">
+                    <a href="#method-overview" class="nav-item">Overview</a>
+                    
+                    <!-- Foundations Subsection -->
+                    <div class="nav-subsection">
+                        <div class="nav-section-title">
+                            <span class="chevron">▼</span>
+                            1. Foundations
+                        </div>
+                        <div class="nav-items">
+                            <a href="00-mind-body-connection.html" class="nav-item active">Mind-Body Connection</a>
+                            <a href="01-the-ancient-quest.html" class="nav-item">1. The Ancient Quest</a>
+                            <a href="02-the-scientific-awakening.html" class="nav-item">2. The Scientific Awakening</a>
+                            <a href="03-the-rem-revolution.html" class="nav-item">3. The REM Revolution</a>
+                            <a href="04-the-integration-era.html" class="nav-item">4. The Integration Era</a>
+                            <a href="05-the-modern-synthesis.html" class="nav-item">5. The Modern Synthesis</a>
+                            <a href="#neuroplasticity" class="nav-item">Neuroplasticity 101</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Sleep as Foundation Subsection -->
+                    <div class="nav-subsection">
+                        <div class="nav-section-title">
+                            <span class="chevron">▼</span>
+                            2. Sleep as Foundation
+                        </div>
+                        <div class="nav-items">
+                            <a href="../02-sleep-as-foundation/01-why-everything-starts-here.html" class="nav-item">Why Everything Starts Here</a>
+                            <a href="../02-sleep-as-foundation/02-the-first-order-algorithm.html" class="nav-item">The First-Order Algorithm</a>
+                            <a href="#circadian" class="nav-item">Circadian Architecture</a>
+                            <a href="#cascade" class="nav-item">The Cascade Effect</a>
+                            <a href="#sleep-debt" class="nav-item">Sleep Debt & Recovery</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Design Your System -->
+                    <div class="nav-subsection">
+                        <div class="nav-section-title">
+                            <span class="chevron">▼</span>
+                            3. Design Your System
+                        </div>
+                        <div class="nav-items">
+                            <a href="#blueprint" class="nav-item">Your Sleep Blueprint</a>
+                            <a href="../03-design-your-system/02-discover-your-chronotype.html" class="nav-item">Discover Your Chronotype</a>
+                            <a href="#ideal-reality" class="nav-item">Ideal vs Reality</a>
+                            <a href="#pressure-timing" class="nav-item">Sleep Pressure & Timing</a>
+                            <a href="#window" class="nav-item">Your Sleep Window</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Implementation Science -->
+                    <div class="nav-subsection">
+                        <div class="nav-section-title">
+                            <span class="chevron">▼</span>
+                            4. Implementation
+                        </div>
+                        <div class="nav-items">
+                            <a href="#behavior-change" class="nav-item">Behavior Change Science</a>
+                            <a href="#ab-testing" class="nav-item">A/B Testing Your Life</a>
+                            <a href="#tiny-habits" class="nav-item">Tiny Habits Method</a>
+                            <a href="#environment" class="nav-item">Environmental Design</a>
+                            <a href="#habit-loop" class="nav-item">Habit Loop Engineering</a>
+                            <a href="#tracking" class="nav-item">Meaningful Metrics</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Concepts -->
+                    <div class="nav-subsection">
+                        <div class="nav-section-title">
+                            <span class="chevron">▼</span>
+                            5. Advanced Concepts
+                        </div>
+                        <div class="nav-items">
+                            <a href="#beyond-basics" class="nav-item">Beyond Basics</a>
+                            <a href="#ultradian" class="nav-item">Ultradian Rhythms</a>
+                            <a href="#social" class="nav-item">Social Zeitgebers</a>
+                            <a href="#memory" class="nav-item">Sleep & Memory</a>
+                            <a href="#future-self" class="nav-item">Future Self Protocol</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Device Mastery Section -->
+            <div class="nav-section collapsed">
+                <div class="nav-section-title">
+                    <span class="chevron">▼</span>
+                    Device Mastery
+                </div>
+                <div class="nav-items">
+                    <a href="#device-overview" class="nav-item">Overview</a>
+                    <a href="#getting-started" class="nav-item">Getting Started</a>
+                    <a href="#setup" class="nav-item">Setup Guide</a>
+                    <a href="#scent-science" class="nav-item">Scent Science</a>
+                    <a href="#advanced-features" class="nav-item">Advanced Features</a>
+                </div>
+            </div>
+            
+            <!-- Resources Section -->
+            <div class="nav-section collapsed">
+                <div class="nav-section-title">
+                    <span class="chevron">▼</span>
+                    Resources
+                </div>
+                <div class="nav-items">
+                    <a href="#references" class="nav-item">Scientific References</a>
+                    <a href="#reading" class="nav-item">Recommended Reading</a>
+                    <a href="#community" class="nav-item">Community Wisdom</a>
+                </div>
+            </div>
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Foundations</a>
+                    <span>›</span>
+                    <span>Mind-Body Connection</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>The Mind-Body Connection: Why Your Thoughts Shape Your Biology</h1>
+
+                    <h2>The Experiment That Changed Everything</h2>
+                    
+                    <p>In 1974, Robert Ader made a mistake that would revolutionize our understanding of human health.</p>
+                    
+                    <p>The psychologist at the University of Rochester was running a simple conditioning experiment with rats. He would give them saccharin-sweetened water, then inject them with a drug that suppressed their immune system and made them nauseous. Classic Pavlovian conditioning—soon the rats would feel sick just from tasting the sweet water.</p>
+                    
+                    <p>But then something unexpected happened. The rats started dying.</p>
+                    
+                    <p>Not from the drug—Ader had stopped giving it to them. They were dying from the sweetened water alone. Somehow, the taste of saccharin was suppressing their immune systems so severely that they couldn't fight off normal infections. Their minds, conditioned to expect immune suppression, were creating it.</p>
+                    
+                    <p>Ader had stumbled onto something that Western medicine had dismissed for centuries: the mind could directly control the immune system. Not influence it, not affect it indirectly through "stress"—directly control it, like flipping a switch.</p>
+                    
+                    <p>When he published his results, the medical establishment was skeptical. The immune system was autonomous, they said. It operated independently of the brain. There were no neural connections between them. What Ader was suggesting was impossible.</p>
+                    
+                    <p>Except it kept happening. In lab after lab, the results were replicated. The field of psychoneuroimmunology was born, and with it, a fundamental shift in how we understand the human organism. We weren't a collection of separate systems housed in the same body. We were one integrated system where thought, emotion, and biology danced together in ways we were only beginning to understand.</p>
+
+                    <h2>Your Body Is Listening to Every Thought</h2>
+                    
+                    <p>Right now, as you read these words, a cascade of biological events is unfolding in your body based purely on your mental state.</p>
+                    
+                    <p>If you're skeptical about this content, your body is producing different neurochemicals than if you're excited. If you're reading this at night worried about tomorrow's presentation, your cortisol is elevated, your heart rate variability is decreased, and your immune system is shifting resources. If you're relaxed and curious, your vagus nerve is active, your inflammation markers are dropping, and your prefrontal cortex is optimally engaged.</p>
+                    
+                    <p>This isn't metaphorical. This is measurable, reproducible biology.</p>
+                    
+                    <div class="thought-experiment">
+                        <h4>The Lemon Experiment</h4>
+                        <p>Let's prove it right now. Close your eyes and imagine holding a fresh lemon. Feel its waxy skin, its weight in your hand. Now imagine cutting it in half, seeing the juice spray, smelling that sharp citrus scent. Take one half and bite directly into it, feeling the sour juice flood your mouth.</p>
+                        
+                        <p>Did you salivate? Did your mouth pucker? Congratulations—you just changed your biology with nothing but thought. Your salivary glands, supposedly controlled by automatic processes, responded to an imaginary lemon.</p>
+                    </div>
+                    
+                    <p>Now scale that up. If imagining a lemon can trigger salivation, what can imagining failure do to your stress hormones? What can visualizing success do to your neurotransmitters? What can believing in your capacity to change do to your actual ability to change?</p>
+
+                    <h2>The Nocebo's Evil Twin: Why Negative Beliefs Kill</h2>
+                    
+                    <p>We've all heard of the placebo effect—people getting better from sugar pills because they believe they're taking real medicine. But fewer know about its dark mirror: the nocebo effect.</p>
+                    
+                    <p>In the 1970s, a man we'll call Mr. A was diagnosed with terminal liver cancer. His doctors gave him months to live. He died exactly on schedule. The only problem? The autopsy revealed a tiny tumor, far too small to kill him. He didn't die from cancer. He died from the belief that he had terminal cancer.</p>
+                    
+                    <p>This isn't an isolated case. Studies have documented:</p>
+                    
+                    <ul>
+                        <li>People developing rashes from fake poison ivy</li>
+                        <li>Asthmatics having attacks from fake allergens</li>
+                        <li>Patients experiencing the side effects listed on placebo labels</li>
+                        <li>Heart attack deaths spiking on culturally significant "unlucky" days</li>
+                    </ul>
+                    
+                    <p>The nocebo effect reveals a terrifying truth: our beliefs can literally kill us. But flip that coin, and you find something extraordinary: our beliefs can literally heal us.</p>
+
+                    <h2>The Biology of Belief</h2>
+                    
+                    <p>When you believe something—truly believe it—your brain doesn't distinguish between that belief and reality. It begins preparing your body for what it expects to happen.</p>
+                    
+                    <div class="research-highlight">
+                        <h5>The Hotel Maid Study</h5>
+                        <p>Harvard psychologist Ellen Langer studied hotel maids who cleaned rooms all day but didn't consider it exercise. She told half of them that their work qualified as the surgeon general's recommended daily exercise. She taught them how many calories each activity burned.</p>
+                        
+                        <p>Four weeks later, without changing their actual behavior, the "informed" group had lost weight, reduced blood pressure, and improved body fat percentage. The control group showed no changes. Same work, different belief, different biology.</p>
+                    </div>
+                    
+                    <p>This happens through multiple pathways:</p>
+                    
+                    <p><strong>The HPA Axis (Hypothalamic-Pituitary-Adrenal)</strong>: Your thoughts trigger your hypothalamus, which signals your pituitary, which tells your adrenals to release cortisol. Chronic negative thoughts create chronic cortisol elevation, leading to inflammation, immune suppression, and metabolic dysfunction.</p>
+                    
+                    <p><strong>The Autonomic Nervous System</strong>: Your thoughts shift the balance between sympathetic (fight-or-flight) and parasympathetic (rest-and-digest) activation. Worry keeps you sympathetic-dominant. Calm confidence activates parasympathetic healing.</p>
+                    
+                    <p><strong>Neurotransmitter Release</strong>: Expecting reward releases dopamine. Anticipating social connection releases oxytocin. Believing in your capability releases serotonin. Your pharmacy is always open, and your thoughts write the prescriptions.</p>
+                    
+                    <p><strong>Gene Expression</strong>: Through epigenetic mechanisms, your thoughts literally turn genes on and off. Meditation has been shown to downregulate inflammatory genes. Chronic stress upregulates them. You're not changing your DNA; you're changing which parts of it are active.</p>
+
+                    <h2>The Myth of Separate Systems</h2>
+                    
+                    <p>Western medicine spent centuries dividing the body into systems: nervous, immune, endocrine, digestive. We had specialists for each part, as if they operated independently. This made sense for understanding mechanisms, but it created a dangerous blind spot.</p>
+                    
+                    <div class="myth-reality">
+                        <div class="myth-card">
+                            <h4>❌ The Old Model</h4>
+                            <ul>
+                                <li>Mind and body are separate</li>
+                                <li>Thoughts are just electrical signals</li>
+                                <li>Emotions don't affect immunity</li>
+                                <li>Physical symptoms need physical treatments</li>
+                                <li>Mental state is irrelevant to healing</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="reality-card">
+                            <h4>✅ The New Understanding</h4>
+                            <ul>
+                                <li>Mind and body are one system</li>
+                                <li>Thoughts trigger biological cascades</li>
+                                <li>Emotions directly modulate immunity</li>
+                                <li>Many physical symptoms have mental components</li>
+                                <li>Mental state is crucial to healing</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <p>We now know that:</p>
+                    
+                    <ul>
+                        <li>The gut produces more neurotransmitters than the brain</li>
+                        <li>Immune cells have receptors for every known neurotransmitter</li>
+                        <li>The heart has its own neural network of 40,000 neurons</li>
+                        <li>Thoughts can change heart rate variability within seconds</li>
+                        <li>Emotional states alter the electromagnetic field the heart produces</li>
+                    </ul>
+                    
+                    <p>You don't have a mind and a body. You have a mindbody—one integrated system where every thought creates biology and every biological state influences thought.</p>
+
+                    <h2>The Sleep Connection: Where Mind and Body Unite</h2>
+                    
+                    <p>Sleep is the ultimate mind-body phenomenon. It's where this connection becomes most obvious and most powerful.</p>
+                    
+                    <p>Consider insomnia. Is it a physical problem or a mental one? The answer is yes. Anxiety about not sleeping creates physiological arousal that prevents sleep. The lack of sleep creates more anxiety. The mind and body lock into a destructive dance where cause and effect become meaningless distinctions.</p>
+                    
+                    <p>But sleep is also where the mind-body connection offers the most leverage. Because sleep affects every system in your body, improving it creates cascading benefits:</p>
+                    
+                    <p><strong>Better sleep → Better emotional regulation → Better decisions → Better habits → Better sleep</strong></p>
+                    
+                    <p>It's a virtuous cycle where psychological and physiological improvements reinforce each other. This is why sleep is the keystone habit—it's the arena where mind and body collaborate most intensely.</p>
+
+                    <h2>The Practical Magic: Harnessing the Connection</h2>
+                    
+                    <p>Understanding the mind-body connection intellectually is one thing. Using it to transform your life is another. Here's how to apply this knowledge:</p>
+                    
+                    <h3>1. The Physiology First Principle</h3>
+                    
+                    <p>You can't think your way out of a physiological state, but you can breathe your way out of one. When stressed, don't try to calm your mind—calm your body first. The mind will follow.</p>
+                    
+                    <div class="practical-exercise">
+                        <h4>The 4-7-8 Reset</h4>
+                        <p>Inhale through your nose for 4 counts. Hold for 7 counts. Exhale through your mouth for 8 counts. This activates your parasympathetic nervous system, telling your body "we're safe." Do this 4 times, and notice how your mental state shifts. You just used your body to change your mind.</p>
+                    </div>
+                    
+                    <h3>2. The Belief Audit</h3>
+                    
+                    <p>Your unconscious beliefs about your body, health, and capacity for change are constantly creating your biological reality. Time to update the software.</p>
+                    
+                    <p>Write down your beliefs about:</p>
+                    <ul>
+                        <li>Your ability to change habits</li>
+                        <li>Your health potential</li>
+                        <li>Your sleep quality</li>
+                        <li>Your energy levels</li>
+                        <li>Your aging process</li>
+                    </ul>
+                    
+                    <p>For each limiting belief, ask: "What would someone who succeeded believe instead?" Adopt that belief as an experiment. Your biology will respond to the new story.</p>
+                    
+                    <h3>3. The Embodiment Practice</h3>
+                    
+                    <p>Your body position influences your mental state as much as your mental state influences your body position. This bidirectional causality is your secret weapon.</p>
+                    
+                    <p>Stand like someone confident, and confidence follows. Breathe like someone calm, and calm follows. Move like someone energized, and energy follows. You're not faking it—you're using your body to install the mental state you want.</p>
+                    
+                    <h3>4. The Visualization Protocol</h3>
+                    
+                    <p>Your brain can't tell the difference between a vividly imagined experience and a real one. Elite athletes have known this for decades. Time to apply it to habit change.</p>
+                    
+                    <p>Before sleep each night, visualize tomorrow's success:</p>
+                    <ul>
+                        <li>See yourself waking refreshed</li>
+                        <li>Feel the satisfaction of completing your morning routine</li>
+                        <li>Experience the energy of your optimized day</li>
+                        <li>Imagine the pride of maintaining your evening routine</li>
+                    </ul>
+                    
+                    <p>Your brain will begin preparing for this reality, making it more likely to occur. This isn't wishful thinking—it's programming your psychobiology.</p>
+
+                    <h2>The Integration Challenge</h2>
+                    
+                    <p>Here's the paradox: understanding the mind-body connection can create its own problems. Now you might worry that your worry is harming your health. You might stress about your stress. You might fear the nocebo effect of fearing the nocebo effect.</p>
+                    
+                    <p>The solution is gentleness. The mind-body connection isn't another thing to perfect or optimize. It's a relationship to nurture. Treat your mindbody like a good friend—with patience, kindness, and respect.</p>
+                    
+                    <p>When you notice negative thought patterns affecting your body, don't fight them. Thank them for revealing the connection. Then gently redirect, like guiding a child back to bed. "I see you, anxiety. You're trying to protect me. But right now, we're safe, and we're choosing calm."</p>
+
+                    <h2>Your Mindbody Experiment</h2>
+                    
+                    <p>For the next week, run this experiment:</p>
+                    
+                    <p><strong>Morning</strong>: Upon waking, before reaching for your phone, place your hand on your heart and think of three things you're genuinely grateful for. Feel the warmth of appreciation. Notice how your body responds.</p>
+                    
+                    <p><strong>Midday</strong>: Set an alarm for 2 PM. When it goes off, do 10 jumping jacks, then stand in a power pose (hands on hips, chest out, chin up) for 60 seconds. Notice how your mental state shifts.</p>
+                    
+                    <p><strong>Evening</strong>: Before bed, tense every muscle in your body for 5 seconds, then release completely. Do this three times. Then imagine yourself as a ragdoll, completely relaxed. Notice how your mind follows your body into calm.</p>
+                    
+                    <p>Track how these simple interventions affect your energy, mood, and sleep quality. You're not just observing the mind-body connection—you're actively using it to upgrade your life.</p>
+
+                    <h2>The Ultimate Truth</h2>
+                    
+                    <p>The separation of mind and body was never real. It was a useful fiction for developing medical specialties and understanding mechanisms. But you don't live in separated systems. You live in one integrated organism where every thought matters, every belief counts, and every physical practice influences your mental state.</p>
+                    
+                    <p>This isn't burden—it's power. It means you have more control over your health and happiness than you ever imagined. Not through force or discipline, but through understanding and working with your integrated nature.</p>
+                    
+                    <p>The ancients knew this. They called it different names—chi, prana, vital force—but they understood that human flourishing required honoring the unity of mind and body. Modern science has validated their wisdom, revealing the mechanisms behind what mystics intuited.</p>
+                    
+                    <p>Now you know it too. The question is: what will you do with this knowledge?</p>
+                    
+                    <p>Will you continue operating as if your thoughts don't matter to your body? As if your physical practices don't influence your mind? Or will you embrace the truth of your integrated nature and use it to become who you're capable of becoming?</p>
+                    
+                    <p>The choice, like everything in the mind-body connection, is both mental and physical. Make it with your whole self.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: The Ancient Quest - Journey through humanity's 4,000-year investigation into the mysteries of sleep, from ancient Egyptian dream temples to Greek healing sanctuaries.</em></p>
+                    
+                    <a href="01-the-ancient-quest.html" class="nav-button">Continue to: The Ancient Quest →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const sunIcon = document.querySelector('.sun-icon');
+        const moonIcon = document.querySelector('.moon-icon');
+        
+        // Check for saved theme preference or default to light
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', currentTheme);
+        
+        // Update icon visibility
+        if (currentTheme === 'dark') {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const newTheme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Toggle icons
+            if (newTheme === 'dark') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            }
+        });
+        
+        // Toggle navigation sections
+        document.querySelectorAll('.nav-section-title').forEach(title => {
+            title.addEventListener('click', () => {
+                const section = title.parentElement;
+                section.classList.toggle('collapsed');
+            });
+        });
+    </script>
+</body>
+</html>

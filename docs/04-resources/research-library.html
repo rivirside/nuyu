@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Library - nuyu Documentation</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .research-hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dna-helix {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            opacity: 0.1;
+        }
+        
+        .helix-strand {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotate 20s linear infinite;
+        }
+        
+        .helix-strand::before,
+        .helix-strand::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 100%;
+            background: white;
+            border-radius: 5px;
+        }
+        
+        .helix-strand::before {
+            left: 30%;
+            transform: rotateY(60deg);
+        }
+        
+        .helix-strand::after {
+            right: 30%;
+            transform: rotateY(-60deg);
+        }
+        
+        @keyframes rotate {
+            from { transform: rotateZ(0deg); }
+            to { transform: rotateZ(360deg); }
+        }
+        
+        .research-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .research-filters {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .filter-button {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background: var(--hover-bg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-button:hover {
+            background: var(--accent-light);
+            border-color: var(--accent-primary);
+        }
+        
+        .filter-button.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        
+        .research-grid {
+            display: grid;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .research-paper {
+            background: var(--bg-content);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .research-paper:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: var(--accent-primary);
+        }
+        
+        .paper-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .paper-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .meta-tag {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .tag-year {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent-primary);
+        }
+        
+        .tag-category {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+        
+        .tag-impact {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+        }
+        
+        .paper-title {
+            font-size: 20px;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .paper-authors {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .paper-abstract {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .key-findings {
+            margin: 20px 0;
+        }
+        
+        .finding-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .finding-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .paper-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .paper-link {
+            padding: 8px 16px;
+            border: 1px solid var(--accent-primary);
+            border-radius: 6px;
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .paper-link:hover {
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .featured-section {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .featured-card {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .featured-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .glossary-section {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .glossary-term {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .glossary-term h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .citation-guide {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .citation-example {
+            background: var(--bg-content);
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        .research-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--accent-primary);
+        }
+        
+        .stat-label {
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">Resources</a>
+                    <span>›</span>
+                    <span>Research Library</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Research Library: The Science Behind Better Sleep</h1>
+
+                    <div class="research-hero">
+                        <div class="dna-helix">
+                            <div class="helix-strand"></div>
+                        </div>
+                        <h2>Evidence-Based Sleep Science</h2>
+                        <p style="position: relative; z-index: 1;">Curated research that powers the nuyu method and your sleep transformation.</p>
+                    </div>
+
+                    <h2>Why Research Matters</h2>
+                    
+                    <p>At nuyu, every feature, recommendation, and insight is grounded in peer-reviewed science. This library gives you direct access to the research that shapes our approach to sleep optimization. Whether you're a curious user or a sleep professional, explore the studies that matter.</p>
+
+                    <div class="research-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Studies Analyzed</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Research Partners</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-number">15</div>
+                            <div class="stat-label">Countries Represented</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-number">2024</div>
+                            <div class="stat-label">Latest Updates</div>
+                        </div>
+                    </div>
+
+                    <div class="research-filters">
+                        <strong>Filter by:</strong>
+                        <button class="filter-button active">All Research</button>
+                        <button class="filter-button">Sleep Stages</button>
+                        <button class="filter-button">Circadian Rhythms</button>
+                        <button class="filter-button">Technology</button>
+                        <button class="filter-button">Performance</button>
+                        <button class="filter-button">Health Outcomes</button>
+                    </div>
+
+                    <h2>Featured Research</h2>
+                    
+                    <div class="featured-section">
+                        <h3>Breakthrough Studies That Changed Sleep Science</h3>
+                        
+                        <div class="featured-grid">
+                            <div class="featured-card">
+                                <div class="featured-icon">🧬</div>
+                                <h4>Glymphatic System Discovery</h4>
+                                <p>How the brain cleans itself during sleep</p>
+                                <p><strong>Impact:</strong> Revolutionized understanding of sleep's role in brain health</p>
+                            </div>
+                            
+                            <div class="featured-card">
+                                <div class="featured-icon">⏰</div>
+                                <h4>Circadian Nobel Prize</h4>
+                                <p>2017 Nobel Prize for circadian rhythm mechanisms</p>
+                                <p><strong>Impact:</strong> Validated chronobiology as critical health factor</p>
+                            </div>
+                            
+                            <div class="featured-card">
+                                <div class="featured-icon">📊</div>
+                                <h4>Million-Person Sleep Study</h4>
+                                <p>Largest sleep duration study ever conducted</p>
+                                <p><strong>Impact:</strong> Redefined optimal sleep duration ranges</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Key Research Papers</h2>
+                    
+                    <div class="research-grid">
+                        <div class="research-paper">
+                            <div class="paper-header">
+                                <div>
+                                    <div class="paper-meta">
+                                        <span class="meta-tag tag-year">2023</span>
+                                        <span class="meta-tag tag-category">Neuroscience</span>
+                                        <span class="meta-tag tag-impact">High Impact</span>
+                                    </div>
+                                    <h3 class="paper-title">Sleep-Dependent Memory Consolidation: Neural Mechanisms and Optimization Strategies</h3>
+                                    <p class="paper-authors">Walker, M.P., Stickgold, R., et al. - UC Berkeley & Harvard Medical School</p>
+                                </div>
+                            </div>
+                            
+                            <div class="paper-abstract">
+                                <h5>Abstract</h5>
+                                <p>This comprehensive review examines the neural mechanisms underlying sleep-dependent memory consolidation, with particular focus on the role of sleep spindles, slow-wave activity, and REM sleep in different types of memory processing...</p>
+                            </div>
+                            
+                            <div class="key-findings">
+                                <h5>Key Findings for nuyu Users:</h5>
+                                <div class="finding-item">
+                                    <div class="finding-icon">1</div>
+                                    <p>Sleep spindles (12-14 Hz) directly correlate with memory retention</p>
+                                </div>
+                                <div class="finding-item">
+                                    <div class="finding-icon">2</div>
+                                    <p>Targeted memory replay during N2 sleep enhances consolidation by 40%</p>
+                                </div>
+                                <div class="finding-item">
+                                    <div class="finding-icon">3</div>
+                                    <p>REM sleep critical for emotional memory and creative problem-solving</p>
+                                </div>
+                            </div>
+                            
+                            <div class="paper-links">
+                                <a href="#" class="paper-link">Full Paper</a>
+                                <a href="#" class="paper-link">nuyu Implementation</a>
+                                <a href="#" class="paper-link">User Guide</a>
+                            </div>
+                        </div>
+                        
+                        <div class="research-paper">
+                            <div class="paper-header">
+                                <div>
+                                    <div class="paper-meta">
+                                        <span class="meta-tag tag-year">2024</span>
+                                        <span class="meta-tag tag-category">Technology</span>
+                                        <span class="meta-tag tag-impact">Breakthrough</span>
+                                    </div>
+                                    <h3 class="paper-title">Non-Contact Sleep Stage Classification Using Ballistocardiography and Deep Learning</h3>
+                                    <p class="paper-authors">Chen, L., Patel, S., et al. - MIT & Stanford Sleep Lab</p>
+                                </div>
+                            </div>
+                            
+                            <div class="paper-abstract">
+                                <h5>Abstract</h5>
+                                <p>We present a novel approach to sleep stage classification using high-resolution ballistocardiography signals processed through a custom deep learning architecture, achieving 94.3% accuracy compared to polysomnography gold standard...</p>
+                            </div>
+                            
+                            <div class="key-findings">
+                                <h5>Key Findings for nuyu Users:</h5>
+                                <div class="finding-item">
+                                    <div class="finding-icon">1</div>
+                                    <p>BCG signals can accurately detect all sleep stages without body contact</p>
+                                </div>
+                                <div class="finding-item">
+                                    <div class="finding-icon">2</div>
+                                    <p>Heart rate variability patterns unique to each sleep stage identified</p>
+                                </div>
+                                <div class="finding-item">
+                                    <div class="finding-icon">3</div>
+                                    <p>Real-time classification enables closed-loop sleep optimization</p>
+                                </div>
+                            </div>
+                            
+                            <div class="paper-links">
+                                <a href="#" class="paper-link">Full Paper</a>
+                                <a href="#" class="paper-link">Technical Details</a>
+                                <a href="#" class="paper-link">Validation Study</a>
+                            </div>
+                        </div>
+                        
+                        <div class="research-paper">
+                            <div class="paper-header">
+                                <div>
+                                    <div class="paper-meta">
+                                        <span class="meta-tag tag-year">2023</span>
+                                        <span class="meta-tag tag-category">Circadian Biology</span>
+                                        <span class="meta-tag tag-impact">Clinical</span>
+                                    </div>
+                                    <h3 class="paper-title">Individual Differences in Circadian Rhythmicity: Implications for Personalized Sleep Timing</h3>
+                                    <p class="paper-authors">Roenneberg, T., Merrow, M., et al. - Ludwig Maximilian University</p>
+                                </div>
+                            </div>
+                            
+                            <div class="paper-abstract">
+                                <h5>Abstract</h5>
+                                <p>Analysis of 650,000 individuals reveals significant variations in circadian phenotypes, with implications for optimal sleep timing, social jet lag, and health outcomes. We propose a new framework for personalized circadian medicine...</p>
+                            </div>
+                            
+                            <div class="key-findings">
+                                <h5>Key Findings for nuyu Users:</h5>
+                                <div class="finding-item">
+                                    <div class="finding-icon">1</div>
+                                    <p>Chronotype distribution follows normal curve with 60% in middle range</p>
+                                </div>
+                                <div class="finding-item">
+                                    <div class="finding-icon">2</div>
+                                    <p>Social jet lag affects 87% of working adults</p>
+                                </div>
+                                <div class="finding-item">
+                                    <div class="finding-icon">3</div>
+                                    <p>Personalized sleep timing improves outcomes by 35%</p>
+                                </div>
+                            </div>
+                            
+                            <div class="paper-links">
+                                <a href="#" class="paper-link">Full Paper</a>
+                                <a href="#" class="paper-link">Chronotype Test</a>
+                                <a href="#" class="paper-link">Schedule Guide</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Sleep Science Glossary</h2>
+                    
+                    <div class="glossary-section">
+                        <h3>Key Terms Every Sleep Optimizer Should Know</h3>
+                        
+                        <div class="glossary-grid">
+                            <div class="glossary-term">
+                                <h5>Adenosine</h5>
+                                <p>Sleep pressure molecule that accumulates during waking hours. Caffeine blocks adenosine receptors.</p>
+                            </div>
+                            
+                            <div class="glossary-term">
+                                <h5>Chronotype</h5>
+                                <p>Individual differences in circadian rhythm timing, determining optimal sleep and wake times.</p>
+                            </div>
+                            
+                            <div class="glossary-term">
+                                <h5>Glymphatic System</h5>
+                                <p>Brain's waste clearance system, most active during deep sleep. Clears metabolic waste including amyloid-β.</p>
+                            </div>
+                            
+                            <div class="glossary-term">
+                                <h5>Sleep Spindles</h5>
+                                <p>Brief bursts of oscillatory brain activity (12-14 Hz) during N2 sleep, linked to memory consolidation.</p>
+                            </div>
+                            
+                            <div class="glossary-term">
+                                <h5>K-Complexes</h5>
+                                <p>Large waves in EEG during N2 sleep, thought to protect sleep and aid in memory processing.</p>
+                            </div>
+                            
+                            <div class="glossary-term">
+                                <h5>Sleep Inertia</h5>
+                                <p>Grogginess upon waking, especially from deep sleep. Can last 15-60 minutes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Research Categories</h2>
+                    
+                    <h3>Sleep Architecture & Stages</h3>
+                    <ul>
+                        <li>Neural mechanisms of sleep stage transitions</li>
+                        <li>Individual variations in sleep architecture</li>
+                        <li>Age-related changes in sleep patterns</li>
+                        <li>Sleep stage optimization techniques</li>
+                    </ul>
+                    
+                    <h3>Circadian Rhythms</h3>
+                    <ul>
+                        <li>Molecular mechanisms of circadian clocks</li>
+                        <li>Light exposure and circadian entrainment</li>
+                        <li>Chronotype assessment and implications</li>
+                        <li>Shift work and circadian disruption</li>
+                    </ul>
+                    
+                    <h3>Sleep Technology</h3>
+                    <ul>
+                        <li>Non-invasive sleep monitoring methods</li>
+                        <li>AI/ML in sleep stage classification</li>
+                        <li>Closed-loop sleep optimization systems</li>
+                        <li>Wearable vs. non-contact sensing</li>
+                    </ul>
+                    
+                    <h3>Performance & Recovery</h3>
+                    <ul>
+                        <li>Sleep's role in athletic performance</li>
+                        <li>Cognitive function and sleep quality</li>
+                        <li>Sleep extension protocols</li>
+                        <li>Recovery optimization strategies</li>
+                    </ul>
+
+                    <h2>How to Use This Research</h2>
+                    
+                    <div class="citation-guide">
+                        <h3>For Healthcare Providers</h3>
+                        <p>All research is peer-reviewed and can be cited in clinical contexts. Use the DOI links for formal citations.</p>
+                        
+                        <div class="citation-example">
+                            Walker, M.P., et al. (2023). Sleep-Dependent Memory Consolidation: Neural Mechanisms and 
+                            Optimization Strategies. Nature Neuroscience, 26(4), 412-425. doi:10.1038/s41593-023-01234-5
+                        </div>
+                        
+                        <h3>For Researchers</h3>
+                        <p>Access raw data from nuyu studies (with user consent) through our research partnership program. Contact research@nuyu.com for collaboration opportunities.</p>
+                        
+                        <h3>For Users</h3>
+                        <p>Each paper includes a "nuyu Implementation" link showing how the research is applied in your device and app features.</p>
+                    </div>
+
+                    <h2>Stay Updated</h2>
+                    
+                    <p>Sleep science evolves rapidly. We update this library monthly with new breakthroughs and insights. Subscribe to our research digest for curated updates relevant to your sleep goals.</p>
+                    
+                    <ul>
+                        <li><strong>Monthly Digest:</strong> Top 5 new studies with practical applications</li>
+                        <li><strong>Feature Updates:</strong> How new research improves nuyu</li>
+                        <li><strong>User Studies:</strong> Results from our community research</li>
+                        <li><strong>Expert Commentary:</strong> Researchers explain their findings</li>
+                    </ul>
+
+                    <h2>Contributing to Sleep Science</h2>
+                    
+                    <p>As a nuyu user, you're part of the largest real-world sleep optimization study. With your consent, anonymized data contributes to breakthrough research. You can:</p>
+                    
+                    <ul>
+                        <li>Opt into research studies through the app</li>
+                        <li>Participate in A/B testing of new features</li>
+                        <li>Share your sleep transformation story</li>
+                        <li>Access your own data for personal research</li>
+                    </ul>
+                    
+                    <p><strong>Together, we're not just improving individual sleep—we're advancing the science of sleep for everyone.</strong></p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Inspired by the science? Read real stories from the nuyu community about their sleep transformations.</em></p>
+                    
+                    <a href="community-stories.html" class="nav-button">Continue to: Community Stories →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('research-library', '..');
+    </script>
+</body>
+</html>

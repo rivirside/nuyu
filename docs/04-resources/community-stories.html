@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Stories - nuyu Documentation</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .stories-hero {
+            background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .heart-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: float-heart 8s infinite;
+        }
+        
+        .heart:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .heart:nth-child(2) { left: 30%; animation-delay: 2s; }
+        .heart:nth-child(3) { left: 50%; animation-delay: 4s; }
+        .heart:nth-child(4) { left: 70%; animation-delay: 6s; }
+        .heart:nth-child(5) { left: 90%; animation-delay: 8s; }
+        
+        @keyframes float-heart {
+            0% { bottom: -10%; opacity: 0; transform: scale(0.5); }
+            20% { opacity: 0.5; }
+            50% { opacity: 0.3; transform: scale(1) rotate(15deg); }
+            100% { bottom: 110%; opacity: 0; transform: scale(1.5) rotate(-15deg); }
+        }
+        
+        .stories-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .story-filters {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .filter-pill {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background: var(--hover-bg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-pill:hover {
+            background: var(--accent-light);
+            border-color: var(--accent-primary);
+        }
+        
+        .filter-pill.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        
+        .story-card {
+            background: var(--bg-content);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .story-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: var(--accent-primary);
+        }
+        
+        .story-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .story-meta {
+            flex: 1;
+        }
+        
+        .story-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+        
+        .story-details {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .transformation-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .story-quote {
+            background: var(--hover-bg);
+            border-left: 4px solid var(--accent-primary);
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .story-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .metric-box {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent-primary);
+        }
+        
+        .metric-label {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .story-journey {
+            margin: 20px 0;
+        }
+        
+        .journey-phase {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            align-items: flex-start;
+        }
+        
+        .phase-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .tips-section {
+            background: rgba(99, 102, 241, 0.05);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .tips-section h5 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+        }
+        
+        .featured-transformation {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 30px 0;
+        }
+        
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .ba-column {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 25px;
+        }
+        
+        .ba-column h4 {
+            margin-bottom: 15px;
+        }
+        
+        .before-column {
+            border-left: 4px solid #ef4444;
+        }
+        
+        .after-column {
+            border-left: 4px solid #22c55e;
+        }
+        
+        .community-stats {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-description {
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+        
+        .share-story {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .share-button {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .share-button:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">Resources</a>
+                    <span>›</span>
+                    <span>Community Stories</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Community Stories: Real People, Real Transformations</h1>
+
+                    <div class="stories-hero">
+                        <div class="heart-animation">
+                            <span class="heart">💕</span>
+                            <span class="heart">💕</span>
+                            <span class="heart">💕</span>
+                            <span class="heart">💕</span>
+                            <span class="heart">💕</span>
+                        </div>
+                        <h2>Your Success Inspires Us All</h2>
+                        <p style="position: relative; z-index: 1;">Discover how the nuyu community is transforming their nights and their lives.</p>
+                    </div>
+
+                    <h2>Real Stories, Real Results</h2>
+                    
+                    <p>Every sleep journey is unique. These stories from the nuyu community showcase the diverse ways better sleep transforms lives. From new parents to CEOs, athletes to artists, discover how people just like you achieved their sleep goals.</p>
+
+                    <div class="community-stats">
+                        <h3>Our Growing Community</h3>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">250K+</div>
+                                <div class="stat-description">Active Users</div>
+                            </div>
+                            
+                            <div class="stat-item">
+                                <div class="stat-number">82%</div>
+                                <div class="stat-description">Report Better Sleep</div>
+                            </div>
+                            
+                            <div class="stat-item">
+                                <div class="stat-number">6.5M</div>
+                                <div class="stat-description">Nights Tracked</div>
+                            </div>
+                            
+                            <div class="stat-item">
+                                <div class="stat-number">45min</div>
+                                <div class="stat-description">Avg Sleep Gain</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story-filters">
+                        <strong>Filter stories:</strong>
+                        <button class="filter-pill active">All Stories</button>
+                        <button class="filter-pill">Parents</button>
+                        <button class="filter-pill">Professionals</button>
+                        <button class="filter-pill">Athletes</button>
+                        <button class="filter-pill">Shift Workers</button>
+                        <button class="filter-pill">Seniors</button>
+                    </div>
+
+                    <div class="featured-transformation">
+                        <h2>Featured Transformation: Sarah's 180° Turn</h2>
+                        
+                        <div class="story-header">
+                            <div class="avatar">SM</div>
+                            <div class="story-meta">
+                                <div class="story-name">Sarah Martinez</div>
+                                <div class="story-details">Tech Executive, 38 • San Francisco • nuyu user for 6 months</div>
+                            </div>
+                        </div>
+                        
+                        <div class="story-quote">
+                            "I went from surviving on 4-5 hours to thriving on 7.5. It wasn't just about sleeping more—it was about sleeping smarter. nuyu showed me patterns I never knew existed."
+                        </div>
+                        
+                        <div class="before-after">
+                            <div class="ba-column before-column">
+                                <h4>Before nuyu</h4>
+                                <ul>
+                                    <li>4-5 hours average sleep</li>
+                                    <li>3-4 cups of coffee to function</li>
+                                    <li>Afternoon crashes daily</li>
+                                    <li>Weekend "catch up" sleep</li>
+                                    <li>Irritable and foggy</li>
+                                    <li>Declining work performance</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="ba-column after-column">
+                                <h4>After 6 Months</h4>
+                                <ul>
+                                    <li>7.5 hours consistent sleep</li>
+                                    <li>1 morning coffee by choice</li>
+                                    <li>Sustained energy all day</li>
+                                    <li>Consistent sleep schedule</li>
+                                    <li>Clear-headed and calm</li>
+                                    <li>Promoted to VP</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="tips-section">
+                            <h5>Sarah's Top Tips</h5>
+                            <ol>
+                                <li><strong>Trust the data:</strong> "I thought I was getting 6 hours. nuyu showed me it was actually 4.5 with all the wake-ups."</li>
+                                <li><strong>One change at a time:</strong> "I started with just a consistent bedtime. That alone improved my score by 15 points."</li>
+                                <li><strong>Temperature matters:</strong> "Dropping my bedroom to 65°F was a game-changer for deep sleep."</li>
+                                <li><strong>Protect your wind-down:</strong> "That last hour before bed is sacred now. No emails, no exceptions."</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <h2>Community Transformations</h2>
+
+                    <div class="story-card">
+                        <span class="transformation-badge">New Parent Victory</span>
+                        <div class="story-header">
+                            <div class="avatar">JK</div>
+                            <div class="story-meta">
+                                <div class="story-name">James Kim</div>
+                                <div class="story-details">New Dad, 34 • Seattle • nuyu user for 3 months</div>
+                            </div>
+                        </div>
+                        
+                        <div class="story-quote">
+                            "With a 4-month-old, I thought good sleep was impossible. nuyu helped me optimize the sleep I could get. Even on 6 hours, I feel more rested than I did pre-baby on 8."
+                        </div>
+                        
+                        <div class="story-metrics">
+                            <div class="metric-box">
+                                <div class="metric-value">78→89</div>
+                                <div class="metric-label">Sleep Efficiency</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-value">4→2</div>
+                                <div class="metric-label">Night Wakings</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-value">45%</div>
+                                <div class="metric-label">More Energy</div>
+                            </div>
+                        </div>
+                        
+                        <h5>Key Insight:</h5>
+                        <p>"nuyu's Partner Mode filtered out the baby's movements. I discovered I was waking myself up more than the baby was waking me. Fixed my anxiety around sleep, and ironically, I started sleeping better."</p>
+                    </div>
+
+                    <div class="story-card">
+                        <span class="transformation-badge">Athletic Performance</span>
+                        <div class="story-header">
+                            <div class="avatar">RT</div>
+                            <div class="story-meta">
+                                <div class="story-name">Rachel Thompson</div>
+                                <div class="story-details">Marathon Runner, 29 • Boston • nuyu user for 1 year</div>
+                            </div>
+                        </div>
+                        
+                        <div class="story-quote">
+                            "I shaved 12 minutes off my marathon PR. The secret? I finally started treating sleep as part of my training, not something that got in the way of it."
+                        </div>
+                        
+                        <div class="story-metrics">
+                            <div class="metric-box">
+                                <div class="metric-value">7.5→9h</div>
+                                <div class="metric-label">Sleep Duration</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-value">25%</div>
+                                <div class="metric-label">More Deep Sleep</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-value">3:22→3:10</div>
+                                <div class="metric-label">Marathon Time</div>
+                            </div>
+                        </div>
+                        
+                        <div class="story-journey">
+                            <h5>Rachel's Journey:</h5>
+                            <div class="journey-phase">
+                                <div class="phase-icon">1</div>
+                                <p><strong>Month 1:</strong> Established consistent 10 PM bedtime, even on weekends</p>
+                            </div>
+                            <div class="journey-phase">
+                                <div class="phase-icon">2</div>
+                                <p><strong>Month 3:</strong> Added 90-minute afternoon naps on heavy training days</p>
+                            </div>
+                            <div class="journey-phase">
+                                <div class="phase-icon">3</div>
+                                <p><strong>Month 6:</strong> Fine-tuned pre-race sleep protocol for peak performance</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story-card">
+                        <span class="transformation-badge">Night Shift Success</span>
+                        <div class="story-header">
+                            <div class="avatar">MC</div>
+                            <div class="story-meta">
+                                <div class="story-name">Maria Chen</div>
+                                <div class="story-details">ICU Nurse, 42 • Chicago • nuyu user for 8 months</div>
+                            </div>
+                        </div>
+                        
+                        <div class="story-quote">
+                            "I've worked nights for 15 years and always struggled. nuyu helped me create a sleep system that actually works with my schedule, not against it."
+                        </div>
+                        
+                        <div class="story-metrics">
+                            <div class="metric-box">
+                                <div class="metric-value">5→7h</div>
+                                <div class="metric-label">Day Sleep</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-value">65→83</div>
+                                <div class="metric-label">Sleep Score</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-value">0</div>
+                                <div class="metric-label">Sick Days Used</div>
+                            </div>
+                        </div>
+                        
+                        <div class="tips-section">
+                            <h5>Maria's Shift Work Protocol:</h5>
+                            <ul>
+                                <li>Blackout curtains + eye mask for complete darkness</li>
+                                <li>White noise machine to block daytime sounds</li>
+                                <li>Temperature at 62°F (colder than most prefer)</li>
+                                <li>Strategic caffeine: none after 2 AM on shift</li>
+                                <li>Consistent sleep time even on days off</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="story-card">
+                        <span class="transformation-badge">Anxiety & Sleep</span>
+                        <div class="story-header">
+                            <div class="avatar">DW</div>
+                            <div class="story-meta">
+                                <div class="story-name">David Williams</div>
+                                <div class="story-details">Teacher, 45 • Denver • nuyu user for 4 months</div>
+                            </div>
+                        </div>
+                        
+                        <div class="story-quote">
+                            "My anxiety made me dread bedtime. nuyu's data showed me that my sleep was actually better than I thought, which broke the anxiety cycle. Knowledge truly is power."
+                        </div>
+                        
+                        <div class="story-metrics">
+                            <div class="metric-box">
+                                <div class="metric-value">2h→25m</div>
+                                <div class="metric-label">Sleep Latency</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-value">8→3</div>
+                                <div class="metric-label">Anxiety (1-10)</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-value">95%</div>
+                                <div class="metric-label">Consistency</div>
+                            </div>
+                        </div>
+                        
+                        <h5>Breakthrough Moment:</h5>
+                        <p>"Seeing that I was actually getting 6.5 hours of decent sleep, not the 3-4 I perceived, changed everything. The objective data quieted my anxious mind. Now I fall asleep in 25 minutes instead of lying there for 2 hours."</p>
+                    </div>
+
+                    <div class="story-card">
+                        <span class="transformation-badge">Senior Sleep</span>
+                        <div class="story-header">
+                            <div class="avatar">BJ</div>
+                            <div class="story-meta">
+                                <div class="story-name">Barbara Johnson</div>
+                                <div class="story-details">Retired, 68 • Phoenix • nuyu user for 6 months</div>
+                            </div>
+                        </div>
+                        
+                        <div class="story-quote">
+                            "I accepted poor sleep as part of aging. nuyu proved me wrong. At 68, I'm sleeping better than I did at 50."
+                        </div>
+                        
+                        <div class="story-metrics">
+                            <div class="metric-box">
+                                <div class="metric-value">5→7h</div>
+                                <div class="metric-label">Total Sleep</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-value">6→2</div>
+                                <div class="metric-label">Nightly Wake-ups</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-value">100%</div>
+                                <div class="metric-label">Med-Free Sleep</div>
+                            </div>
+                        </div>
+                        
+                        <h5>Barbara's Secrets:</h5>
+                        <ul>
+                            <li>Morning sunlight walk replaced evening TV</li>
+                            <li>Moved dinner to 5 PM (was 7 PM)</li>
+                            <li>Replaced nighttime bathroom trips with better fluid timing</li>
+                            <li>Gentle yoga before bed instead of worrying</li>
+                        </ul>
+                    </div>
+
+                    <h2>Common Themes from Success Stories</h2>
+                    
+                    <h3>🎯 What Works: Patterns from 250,000+ Users</h3>
+                    
+                    <ol>
+                        <li><strong>Consistency beats perfection:</strong> Every success story mentions consistent bedtime</li>
+                        <li><strong>Data defeats perception:</strong> Objective measurements change behavior</li>
+                        <li><strong>Small changes compound:</strong> Nobody transformed overnight</li>
+                        <li><strong>Temperature is universal:</strong> Cooler bedrooms appear in 90% of success stories</li>
+                        <li><strong>Personalization is key:</strong> What works varies, but finding what works for YOU is crucial</li>
+                        <li><strong>Community support helps:</strong> Sharing struggles and victories accelerates progress</li>
+                    </ol>
+
+                    <h2>Your Story Matters</h2>
+                    
+                    <div class="share-story">
+                        <h3>Share Your Sleep Transformation</h3>
+                        <p>Your journey could inspire someone who's struggling. Whether you've gained 15 minutes or transformed your entire life, your story matters to our community.</p>
+                        
+                        <button class="share-button">Share Your Story</button>
+                        
+                        <p style="margin-top: 20px; font-size: 14px;">Selected stories receive 3 months of nuyu Pro and help shape future features.</p>
+                    </div>
+
+                    <h2>Join the Movement</h2>
+                    
+                    <p>Every night, thousands of nuyu users are proving that better sleep isn't a luxury—it's achievable for everyone. These stories show that regardless of your challenges, lifestyle, or starting point, transformation is possible.</p>
+                    
+                    <ul>
+                        <li><strong>Forum:</strong> Connect with others on similar journeys</li>
+                        <li><strong>Challenges:</strong> Join monthly community sleep challenges</li>
+                        <li><strong>Meetups:</strong> Local nuyu user groups in 50+ cities</li>
+                        <li><strong>Mentorship:</strong> Get paired with a sleep success buddy</li>
+                    </ul>
+                    
+                    <p><strong>Remember:</strong> Every transformation started with someone just like you, taking the first step. Your best sleep—and your best life—is waiting.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Need help on your journey? Visit our Support Center for resources, guides, and direct assistance.</em></p>
+                    
+                    <a href="support-center.html" class="nav-button">Continue to: Support Center →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('community-stories', '..');
+    </script>
+</body>
+</html>

@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environmental Design - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .environment-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .environment-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="0" y="0" width="10" height="10" fill="%23ffffff10"/><rect x="20" y="20" width="10" height="10" fill="%23ffffff10"/><rect x="40" y="40" width="10" height="10" fill="%23ffffff10"/><rect x="60" y="60" width="10" height="10" fill="%23ffffff10"/><rect x="80" y="80" width="10" height="10" fill="%23ffffff10"/></svg>') repeat;
+            background-size: 100px 100px;
+        }
+        
+        .environment-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .friction-principle {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .friction-examples {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .reduce-friction, .add-friction {
+            padding: 25px;
+            border-radius: 12px;
+        }
+        
+        .reduce-friction {
+            background: rgba(34, 197, 94, 0.05);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .add-friction {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .reduce-friction h4 {
+            color: #22c55e;
+            margin-bottom: 15px;
+        }
+        
+        .add-friction h4 {
+            color: #ef4444;
+            margin-bottom: 15px;
+        }
+        
+        .room-zones {
+            background: var(--code-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .zone-map {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .zone-card {
+            background: var(--bg-content);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .zone-card:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-primary);
+        }
+        
+        .zone-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .cue-engineering {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .cue-timeline {
+            position: relative;
+            padding: 20px 0;
+            margin: 30px 0;
+        }
+        
+        .cue-timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border-color);
+        }
+        
+        .cue-point {
+            position: relative;
+            display: inline-block;
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin: 0 10px;
+        }
+        
+        .bedroom-audit {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .audit-checklist {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .audit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent-primary);
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .sensory-optimization {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .sensory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .sensory-card {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .sensory-card h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .sensory-scale {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 5px;
+            background: var(--bg-content);
+            border-radius: 4px;
+        }
+        
+        .tech-placement {
+            background: rgba(239, 68, 68, 0.05);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .placement-zones {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .placement-zone {
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .red-zone {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .yellow-zone {
+            background: rgba(251, 191, 36, 0.2);
+            color: #f59e0b;
+        }
+        
+        .green-zone {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        .habit-architecture {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .architecture-layer {
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--bg-content);
+            border-radius: 6px;
+        }
+        
+        .architecture-layer h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .transformation-before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .before-state, .after-state {
+            padding: 25px;
+            border-radius: 12px;
+        }
+        
+        .before-state {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .after-state {
+            background: rgba(34, 197, 94, 0.05);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .design-principles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .principle-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .principle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .principle-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        
+        .quick-wins {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .win-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            gap: 15px;
+        }
+        
+        .win-time {
+            background: var(--accent-primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Implementation Science</a>
+                    <span>›</span>
+                    <span>Environmental Design</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Environmental Design: Make Good Sleep Automatic</h1>
+
+                    <div class="environment-hero">
+                        <h2>Your Environment Is Stronger Than Your Willpower</h2>
+                        <p style="position: relative; z-index: 1;">Stop relying on discipline. Start designing spaces that make great sleep inevitable.</p>
+                    </div>
+
+                    <h2>The Cookie Jar Principle</h2>
+                    
+                    <p>Put a cookie jar on your kitchen counter, and you'll eat more cookies. Hide it in a cabinet, and you'll eat fewer. Move it to the garage, and you might forget you have cookies at all.</p>
+                    
+                    <p>This isn't about willpower—it's about friction. Every behavior has an activation energy, and your environment determines how much energy is required. Want better sleep? Stop trying harder. Start designing smarter.</p>
+
+                    <div class="friction-principle">
+                        <h3>The Friction Formula</h3>
+                        <p style="text-align: center; font-size: 20px; margin: 20px 0;">
+                            <strong>Desired Behavior = Reduce Friction</strong><br>
+                            <strong>Undesired Behavior = Add Friction</strong>
+                        </p>
+                        <p>Your environment should make good sleep choices effortless and poor sleep choices require effort.</p>
+                    </div>
+
+                    <h2>The Two-Part Environmental Strategy</h2>
+                    
+                    <div class="friction-examples">
+                        <div class="reduce-friction">
+                            <h4>↓ Reduce Friction for Sleep</h4>
+                            <ul>
+                                <li>Blackout curtains on easy-pull tracks</li>
+                                <li>Phone charger in another room</li>
+                                <li>Comfortable bedding ready to use</li>
+                                <li>Dimmer switches within reach</li>
+                                <li>Sleep mask and earplugs visible</li>
+                                <li>Bedroom at optimal temperature</li>
+                                <li>Books/journal on nightstand</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="add-friction">
+                            <h4>↑ Add Friction to Disruption</h4>
+                            <ul>
+                                <li>TV remote in drawer/removed</li>
+                                <li>Work laptop stays in office</li>
+                                <li>Bright lights require standing</li>
+                                <li>Phone needs passcode at night</li>
+                                <li>Caffeine stored inconveniently</li>
+                                <li>Alarm clock across room</li>
+                                <li>Snooze button disabled</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>The Three Zones of Sleep Design</h2>
+                    
+                    <div class="room-zones">
+                        <h3>Your Bedroom Is Not One Space—It's Three</h3>
+                        
+                        <div class="zone-map">
+                            <div class="zone-card">
+                                <div class="zone-icon">🛏️</div>
+                                <h4>Sleep Zone</h4>
+                                <p>Bed + immediate surroundings. Sacred space for sleep and intimacy only.</p>
+                            </div>
+                            
+                            <div class="zone-card">
+                                <div class="zone-icon">📚</div>
+                                <h4>Transition Zone</h4>
+                                <p>Chair, dresser area. For calm activities like reading or dressing.</p>
+                            </div>
+                            
+                            <div class="zone-card">
+                                <div class="zone-icon">🚫</div>
+                                <h4>Forbidden Zone</h4>
+                                <p>No work, screens, or stimulation. These belong outside the bedroom.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Environmental Cue Engineering</h2>
+                    
+                    <p>Your brain is constantly scanning for cues about what to do next. Design your environment to send clear "time to sleep" signals:</p>
+                    
+                    <div class="cue-engineering">
+                        <h3>The Progressive Sleep Cue System</h3>
+                        
+                        <div class="cue-timeline">
+                            <span class="cue-point">Dinner ends</span>
+                            <span class="cue-point">Lights dim</span>
+                            <span class="cue-point">Temperature drops</span>
+                            <span class="cue-point">Devices charge</span>
+                            <span class="cue-point">Pajamas visible</span>
+                            <span class="cue-point">Bed prepared</span>
+                        </div>
+                        
+                        <p style="margin-top: 30px;">Each environmental change reinforces the next, creating an unstoppable cascade toward sleep.</p>
+                    </div>
+
+                    <h2>The Complete Bedroom Audit</h2>
+                    
+                    <div class="bedroom-audit">
+                        <h3>Transform Your Sleep Space: The 20-Point Checklist</h3>
+                        
+                        <div class="audit-checklist">
+                            <div class="audit-item">
+                                <div class="check-icon"></div>
+                                <span>All light sources identified and blocked/removed</span>
+                            </div>
+                            
+                            <div class="audit-item">
+                                <div class="check-icon"></div>
+                                <span>Temperature control within arm's reach</span>
+                            </div>
+                            
+                            <div class="audit-item">
+                                <div class="check-icon"></div>
+                                <span>No work materials visible from bed</span>
+                            </div>
+                            
+                            <div class="audit-item">
+                                <div class="check-icon"></div>
+                                <span>Charging station outside bedroom</span>
+                            </div>
+                            
+                            <div class="audit-item">
+                                <div class="check-icon"></div>
+                                <span>Blackout solution implemented</span>
+                            </div>
+                            
+                            <div class="audit-item">
+                                <div class="check-icon"></div>
+                                <span>Sound management system in place</span>
+                            </div>
+                            
+                            <div class="audit-item">
+                                <div class="check-icon"></div>
+                                <span>Comfortable bedding for all seasons</span>
+                            </div>
+                            
+                            <div class="audit-item">
+                                <div class="check-icon"></div>
+                                <span>Air quality optimized (plants/purifier)</span>
+                            </div>
+                            
+                            <div class="audit-item">
+                                <div class="check-icon"></div>
+                                <span>Clutter removed or hidden</span>
+                            </div>
+                            
+                            <div class="audit-item">
+                                <div class="check-icon"></div>
+                                <span>Calming colors and textures</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Sensory Environment Optimization</h2>
+                    
+                    <div class="sensory-optimization">
+                        <h3>The Five Senses of Perfect Sleep</h3>
+                        
+                        <div class="sensory-grid">
+                            <div class="sensory-card">
+                                <h5>👁️ Visual</h5>
+                                <div class="sensory-scale">
+                                    <span>Target:</span>
+                                    <span><1 lux</span>
+                                </div>
+                                <p>Darker than a movie theater. No visible LED lights.</p>
+                            </div>
+                            
+                            <div class="sensory-card">
+                                <h5>👂 Auditory</h5>
+                                <div class="sensory-scale">
+                                    <span>Target:</span>
+                                    <span>30-40 dB</span>
+                                </div>
+                                <p>Quiet library level. White noise if needed.</p>
+                            </div>
+                            
+                            <div class="sensory-card">
+                                <h5>🌡️ Thermal</h5>
+                                <div class="sensory-scale">
+                                    <span>Target:</span>
+                                    <span>65-68°F</span>
+                                </div>
+                                <p>Cool enough to need a light blanket.</p>
+                            </div>
+                            
+                            <div class="sensory-card">
+                                <h5>👃 Olfactory</h5>
+                                <div class="sensory-scale">
+                                    <span>Target:</span>
+                                    <span>Neutral</span>
+                                </div>
+                                <p>Fresh air, no strong scents. Lavender optional.</p>
+                            </div>
+                            
+                            <div class="sensory-card">
+                                <h5>🤚 Tactile</h5>
+                                <div class="sensory-scale">
+                                    <span>Target:</span>
+                                    <span>Comfort</span>
+                                </div>
+                                <p>Breathable fabrics, supportive mattress.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Technology Placement Strategy</h2>
+                    
+                    <div class="tech-placement">
+                        <h3>🚨 The Device Distance Rule</h3>
+                        <p>The further your devices are from your bed, the better your sleep.</p>
+                        
+                        <div class="placement-zones">
+                            <div class="placement-zone red-zone">
+                                ❌ Red Zone<br>
+                                <small>Nightstand/Bed</small>
+                            </div>
+                            
+                            <div class="placement-zone yellow-zone">
+                                ⚠️ Yellow Zone<br>
+                                <small>Across Room</small>
+                            </div>
+                            
+                            <div class="placement-zone green-zone">
+                                ✅ Green Zone<br>
+                                <small>Outside Bedroom</small>
+                            </div>
+                        </div>
+                        
+                        <p style="margin-top: 20px;"><strong>Pro tip:</strong> Buy a $10 alarm clock. Your $1000 phone doesn't belong in your bedroom.</p>
+                    </div>
+
+                    <h2>The Habit Architecture Method</h2>
+                    
+                    <p>Your environment should guide you through your ideal routine without thinking:</p>
+                    
+                    <div class="habit-architecture">
+                        <h3>Building Behavioral Highways</h3>
+                        
+                        <div class="architecture-layer">
+                            <h5>Layer 1: Visual Triggers</h5>
+                            <ul>
+                                <li>Sleep clothes laid out on chair (not in drawer)</li>
+                                <li>Book open to current page on nightstand</li>
+                                <li>Curtains partially closed as reminder</li>
+                                <li>Supplements/water bottle visible</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="architecture-layer">
+                            <h5>Layer 2: Pathway Design</h5>
+                            <ul>
+                                <li>Clear path from bathroom to bed (no obstacles)</li>
+                                <li>Light switches accessible without searching</li>
+                                <li>Everything needed within arm's reach</li>
+                                <li>Morning clothes/shoes ready to go</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="architecture-layer">
+                            <h5>Layer 3: Friction Barriers</h5>
+                            <ul>
+                                <li>Phone charger requires walking to another room</li>
+                                <li>TV remote in drawer with tape over button</li>
+                                <li>Work laptop in closed bag, not on desk</li>
+                                <li>Bright lights require multiple actions</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>Common Environmental Saboteurs</h2>
+                    
+                    <div class="transformation-before-after">
+                        <div class="before-state">
+                            <h4>❌ Sleep Killers</h4>
+                            <ul>
+                                <li>Phone charging on nightstand</li>
+                                <li>TV facing bed</li>
+                                <li>Work desk in bedroom</li>
+                                <li>Bright alarm clock display</li>
+                                <li>Exercise equipment visible</li>
+                                <li>Cluttered surfaces</li>
+                                <li>Multiple remote controls</li>
+                                <li>Bright bathroom lights</li>
+                                <li>Street light through curtains</li>
+                                <li>Partner's different schedule</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="after-state">
+                            <h4>✅ Sleep Promoters</h4>
+                            <ul>
+                                <li>Phone charges in kitchen</li>
+                                <li>No TV in bedroom</li>
+                                <li>Work stays in office</li>
+                                <li>Analog or covered clock</li>
+                                <li>Equipment in closet/other room</li>
+                                <li>Clear, calming surfaces</li>
+                                <li>Single dim lamp control</li>
+                                <li>Red light for nighttime</li>
+                                <li>Blackout curtains installed</li>
+                                <li>Separate sleep zones respected</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>The Progressive Transformation Plan</h2>
+                    
+                    <p>Don't overhaul everything at once. Layer changes week by week:</p>
+                    
+                    <div class="quick-wins">
+                        <h3>🏃 Quick Wins Timeline</h3>
+                        
+                        <div class="win-item">
+                            <span class="win-time">5 min</span>
+                            <span>Move phone charger out of bedroom</span>
+                        </div>
+                        
+                        <div class="win-item">
+                            <span class="win-time">10 min</span>
+                            <span>Cover or remove all LED lights</span>
+                        </div>
+                        
+                        <div class="win-item">
+                            <span class="win-time">15 min</span>
+                            <span>Create a charging station in another room</span>
+                        </div>
+                        
+                        <div class="win-item">
+                            <span class="win-time">30 min</span>
+                            <span>Rearrange furniture to create zones</span>
+                        </div>
+                        
+                        <div class="win-item">
+                            <span class="win-time">1 hour</span>
+                            <span>Install blackout curtains or shades</span>
+                        </div>
+                        
+                        <div class="win-item">
+                            <span class="win-time">Weekend</span>
+                            <span>Deep clean and optimize entire bedroom</span>
+                        </div>
+                    </div>
+
+                    <h2>Environmental Design Principles</h2>
+                    
+                    <div class="design-principles">
+                        <div class="principle-card">
+                            <div class="principle-icon">🎯</div>
+                            <h4>Make It Obvious</h4>
+                            <p>Good sleep cues should be unmissable. Bad sleep cues should be invisible.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <div class="principle-icon">🧲</div>
+                            <h4>Path of Least Resistance</h4>
+                            <p>The easiest action should always be the sleep-promoting one.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <div class="principle-icon">🔄</div>
+                            <h4>One-Way Streets</h4>
+                            <p>Design environments that naturally flow toward sleep, not away from it.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <div class="principle-icon">🚧</div>
+                            <h4>Protective Barriers</h4>
+                            <p>Physical obstacles prevent mindless sleep sabotage.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <div class="principle-icon">🎨</div>
+                            <h4>Sensory Harmony</h4>
+                            <p>Every sense should receive "time to sleep" signals.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <div class="principle-icon">🔧</div>
+                            <h4>Iterate and Improve</h4>
+                            <p>Your environment should evolve as you discover what works.</p>
+                        </div>
+                    </div>
+
+                    <h2>The Bedroom Sanctuary Mindset</h2>
+                    
+                    <p>Your bedroom is not a multipurpose room that happens to have a bed. It's a sleep sanctuary that happens to have other furniture. This mindset shift changes everything.</p>
+                    
+                    <p>When you enter your bedroom, your body should immediately begin preparing for sleep. When you leave, it should naturally wake up. This isn't magic—it's environmental conditioning.</p>
+
+                    <h2>Beyond the Bedroom</h2>
+                    
+                    <p>Sleep environment design extends throughout your home:</p>
+                    
+                    <ul>
+                        <li><strong>Living Room:</strong> Dim lighting options for evening, books visible, TV remote hidden</li>
+                        <li><strong>Kitchen:</strong> Herbal tea prominent, coffee maker on timer, no bright lights after dinner</li>
+                        <li><strong>Bathroom:</strong> Red light bulb for nighttime, calming toiletries displayed</li>
+                        <li><strong>Home Office:</strong> Clear shutdown ritual, door that closes, work invisible from bedroom</li>
+                    </ul>
+
+                    <h2>Your Environmental Action Plan</h2>
+                    
+                    <ol>
+                        <li><strong>Audit:</strong> Walk through your bedroom tonight. What helps sleep? What hinders it?</li>
+                        <li><strong>Quick Wins:</strong> Make 3 changes that take less than 10 minutes each</li>
+                        <li><strong>Zone Creation:</strong> Establish clear boundaries for sleep, transition, and forbidden zones</li>
+                        <li><strong>Friction Mapping:</strong> Add barriers to bad behaviors, remove barriers to good ones</li>
+                        <li><strong>Sensory Scan:</strong> Optimize each of the five senses for sleep</li>
+                        <li><strong>Test and Refine:</strong> Live with changes for a week, then optimize further</li>
+                    </ol>
+
+                    <h2>The Power of Environmental Integrity</h2>
+                    
+                    <p>When your environment is aligned with your sleep goals, you don't need willpower. You don't need to remember. You don't need to try. Good sleep becomes the default option.</p>
+                    
+                    <p>Your space shapes your behavior. Your behavior shapes your sleep. Your sleep shapes your life. Start with moving one phone charger, and watch the dominoes fall.</p>
+                    
+                    <p>Design your environment once. Sleep better forever.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: Habit Loop Engineering - Master the four-part cycle that turns behaviors into automatic routines you never have to think about.</em></p>
+                    
+                    <a href="05-habit-loop-engineering.html" class="nav-button">Continue to: Habit Loop Engineering →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('environmental-design', '../..');
+    </script>
+</body>
+</html>

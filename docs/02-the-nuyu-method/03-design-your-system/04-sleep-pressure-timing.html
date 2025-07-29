@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Pressure & Timing - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .pressure-visual {
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #e94560 100%);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 30px 0;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pressure-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path fill="%23ffffff20" d="M0,60 C200,20 400,80 600,60 C800,40 1000,70 1200,60 L1200,120 L0,120 Z"></path></svg>');
+            background-size: 100% 100%;
+            animation: wave 10s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .pressure-visual h3 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .two-process-model {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .process-card {
+            background: var(--bg-content);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .process-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .process-s {
+            border-color: #3b82f6;
+        }
+        
+        .process-c {
+            border-color: #f59e0b;
+        }
+        
+        .process-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .process-s .process-icon {
+            color: #3b82f6;
+        }
+        
+        .process-c .process-icon {
+            color: #f59e0b;
+        }
+        
+        .pressure-graph {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            height: 300px;
+        }
+        
+        .graph-line {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            height: 200px;
+            border-left: 2px solid var(--text-muted);
+            border-bottom: 2px solid var(--text-muted);
+        }
+        
+        .timing-calculator {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .calculator-input {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .input-group label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+        
+        .input-group input {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+        
+        .timing-result {
+            background: var(--accent-light);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .pressure-tips {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 20px 30px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .timing-scenarios {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .scenario-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .scenario-card h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .adenosine-tracker {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .hour-blocks {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .hour-block {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 5px;
+            text-align: center;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .hour-block.high {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+        
+        .hour-block.medium {
+            background: rgba(251, 191, 36, 0.2);
+            border-color: rgba(251, 191, 36, 0.5);
+        }
+        
+        .hour-block.low {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.5);
+        }
+        
+        .forbidden-zone {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px dashed rgba(239, 68, 68, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .forbidden-zone h4 {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Design Your System</a>
+                    <span>›</span>
+                    <span>Sleep Pressure & Timing</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Sleep Pressure & Timing: The Two Forces That Control Your Sleep</h1>
+
+                    <div class="pressure-visual">
+                        <div class="pressure-wave"></div>
+                        <h3>The Perfect Storm of Sleepiness</h3>
+                        <p style="position: relative; z-index: 1;">When sleep pressure meets circadian timing, magic happens. Master these forces, master your nights.</p>
+                    </div>
+
+                    <h2>The Discovery That Changed Everything</h2>
+                    
+                    <p>In 1982, Alexander Borbély made a breakthrough that would revolutionize our understanding of sleep. He discovered that sleepiness isn't controlled by one system, but two independent forces that interact like dancers:</p>
+                    
+                    <ul>
+                        <li><strong>Process S (Sleep Pressure):</strong> The accumulation of adenosine in your brain that builds from the moment you wake</li>
+                        <li><strong>Process C (Circadian Rhythm):</strong> Your internal clock that cycles regardless of how long you've been awake</li>
+                    </ul>
+                    
+                    <p>When these two forces align, you fall asleep easily. When they're misaligned, you toss and turn. Understanding this dance is the key to engineering perfect sleep timing.</p>
+
+                    <div class="two-process-model">
+                        <div class="process-card process-s">
+                            <div class="process-icon">🧠</div>
+                            <h3>Process S: Sleep Pressure</h3>
+                            <p>Like a bathtub filling with water, adenosine accumulates in your brain every hour you're awake. After 16 hours, the pressure becomes overwhelming.</p>
+                            <ul style="text-align: left; margin-top: 15px;">
+                                <li>Builds linearly with wakefulness</li>
+                                <li>Cleared during deep sleep</li>
+                                <li>Blocked by caffeine</li>
+                                <li>Creates the "tired" feeling</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-card process-c">
+                            <div class="process-icon">⏰</div>
+                            <h3>Process C: Circadian Drive</h3>
+                            <p>Your master clock creates waves of alertness and sleepiness throughout the day, independent of how long you've been awake.</p>
+                            <ul style="text-align: left; margin-top: 15px;">
+                                <li>Cycles every ~24 hours</li>
+                                <li>Controlled by light exposure</li>
+                                <li>Creates alertness peaks</li>
+                                <li>Determines sleep quality</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>The Adenosine Story: Your Brain's Sleep Chemical</h2>
+                    
+                    <p>Every second you're awake, your neurons are firing, consuming energy in the form of ATP (adenosine triphosphate). As ATP breaks down, it leaves behind adenosine—a byproduct that accumulates in your brain like exhaust fumes in a garage.</p>
+                    
+                    <p>This isn't a flaw—it's a feature. Adenosine binds to receptors in your brain that promote sleepiness. The longer you're awake, the more adenosine accumulates, the sleepier you feel. It's nature's way of ensuring you don't stay awake indefinitely.</p>
+
+                    <div class="adenosine-tracker">
+                        <h3>Your Daily Adenosine Journey</h3>
+                        <div class="hour-blocks">
+                            <div class="hour-block low">
+                                <strong>Hour 0-2</strong><br>
+                                Fresh start
+                            </div>
+                            <div class="hour-block low">
+                                <strong>Hour 3-4</strong><br>
+                                Building slowly
+                            </div>
+                            <div class="hour-block low">
+                                <strong>Hour 5-6</strong><br>
+                                Still manageable
+                            </div>
+                            <div class="hour-block medium">
+                                <strong>Hour 7-8</strong><br>
+                                Noticeable
+                            </div>
+                            <div class="hour-block medium">
+                                <strong>Hour 9-10</strong><br>
+                                Afternoon dip
+                            </div>
+                            <div class="hour-block medium">
+                                <strong>Hour 11-12</strong><br>
+                                Fighting it
+                            </div>
+                            <div class="hour-block high">
+                                <strong>Hour 13-14</strong><br>
+                                Heavy pressure
+                            </div>
+                            <div class="hour-block high">
+                                <strong>Hour 15-16</strong><br>
+                                Sleep needed!
+                            </div>
+                        </div>
+                        <p>After 16-17 hours awake, adenosine levels are so high that staying awake becomes a battle. This is Process S at work.</p>
+                    </div>
+
+                    <h2>The Caffeine Hack (And Its Hidden Cost)</h2>
+                    
+                    <p>Caffeine doesn't give you energy—it blocks adenosine receptors, preventing you from feeling the sleep pressure that's actually there. It's like disconnecting your car's fuel gauge; the tank is still empty, you just can't see it.</p>
+                    
+                    <div class="pressure-tips">
+                        <h4>The Caffeine-Adenosine Truth</h4>
+                        <ul>
+                            <li><strong>Caffeine half-life:</strong> 5-6 hours (varies by genetics)</li>
+                            <li><strong>Quarter-life:</strong> 10-12 hours (25% still active!)</li>
+                            <li><strong>Adenosine backup:</strong> Builds behind the caffeine blockade</li>
+                            <li><strong>The crash:</strong> When caffeine wears off, accumulated adenosine floods in</li>
+                        </ul>
+                        <p><strong>Smart strategy:</strong> No caffeine after 2 PM if you sleep at 10 PM. Earlier if you're sensitive.</p>
+                    </div>
+
+                    <h2>The Circadian Force: Your Inner Sun</h2>
+                    
+                    <p>While adenosine builds steadily, your circadian rhythm creates a complex wave of alertness and sleepiness. This is why you can feel wide awake at 9 PM despite being up since 5 AM, or desperately tired at 3 PM after a full night's sleep.</p>
+                    
+                    <p>Key circadian moments in your day:</p>
+                    
+                    <ul>
+                        <li><strong>6-8 AM:</strong> Cortisol awakening response - natural alertness boost</li>
+                        <li><strong>10 AM:</strong> Peak alertness for most people</li>
+                        <li><strong>1-3 PM:</strong> Post-lunch dip (not just from food!)</li>
+                        <li><strong>6 PM:</strong> Secondary alertness peak</li>
+                        <li><strong>9-10 PM:</strong> Melatonin onset, preparing for sleep</li>
+                        <li><strong>2-4 AM:</strong> Deepest circadian trough</li>
+                    </ul>
+
+                    <h2>The Forbidden Zone: Why You Can't Sleep at 8 PM</h2>
+                    
+                    <div class="forbidden-zone">
+                        <h4>⚠️ The Wake Maintenance Zone</h4>
+                        <p>Between 6-9 PM, most people experience the "forbidden zone"—a period where your circadian drive for wakefulness is so strong that sleep is nearly impossible, even with high adenosine.</p>
+                        <p>This is why going to bed early often backfires. Your body is programmed to be alert during these hours, regardless of how tired you feel. Work with this, not against it.</p>
+                    </div>
+
+                    <h2>Finding Your Perfect Sleep Window</h2>
+                    
+                    <p>The ideal sleep window occurs when high sleep pressure meets low circadian alertness. For most people, this sweet spot opens around 10-11 PM. Here's how to find yours:</p>
+                    
+                    <div class="timing-calculator">
+                        <h3>Your Personal Sleep Window Calculator</h3>
+                        <div class="calculator-input">
+                            <div class="input-group">
+                                <label>Usual wake time:</label>
+                                <input type="time" value="06:30" />
+                            </div>
+                            <div class="input-group">
+                                <label>Hours of sleep needed:</label>
+                                <input type="number" value="8" min="6" max="10" step="0.5" />
+                            </div>
+                            <div class="input-group">
+                                <label>Chronotype tendency:</label>
+                                <select style="padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary);">
+                                    <option>Moderate Lark</option>
+                                    <option selected>Neither</option>
+                                    <option>Moderate Owl</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>Caffeine cutoff:</label>
+                                <input type="time" value="14:00" />
+                            </div>
+                        </div>
+                        <div class="timing-result">
+                            <h4>Your Optimal Sleep Window</h4>
+                            <p style="font-size: 24px; font-weight: bold; color: var(--accent-primary); margin: 10px 0;">9:45 PM - 10:45 PM</p>
+                            <p>This is when your adenosine levels and circadian rhythm align for easiest sleep onset.</p>
+                        </div>
+                    </div>
+
+                    <h2>The 90-Minute Secret</h2>
+                    
+                    <p>Your sleep pressure doesn't just make you tired—it influences your sleep architecture. The first 90-minute sleep cycle contains the most deep sleep because that's when adenosine clearance is highest priority.</p>
+                    
+                    <p>This is why:</p>
+                    <ul>
+                        <li>Short naps should be less than 20 minutes (before deep sleep)</li>
+                        <li>Recovery naps should be 90 minutes (one full cycle)</li>
+                        <li>Waking mid-cycle feels terrible (incomplete adenosine clearance)</li>
+                        <li>Multiple snoozes destroy sleep architecture</li>
+                    </ul>
+
+                    <h2>Timing Strategies for Different Scenarios</h2>
+                    
+                    <div class="timing-scenarios">
+                        <div class="scenario-card">
+                            <h5>The Early Riser</h5>
+                            <p><strong>Challenge:</strong> Evening socializing<br>
+                            <strong>Strategy:</strong> Strategic afternoon light exposure to delay melatonin. Consider a 20-minute afternoon nap to reduce evening adenosine.</p>
+                        </div>
+                        
+                        <div class="scenario-card">
+                            <h5>The Night Owl</h5>
+                            <p><strong>Challenge:</strong> Early meetings<br>
+                            <strong>Strategy:</strong> Bright light immediately upon waking. Gradual 15-minute weekly shifts. Melatonin microdose 5 hours before desired bedtime.</p>
+                        </div>
+                        
+                        <div class="scenario-card">
+                            <h5>The Shift Worker</h5>
+                            <p><strong>Challenge:</strong> Fighting biology<br>
+                            <strong>Strategy:</strong> Create artificial day/night with blackout curtains and bright lights. Consider split sleep if needed.</p>
+                        </div>
+                        
+                        <div class="scenario-card">
+                            <h5>The Jet-Lagged</h5>
+                            <p><strong>Challenge:</strong> Misaligned rhythms<br>
+                            <strong>Strategy:</strong> Pre-adapt 3 days before travel. Use light as medicine. Accept temporary misalignment.</p>
+                        </div>
+                    </div>
+
+                    <h2>Advanced Pressure Management</h2>
+                    
+                    <p>Once you understand the two-process model, you can strategically manipulate it:</p>
+                    
+                    <ol>
+                        <li><strong>Pressure Banking:</strong> Stay up 2 hours later occasionally to build extra adenosine for deeper sleep</li>
+                        <li><strong>Strategic Napping:</strong> 20-minute naps reduce adenosine without affecting nighttime pressure</li>
+                        <li><strong>Exercise Timing:</strong> Physical activity temporarily masks adenosine,避免 bedtime workouts</li>
+                        <li><strong>Light Therapy:</strong> Shift your circadian phase to match your desired sleep time</li>
+                        <li><strong>Temperature Hacking:</strong> Hot bath 90 minutes before bed accelerates the temperature drop that enables sleep</li>
+                    </ol>
+
+                    <h2>Reading Your Body's Signals</h2>
+                    
+                    <p>Your body gives clear signals about sleep pressure and circadian phase:</p>
+                    
+                    <div class="pressure-tips">
+                        <h4>High Sleep Pressure Signals</h4>
+                        <ul>
+                            <li>Heavy eyelids</li>
+                            <li>Frequent yawning</li>
+                            <li>Difficulty focusing</li>
+                            <li>Microsleeps</li>
+                            <li>Increased errors</li>
+                        </ul>
+                        
+                        <h4>Circadian Sleep Window Signals</h4>
+                        <ul>
+                            <li>Natural temperature drop</li>
+                            <li>Calmer mental state</li>
+                            <li>Reduced appetite</li>
+                            <li>Desire to lie down</li>
+                            <li>Easier breathing</li>
+                        </ul>
+                    </div>
+
+                    <h2>The Integration: Making It Work</h2>
+                    
+                    <p>Perfect sleep timing isn't about fighting these forces—it's about surfing them. Here's your action plan:</p>
+                    
+                    <ol>
+                        <li><strong>Track your natural patterns</strong> for one week without alarms</li>
+                        <li><strong>Identify your sleep window</strong> when pressure and rhythm align</li>
+                        <li><strong>Protect your adenosine</strong> by limiting late caffeine</li>
+                        <li><strong>Anchor your circadian rhythm</strong> with consistent light exposure</li>
+                        <li><strong>Respect the forbidden zone</strong>—don't force early sleep</li>
+                        <li><strong>Use strategic naps</strong> wisely—short or full cycle only</li>
+                        <li><strong>Create pressure when needed</strong> by staying up slightly later</li>
+                    </ol>
+
+                    <h2>Your Timing Mastery</h2>
+                    
+                    <p>You now understand the two fundamental forces that control your sleep. This isn't abstract theory—it's practical physics. Adenosine accumulates predictably. Circadian rhythms cycle reliably. When you align these forces, sleep becomes not a struggle but an inevitability.</p>
+                    
+                    <p>Stop fighting your biology. Start working with it. Your perfect sleep timing isn't a mystery—it's a equation with two variables you now know how to solve.</p>
+                    
+                    <p>Tonight, pay attention. Feel the adenosine building. Notice your circadian rhythms. Find that sweet spot where they converge. That's your window. That's your path to perfect sleep.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: Your Sleep Window - Learn how to identify and protect your personal sleep window for consistent, restorative rest every night.</em></p>
+                    
+                    <a href="05-your-sleep-window.html" class="nav-button">Continue to: Your Sleep Window →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('pressure-timing', '../..');
+    </script>
+</body>
+</html>

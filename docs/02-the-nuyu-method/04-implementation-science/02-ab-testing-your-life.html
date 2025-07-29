@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/B Testing Your Life - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .ab-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .ab-hero h2 {
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .experiment-structure {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .hypothesis-card {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .hypothesis-format {
+            font-style: italic;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+        
+        .experiment-phases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .phase-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .phase-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .phase-number {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .experiment-template {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .template-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+        }
+        
+        .template-section h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .variable-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .variable-card {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .variable-card h5 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+        
+        .results-analyzer {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .data-point {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .data-point:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+            color: var(--accent-primary);
+        }
+        
+        .experiment-examples {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .example-experiment {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--bg-content);
+            border-radius: 8px;
+        }
+        
+        .example-experiment h5 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+        }
+        
+        .pitfalls-warning {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .pitfalls-warning h4 {
+            color: #ef4444;
+            margin-bottom: 15px;
+        }
+        
+        .experiment-tracker {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .tracker-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .day-cell {
+            background: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 5px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        .day-cell.condition-a {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        
+        .day-cell.condition-b {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+        
+        .significance-calculator {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .ab-principles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .principle-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .principle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .principle-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Implementation Science</a>
+                    <span>›</span>
+                    <span>A/B Testing Your Life</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>A/B Testing Your Life: The Scientific Method for Personal Optimization</h1>
+
+                    <div class="ab-hero">
+                        <h2>Stop Guessing. Start Testing.</h2>
+                        <p>What if you could know with certainty what actually improves your sleep? Welcome to the world of personal experimentation.</p>
+                    </div>
+
+                    <h2>The End of "One-Size-Fits-All" Advice</h2>
+                    
+                    <p>You've read the articles. "Magnesium changed my life!" "Cold showers are the answer!" "Just meditate!" But here's the truth: What works for them might not work for you. Your biology is unique. Your lifestyle is unique. Your response to interventions? Also unique.</p>
+                    
+                    <p>Enter A/B testing—the same methodology that tech companies use to optimize everything from button colors to billion-dollar features. Except this time, you're optimizing the most important product of all: your life.</p>
+
+                    <h2>The Core Principle: Isolated Variables</h2>
+                    
+                    <p>A/B testing works because it follows a simple rule: Change one thing at a time and measure the difference. This is how you separate correlation from causation, placebo from performance.</p>
+                    
+                    <div class="experiment-structure">
+                        <h3>The Scientific Method for Sleep</h3>
+                        <ol>
+                            <li><strong>Observe:</strong> Notice a problem or opportunity</li>
+                            <li><strong>Hypothesize:</strong> Make a specific prediction</li>
+                            <li><strong>Experiment:</strong> Test with controlled conditions</li>
+                            <li><strong>Analyze:</strong> Look at the data objectively</li>
+                            <li><strong>Conclude:</strong> Accept or reject your hypothesis</li>
+                            <li><strong>Iterate:</strong> Use learnings for next experiment</li>
+                        </ol>
+                    </div>
+
+                    <h2>Crafting Your Hypothesis</h2>
+                    
+                    <p>A good hypothesis is specific, measurable, and testable. It's not "I think magnesium will help." It's precise:</p>
+                    
+                    <div class="hypothesis-card">
+                        <h4>Example Sleep Hypothesis</h4>
+                        <p>"Taking 400mg of magnesium glycinate 1 hour before bed will reduce my average sleep onset time from 35 minutes to under 20 minutes over a 14-day period."</p>
+                        <p class="hypothesis-format">Format: If [specific action], then [measurable outcome] over [time period].</p>
+                    </div>
+
+                    <h2>The Four Phases of Personal A/B Testing</h2>
+                    
+                    <div class="experiment-phases">
+                        <div class="phase-card">
+                            <div class="phase-number">1</div>
+                            <h4>Baseline Phase</h4>
+                            <p>Measure your current state without changes. This is your control.</p>
+                        </div>
+                        
+                        <div class="phase-card">
+                            <div class="phase-number">2</div>
+                            <h4>Intervention Phase</h4>
+                            <p>Introduce your single variable while keeping everything else constant.</p>
+                        </div>
+                        
+                        <div class="phase-card">
+                            <div class="phase-number">3</div>
+                            <h4>Washout Phase</h4>
+                            <p>Return to baseline to ensure effects aren't permanent placebo.</p>
+                        </div>
+                        
+                        <div class="phase-card">
+                            <div class="phase-number">4</div>
+                            <h4>Replication Phase</h4>
+                            <p>Repeat the intervention to confirm results weren't coincidence.</p>
+                        </div>
+                    </div>
+
+                    <h2>Your Experiment Design Template</h2>
+                    
+                    <div class="experiment-template">
+                        <h3>Sleep Optimization Experiment #1</h3>
+                        
+                        <div class="template-section">
+                            <h5>🎯 Objective</h5>
+                            <p>What specific sleep metric are you trying to improve? (e.g., sleep onset, wake frequency, morning alertness)</p>
+                        </div>
+                        
+                        <div class="template-section">
+                            <h5>📊 Hypothesis</h5>
+                            <p>If I [specific intervention], then [measurable outcome] will [change direction] by [amount] within [timeframe].</p>
+                        </div>
+                        
+                        <div class="template-section">
+                            <h5>⚙️ Variables</h5>
+                            <div class="variable-grid">
+                                <div class="variable-card">
+                                    <h5>Independent Variable</h5>
+                                    <p>The one thing you're changing (dose, timing, duration)</p>
+                                </div>
+                                <div class="variable-card">
+                                    <h5>Dependent Variables</h5>
+                                    <p>What you're measuring (sleep metrics, subjective scores)</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="template-section">
+                            <h5>📅 Timeline</h5>
+                            <ul>
+                                <li>Baseline: 7 days</li>
+                                <li>Intervention: 14 days</li>
+                                <li>Washout: 7 days</li>
+                                <li>Replication: 14 days (if successful)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="template-section">
+                            <h5>📏 Success Criteria</h5>
+                            <p>Define what constitutes a meaningful improvement (e.g., 20% reduction, 15-minute improvement)</p>
+                        </div>
+                    </div>
+
+                    <h2>What to Test: High-Impact Variables</h2>
+                    
+                    <p>Not all experiments are created equal. Focus on variables with strong scientific backing and high potential impact:</p>
+                    
+                    <div class="experiment-examples">
+                        <h3>🏆 Top Sleep Experiments to Run</h3>
+                        
+                        <div class="example-experiment">
+                            <h5>Temperature Manipulation</h5>
+                            <p><strong>Test:</strong> Bedroom temperature changes (2-3°F increments)</p>
+                            <p><strong>Measure:</strong> Deep sleep percentage, night wakings</p>
+                            <p><strong>Duration:</strong> 1 week per temperature</p>
+                        </div>
+                        
+                        <div class="example-experiment">
+                            <h5>Light Timing</h5>
+                            <p><strong>Test:</strong> Morning bright light exposure timing (immediately vs. 30 min after waking)</p>
+                            <p><strong>Measure:</strong> Evening sleepiness onset, morning alertness</p>
+                            <p><strong>Duration:</strong> 2 weeks per condition</p>
+                        </div>
+                        
+                        <div class="example-experiment">
+                            <h5>Wind-Down Duration</h5>
+                            <p><strong>Test:</strong> 30 vs. 60 vs. 90-minute pre-sleep routine</p>
+                            <p><strong>Measure:</strong> Sleep onset time, sleep quality score</p>
+                            <p><strong>Duration:</strong> 10 days per duration</p>
+                        </div>
+                        
+                        <div class="example-experiment">
+                            <h5>Supplement Testing</h5>
+                            <p><strong>Test:</strong> Magnesium, L-theanine, Glycine (one at a time)</p>
+                            <p><strong>Measure:</strong> Sleep architecture, morning recovery</p>
+                            <p><strong>Duration:</strong> 2 weeks on, 1 week washout</p>
+                        </div>
+                        
+                        <div class="example-experiment">
+                            <h5>Exercise Timing</h5>
+                            <p><strong>Test:</strong> Morning vs. afternoon vs. evening workouts</p>
+                            <p><strong>Measure:</strong> Sleep pressure timing, deep sleep amount</p>
+                            <p><strong>Duration:</strong> 2 weeks per timing</p>
+                        </div>
+                    </div>
+
+                    <h2>The Data Collection System</h2>
+                    
+                    <p>Good data is the foundation of good decisions. Here's your tracking framework:</p>
+                    
+                    <div class="experiment-tracker">
+                        <h3>Weekly Experiment Tracker</h3>
+                        <div class="tracker-grid">
+                            <div class="day-cell">
+                                <strong>Mon</strong><br>
+                                Baseline
+                            </div>
+                            <div class="day-cell">
+                                <strong>Tue</strong><br>
+                                Baseline
+                            </div>
+                            <div class="day-cell">
+                                <strong>Wed</strong><br>
+                                Baseline
+                            </div>
+                            <div class="day-cell condition-a">
+                                <strong>Thu</strong><br>
+                                Test A
+                            </div>
+                            <div class="day-cell condition-a">
+                                <strong>Fri</strong><br>
+                                Test A
+                            </div>
+                            <div class="day-cell condition-a">
+                                <strong>Sat</strong><br>
+                                Test A
+                            </div>
+                            <div class="day-cell condition-a">
+                                <strong>Sun</strong><br>
+                                Test A
+                            </div>
+                        </div>
+                        
+                        <h4>Key Metrics to Track</h4>
+                        <ul>
+                            <li><strong>Objective:</strong> Sleep onset time, wake frequency, total sleep</li>
+                            <li><strong>Subjective:</strong> Morning mood (1-10), energy levels, recovery feeling</li>
+                            <li><strong>Confounders:</strong> Stress level, alcohol, unusual events</li>
+                        </ul>
+                    </div>
+
+                    <h2>Analyzing Your Results</h2>
+                    
+                    <p>Data without analysis is just numbers. Here's how to make sense of your experiments:</p>
+                    
+                    <div class="results-analyzer">
+                        <h3>Results Analysis Framework</h3>
+                        
+                        <div class="data-point">
+                            <span>Average sleep onset (Baseline):</span>
+                            <span class="metric-value">32 minutes</span>
+                        </div>
+                        
+                        <div class="data-point">
+                            <span>Average sleep onset (Test):</span>
+                            <span class="metric-value">18 minutes</span>
+                        </div>
+                        
+                        <div class="data-point">
+                            <span>Improvement:</span>
+                            <span class="metric-value">44% reduction</span>
+                        </div>
+                        
+                        <div class="data-point">
+                            <span>Statistical significance:</span>
+                            <span class="metric-value">p < 0.05 ✓</span>
+                        </div>
+                        
+                        <div class="data-point">
+                            <span>Practical significance:</span>
+                            <span class="metric-value">Yes (>10 min improvement)</span>
+                        </div>
+                    </div>
+
+                    <h2>Common A/B Testing Pitfalls</h2>
+                    
+                    <div class="pitfalls-warning">
+                        <h4>⚠️ Experiment Killers to Avoid</h4>
+                        <ul>
+                            <li><strong>Multiple Variable Syndrome:</strong> Testing meditation + magnesium + new mattress = useless data</li>
+                            <li><strong>Insufficient Duration:</strong> 3 days isn't enough. Most interventions need 10-14 days minimum</li>
+                            <li><strong>Confirmation Bias:</strong> Wanting it to work so badly you ignore negative data</li>
+                            <li><strong>The Placebo Trap:</strong> Not accounting for expectation effects (why washout phases matter)</li>
+                            <li><strong>Confounding Events:</strong> Testing during vacation, illness, or major life changes</li>
+                            <li><strong>Moving Goalposts:</strong> Changing what you're measuring mid-experiment</li>
+                        </ul>
+                    </div>
+
+                    <h2>When to Trust Your Results</h2>
+                    
+                    <div class="significance-calculator">
+                        <h3>Is Your Result Real? The Checklist</h3>
+                        <ol>
+                            <li>✓ Effect size is meaningful (not just statistically significant)</li>
+                            <li>✓ Results were consistent across the test period</li>
+                            <li>✓ No major confounding events occurred</li>
+                            <li>✓ Washout phase showed return to baseline</li>
+                            <li>✓ Replication phase confirmed initial results</li>
+                            <li>✓ Subjective and objective measures align</li>
+                        </ol>
+                        <p style="margin-top: 20px; padding: 15px; background: var(--accent-light); border-radius: 6px;">
+                            <strong>6/6 checked = High confidence</strong><br>
+                            <strong>4-5/6 checked = Moderate confidence, consider extended testing</strong><br>
+                            <strong><4/6 checked = Low confidence, redesign experiment</strong>
+                        </p>
+                    </div>
+
+                    <h2>The Compound Effect of Testing</h2>
+                    
+                    <p>Each successful experiment doesn't just improve one metric—it compounds:</p>
+                    
+                    <ul>
+                        <li>Find optimal temperature → Better deep sleep → Improved recovery</li>
+                        <li>Discover ideal wind-down → Faster sleep onset → More total sleep</li>
+                        <li>Perfect supplement stack → Enhanced sleep quality → Better daytime performance</li>
+                    </ul>
+                    
+                    <p>After 6 months of systematic testing, you'll have a personalized sleep protocol that no generic advice could match.</p>
+
+                    <h2>Advanced Testing Strategies</h2>
+                    
+                    <p>Once you master basic A/B testing, level up with these approaches:</p>
+                    
+                    <ol>
+                        <li><strong>Crossover Designs:</strong> ABAB patterns for stronger evidence</li>
+                        <li><strong>Dose-Response Curves:</strong> Finding optimal amounts (not just yes/no)</li>
+                        <li><strong>Interaction Testing:</strong> How variables work together</li>
+                        <li><strong>N-of-1 Trials:</strong> Clinical-grade self-experimentation</li>
+                        <li><strong>Multivariate Testing:</strong> When you're ready for complexity</li>
+                    </ol>
+
+                    <h2>Your Testing Principles</h2>
+                    
+                    <div class="ab-principles">
+                        <div class="principle-card">
+                            <div class="principle-icon">🎯</div>
+                            <h4>Be Specific</h4>
+                            <p>Vague questions get vague answers. Precise hypotheses get actionable results.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <div class="principle-icon">📊</div>
+                            <h4>Measure Religiously</h4>
+                            <p>If you didn't track it, it didn't happen. Data beats memory every time.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <div class="principle-icon">🔬</div>
+                            <h4>Control Variables</h4>
+                            <p>Change one thing. Measure one thing. Know one thing.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <div class="principle-icon">⏱️</div>
+                            <h4>Be Patient</h4>
+                            <p>Real changes take time. Quick fixes are usually false positives.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <div class="principle-icon">🔄</div>
+                            <h4>Replicate Success</h4>
+                            <p>One good result is luck. Two is interesting. Three is truth.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <div class="principle-icon">🚫</div>
+                            <h4>Kill Failed Tests</h4>
+                            <p>Negative results are valuable. They save you from wasting time on what doesn't work.</p>
+                        </div>
+                    </div>
+
+                    <h2>Start Your First Experiment Tonight</h2>
+                    
+                    <p>Knowledge without action is worthless. Your first experiment doesn't need to be perfect—it needs to happen. Pick one variable. Design a simple test. Start collecting data.</p>
+                    
+                    <p>In 30 days, you'll know more about what actually works for your sleep than most people learn in a lifetime. In 6 months, you'll have a scientifically validated, personally optimized sleep system.</p>
+                    
+                    <p>Stop taking advice. Start running experiments. Your perfect sleep formula is waiting to be discovered—by you.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: The Tiny Habits Method - Learn how to make lasting changes by starting impossibly small and building systematically.</em></p>
+                    
+                    <a href="03-tiny-habits-method.html" class="nav-button">Continue to: Tiny Habits Method →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('ab-testing', '../..');
+    </script>
+</body>
+</html>

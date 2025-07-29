@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Scientific Awakening - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <h2>nuyu Docs</h2>
+            
+            <!-- Introduction Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    <span class="chevron">▼</span>
+                    Introduction
+                </div>
+                <div class="nav-items">
+                    <a href="../../index.html" class="nav-item">Welcome</a>
+                    <a href="/index.html#what-is-nuyu" class="nav-item">What is nuyu?</a>
+                    <a href="/index.html#how-to-use" class="nav-item">How to Use These Docs</a>
+                </div>
+            </div>
+            
+            <!-- The nuyu Method Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    <span class="chevron">▼</span>
+                    The nuyu Method
+                </div>
+                <div class="nav-items">
+                    <a href="#method-overview" class="nav-item">Overview</a>
+                    
+                    <!-- Foundations Subsection -->
+                    <div class="nav-subsection">
+                        <div class="nav-section-title">
+                            <span class="chevron">▼</span>
+                            1. Foundations
+                        </div>
+                        <div class="nav-items">
+                            <a href="#mind-body" class="nav-item">Mind-Body Connection</a>
+                            <a href="01-the-ancient-quest.html" class="nav-item">1. The Ancient Quest</a>
+                            <a href="02-the-scientific-awakening.html" class="nav-item active">2. The Scientific Awakening</a>
+                            <a href="03-the-rem-revolution.html" class="nav-item">3. The REM Revolution</a>
+                            <a href="04-the-integration-era.html" class="nav-item">4. The Integration Era</a>
+                            <a href="05-the-modern-synthesis.html" class="nav-item">5. The Modern Synthesis</a>
+                            <a href="#neuroplasticity" class="nav-item">Neuroplasticity 101</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Sleep as Foundation Subsection -->
+                    <div class="nav-subsection">
+                        <div class="nav-section-title">
+                            <span class="chevron">▼</span>
+                            2. Sleep as Foundation
+                        </div>
+                        <div class="nav-items">
+                            <a href="../02-sleep-as-foundation/01-why-everything-starts-here.html" class="nav-item">Why Everything Starts Here</a>
+                            <a href="../02-sleep-as-foundation/02-the-first-order-algorithm.html" class="nav-item">The First-Order Algorithm</a>
+                            <a href="#circadian" class="nav-item">Circadian Architecture</a>
+                            <a href="#cascade" class="nav-item">The Cascade Effect</a>
+                            <a href="#sleep-debt" class="nav-item">Sleep Debt & Recovery</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Design Your System -->
+                    <div class="nav-subsection">
+                        <div class="nav-section-title">
+                            <span class="chevron">▼</span>
+                            3. Design Your System
+                        </div>
+                        <div class="nav-items">
+                            <a href="#blueprint" class="nav-item">Your Sleep Blueprint</a>
+                            <a href="../03-design-your-system/02-discover-your-chronotype.html" class="nav-item">Discover Your Chronotype</a>
+                            <a href="#ideal-reality" class="nav-item">Ideal vs Reality</a>
+                            <a href="#pressure-timing" class="nav-item">Sleep Pressure & Timing</a>
+                            <a href="#window" class="nav-item">Your Sleep Window</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Implementation Science -->
+                    <div class="nav-subsection">
+                        <div class="nav-section-title">
+                            <span class="chevron">▼</span>
+                            4. Implementation
+                        </div>
+                        <div class="nav-items">
+                            <a href="#behavior-change" class="nav-item">Behavior Change Science</a>
+                            <a href="#ab-testing" class="nav-item">A/B Testing Your Life</a>
+                            <a href="#tiny-habits" class="nav-item">Tiny Habits Method</a>
+                            <a href="#environment" class="nav-item">Environmental Design</a>
+                            <a href="#habit-loop" class="nav-item">Habit Loop Engineering</a>
+                            <a href="#tracking" class="nav-item">Meaningful Metrics</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Concepts -->
+                    <div class="nav-subsection">
+                        <div class="nav-section-title">
+                            <span class="chevron">▼</span>
+                            5. Advanced Concepts
+                        </div>
+                        <div class="nav-items">
+                            <a href="#beyond-basics" class="nav-item">Beyond Basics</a>
+                            <a href="#ultradian" class="nav-item">Ultradian Rhythms</a>
+                            <a href="#social" class="nav-item">Social Zeitgebers</a>
+                            <a href="#memory" class="nav-item">Sleep & Memory</a>
+                            <a href="#future-self" class="nav-item">Future Self Protocol</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Device Mastery Section -->
+            <div class="nav-section collapsed">
+                <div class="nav-section-title">
+                    <span class="chevron">▼</span>
+                    Device Mastery
+                </div>
+                <div class="nav-items">
+                    <a href="#device-overview" class="nav-item">Overview</a>
+                    <a href="#getting-started" class="nav-item">Getting Started</a>
+                    <a href="#setup" class="nav-item">Setup Guide</a>
+                    <a href="#scent-science" class="nav-item">Scent Science</a>
+                    <a href="#advanced-features" class="nav-item">Advanced Features</a>
+                </div>
+            </div>
+            
+            <!-- Resources Section -->
+            <div class="nav-section collapsed">
+                <div class="nav-section-title">
+                    <span class="chevron">▼</span>
+                    Resources
+                </div>
+                <div class="nav-items">
+                    <a href="#references" class="nav-item">Scientific References</a>
+                    <a href="#reading" class="nav-item">Recommended Reading</a>
+                    <a href="#community" class="nav-item">Community Wisdom</a>
+                </div>
+            </div>
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Foundations</a>
+                    <span>›</span>
+                    <span>The Scientific Awakening</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+            <h1>The Scientific Awakening: When Sleep Became Measurable (1900-1950)</h1>
+
+            <h2>The Night Edison Killed Sleep</h2>
+            
+            <p>Thomas Edison was proud of his invention, but not for the reason you might think.</p>
+            
+            <p>Standing in his Menlo Park laboratory on a cold December night in 1879, watching his incandescent bulb glow for hour after hour, Edison wasn't just celebrating the birth of electric light. He was celebrating what he saw as humanity's liberation from the tyranny of the sun. No longer would human productivity be shackled to daylight. No longer would winter's short days limit what could be accomplished. The electric age had dawned, and with it, Edison believed, would come the obsolescence of sleep itself.</p>
+            
+            <p>"Sleep is a criminal waste of time and a heritage from our cave days," he would declare to a reporter in 1914. The Wizard of Menlo Park claimed he slept only four hours a night—sometimes less—and considered anyone who needed more to be lazy, unimaginative, or possibly defective. He boasted that he could work for 72 hours straight, sustained by nothing but catnaps and his iron will. In his ideal future, electricity would banish not just darkness but the need for sleep entirely. Humanity would become perpetually productive, freed from spending a third of life in useless unconsciousness.</p>
+            
+            <p>But Edison had a secret.</p>
+            
+            <p>His assistants, sworn to discretion, knew about the cot hidden behind a curtain in his laboratory. They knew about his daily "thinking sessions" that looked suspiciously like naps. They watched him perform a strange ritual: he would sit in a comfortable chair, a steel ball bearing in each hand positioned over metal pans. As he drifted toward sleep, his muscles would relax, the balls would slip from his grasp and crash into the pans with a clang that jolted him awake. He would immediately grab a notebook and scribble down whatever ideas had bubbled up in that liminal moment.</p>
+            
+            <p>Edison had stumbled onto something profound. That drowsy state between waking and sleeping—what researchers would later call the <strong>hypnagogic state</strong>—is a neurological goldmine. As the rational, critical parts of the brain begin to power down, the creative, associative regions are freed from their usual constraints. Ideas that would seem absurd to the fully awake mind suddenly make perfect sense. Connections between disparate concepts become obvious. The impossible becomes merely difficult.</p>
+            
+            <p>Edison wasn't the only genius to exploit this state. Salvador Dalí would later perfect the technique, calling it "the paranoiac-critical method." He would nap with a key balanced on his finger over a plate. Albert Einstein reportedly used a similar technique. So did Aristotle, according to some accounts. These men, who all claimed to despise or minimize sleep, were secretly mining its borderlands for inspiration.</p>
+            
+            <p>This paradox—publicly demonizing sleep while secretly harnessing its power—would define the industrial age's troubled relationship with rest. Factory owners demanded workers put in 14-hour days, claiming sleep was an indulgence the working class couldn't afford. Meanwhile, those same industrialists retreated to country estates for restorative afternoon naps. The message was clear: sleep was a luxury for the successful, a weakness in the ambitious, and a character flaw in the poor.</p>
+
+            <h2>The Birth of "Sleep Hygiene"</h2>
+            
+            <p>The term <strong>sleep hygiene</strong> first appeared in the 1930s, but the concept was born from tragedy.</p>
+            
+            <p>Picture a Parisian hospital ward in 1905. The gas lamps cast flickering shadows on the walls. In the beds lie veterans of France's colonial wars—men who conquered territories in Algeria and Indochina but can't conquer their own nights. They thrash in their beds, crying out in languages their nurses don't understand. They wake screaming from nightmares of desert ambushes and jungle warfare. Some haven't slept properly in months.</p>
+            
+            <p>Among them walks Dr. Jean-Baptiste Édouard Gélineau, a neurologist who would later give his name to narcolepsy (Gélineau's syndrome). But it's not narcolepsy that interests him in these veterans—it's their inability to sleep despite desperate exhaustion. What we'd now recognize as PTSD was then called "soldier's heart" or "shell shock," and the standard treatment was a mix of cold baths, electric shocks, and moral exhortations to "be a man."</p>
+            
+            <p>Gélineau tried something different. He began keeping detailed notes on each patient's sleep patterns, their daily routines, their evening habits. And slowly, a pattern emerged. The soldiers who recovered—who began sleeping again, whose nightmares faded—weren't necessarily the ones getting the most medication or the most therapy. They were the ones who had developed rigid routines.</p>
+            
+            <p>One sergeant, a veteran of the Sahara campaigns, had created an elaborate pre-sleep ritual: precisely 30 minutes of walking in the hospital garden, followed by warm milk with honey, then writing in his journal for exactly 15 minutes, then prayers, then bed at exactly 9:30 PM. Every night. Without variation. His ward-mates mocked his fastidiousness, but he was sleeping seven hours straight while they still startled awake at every sound.</p>
+            
+            <p>Gélineau began prescribing routines instead of just medications. He coined the term "hygiène du sommeil"—sleep hygiene—arguing that sleep, like dental health or food preparation, required specific practices to remain healthy. His rules, published in a 1906 medical journal that his colleagues largely ignored, were remarkably modern:</p>
+            
+            <ol>
+                <li><strong>Fixed sleeping hours</strong>: "The body craves rhythm like a dancer craves music. Give it the same sleep and wake times, and it will reward you with rest."</li>
+                <li><strong>Cool, dark, quiet rooms</strong>: "The sleeping chamber should be a tomb for the senses—cool as a cave, dark as the womb, quiet as the grave."</li>
+                <li><strong>No heavy meals before bed</strong>: "A full stomach makes a poor bedfellow. Dine lightly if you would sleep deeply."</li>
+                <li><strong>Regular physical exercise</strong>: "Exhaust the body in daylight, and it will demand rest in darkness. But beware—evening exertion excites rather than exhausts."</li>
+                <li><strong>Avoiding "exciting novels" before bed</strong>: "The mind, like a child, must be calmed before sleep. Feed it adventures before bed, and it will create its own all night long."</li>
+            </ol>
+            
+            <p>The medical establishment mocked him. Sleep was still seen as a passive state—you either slept or you didn't. How could it require "hygiene"? One prominent physician wrote a scathing review: "Next, Dr. Gélineau will be prescribing specific techniques for breathing or particular methods for digesting food. The body knows how to sleep. It needs no instruction."</p>
+            
+            <p>But Gélineau had introduced a revolutionary concept: sleep as an active process that could be optimized or degraded by behavior. He was the first to systematically document that how you approached sleep was as important as sleep itself. His ideas would be ignored for decades, dismissed as the soft-headed musings of a doctor who spent too much time with hysterical soldiers. It would take two world wars and an epidemic of industrial accidents before the world would realize he was right.</p>
+
+            <h2>The Behaviorist Revolution</h2>
+            
+            <p>As Freud was interpreting dreams in Vienna, a very different school of thought was emerging in America. The <strong>behaviorists</strong>, led by John B. Watson, didn't care what dreams meant—they cared about what behaviors could be measured and modified.</p>
+            
+            <p>Watson's 1913 manifesto, "Psychology as the Behaviorist Views It," declared war on introspection. If you couldn't observe it and measure it, it didn't exist. This included consciousness, thoughts, and especially dreams.</p>
+            
+            <p>But behaviorism gave us something invaluable: the first systematic studies of sleep patterns. Nathaniel Kleitman, the "father of sleep research," was influenced by behaviorist methodology when he began his pioneering work at the University of Chicago in the 1920s.</p>
+            
+            <h3>The Cave Experiment</h3>
+            <p>In June 1938, Nathaniel Kleitman and his graduate student Bruce Richardson descended into the darkness of Mammoth Cave, Kentucky, carrying with them the makings of one of the most audacious experiments in sleep science history. They would not emerge for 32 days.</p>
+            
+            <p>Mammoth Cave was perfect for their purposes. At their chosen spot, 140 feet below ground, no hint of sunlight penetrated. The temperature held steady at 54 degrees Fahrenheit. The humidity never varied. It was, in essence, a place outside of time—exactly what Kleitman needed to answer a fundamental question: Are human circadian rhythms driven by external cues, or do we have an internal clock?</p>
+            
+            <p>The two men set up a spartan camp: two beds, a table, a battery-powered lamp they would control manually, and boxes of canned food. Their plan was simple in concept, torturous in execution. They would live on a 28-hour day: 19 hours of wakefulness, 9 hours of sleep. They would eat breakfast upon waking, lunch 6 hours later, dinner 6 hours after that, then stay awake another 7 hours before bed. If human rhythms were purely responsive to external cues, their bodies should adapt to this new schedule within a few days.</p>
+            
+            <p>Richardson, young and adaptable at 20, adjusted within a week. His body temperature began following the new 28-hour pattern, rising during his "day" and falling during his "night." He felt fine, ate with appetite, and slept well. Kleitman must have felt a surge of triumph—perhaps humans were infinitely adaptable after all.</p>
+            
+            <p>But Kleitman himself, at 43, told a different story. His body refused to adapt. Despite living in identical conditions, following the same schedule, his body temperature stubbornly continued its 24-hour cycle. When it was his "bedtime" according to the 28-hour schedule, but "morning" according to his internal clock, he lay awake, alert and miserable. When it was time to be active but his internal clock said "sleep," he could barely function.</p>
+            
+            <p>The experiment failed spectacularly—and in that failure lay its triumph. Kleitman had discovered something fundamental: we have an internal clock that persists even without external cues. Age mattered—younger people were more adaptable—but the clock itself was real, physical, and stubborn.</p>
+            
+            <p>He called this <strong>endogenous rhythm</strong>—a pattern that comes from within. Writing up his results by lamplight in that cave, Kleitman couldn't have known he was documenting the birth of chronobiology. He couldn't have imagined that decades later, scientists would locate the actual cellular mechanisms of this clock, find the genes that drive it, win Nobel Prizes for explaining it. He knew only that deep in a cave, cut off from every earthly rhythm, his body still knew what time it was.</p>
+
+            <h2>The First Sleep Debt Crisis</h2>
+            
+            <p>The 1920s roared with jazz, prohibition, and the first widespread sleep deprivation epidemic in human history.</p>
+            
+            <p>Electric lighting had made 24-hour cities possible. Radio broadcasts ran all night. Factory shifts operated around the clock. For the first time, humans could completely disconnect from natural light-dark cycles.</p>
+            
+            <p>Dr. Donald Laird at Colgate University conducted one of the first large-scale sleep surveys in 1931. His findings were alarming:</p>
+            <ul>
+                <li>The average American slept 1.5 hours less than their parents</li>
+                <li>40% reported feeling "always tired"</li>
+                <li>Industrial accidents peaked during night shifts</li>
+            </ul>
+            
+            <p>Laird introduced the concept of <strong>sleep debt</strong>—the idea that lost sleep accumulates like financial debt and must eventually be repaid. He wrote: "Nature keeps books on our sleep with the accuracy of a bank ledger. You cannot cheat on sleep any more than you can cheat on your bank account."</p>
+            
+            <p>This metaphor resonated with Depression-era Americans who understood debt all too well. But like financial debt, sleep debt would prove easier to accumulate than to pay off.</p>
+
+            <h2>The War on Sleep (Literally)</h2>
+            
+            <p>On December 7, 1941, radar operators at Pearl Harbor picked up incoming aircraft but dismissed them as expected American planes. They'd been on duty for 24 hours straight. Within months, the U.S. military would launch the largest study of sleep deprivation in history, driven by a terrible realization: exhausted soldiers lost wars.</p>
+            
+            <p>The research was brutal by necessity. At Wright Field in Ohio, volunteer airmen were kept awake for days at a time while researchers documented their descent into cognitive chaos. The results were more disturbing than anyone anticipated:</p>
+            
+            <ul>
+                <li><strong>After 24 hours without sleep</strong>, performance dropped by 25%—equivalent to being legally drunk. Pilots missed obvious targets. Navigators made basic mathematical errors. Radio operators garbled simple messages.</li>
+                <li><strong>After 48 hours</strong>, hallucinations began. Pilots reported seeing Japanese Zeros that weren't there. One navigator became convinced his compass was being controlled by enemy magnets. Men stared at blank radar screens and described elaborate patterns.</li>
+                <li><strong>After 72 hours</strong>, paranoia and aggression spiked. Subjects became convinced their fellow airmen were German spies. One pilot tried to "land" his simulator on what he insisted was a secret airfield but was actually a table. Several had to be physically restrained.</li>
+            </ul>
+            
+            <p>But the military needed solutions, not just problems. In a converted barracks that served as a makeshift sleep laboratory, researchers developed the first systematic <strong>countermeasures</strong> for sleep deprivation. These weren't gentle suggestions—they were survival techniques:</p>
+            
+            <p><strong>Strategic napping</strong> became military doctrine. They discovered that a 20-minute nap could restore alertness for 3-4 hours. Pilots learned to nap in their cockpits during long missions, with co-pilots standing watch. The British RAF perfected the "combat nap"—exactly 16 minutes, timed to avoid deep sleep that would leave pilots groggy.</p>
+            
+            <p><strong>Caffeine dosing</strong> was turned into a science. Not the massive doses you might expect, but small, regular amounts—100mg every 2 hours was more effective than 400mg all at once. Pills were issued with precise instructions: "Take one tablet upon waking, one every two hours thereafter, cease four hours before intended sleep."</p>
+            
+            <p><strong>Light exposure protocols</strong> emerged from observations of night bomber crews. Those exposed to bright lights before missions performed better than those who prepared in dim ready rooms. Engineers installed banks of powerful lights in briefing rooms, inadvertently discovering what we now know about light's effect on the circadian clock.</p>
+            
+            <p>Perhaps most importantly, the military developed the <strong>"sleep when you can" doctrine</strong>. Napoleon had supposedly said, "Let China sleep, for when she wakes, she will shake the world," but the U.S. military revised this to: "Let soldiers sleep, for when they wake, they might actually hit their targets." Sleep became a weapon to be deployed strategically, not a weakness to be overcome.</p>
+            
+            <p>These wartime innovations would later transform civilian sleep science. The military had proven what Dr. Laird suspected: sleep wasn't a luxury; it was a biological necessity. You could no more function without sleep than you could function without food or water. The only question was how long you could fake it before collapse.</p>
+
+            <h2>The Psychoanalytic Detour</h2>
+            
+            <p>While behaviorists measured sleep, psychoanalysts interpreted it. Freud's "The Interpretation of Dreams" (1899) had made dreams the royal road to the unconscious. By the 1930s, every educated person had an opinion on what their dreams meant.</p>
+            
+            <p>The psychoanalytic school saw sleep as a return to the womb, a death wish, a regression to infantile states. Dreams were wish fulfillment, anxiety processing, or symbolic messages from the id.</p>
+            
+            <p>This focus on meaning distracted from mechanism. While Freudians debated whether dreaming of trains represented phallic symbols, they missed the crucial question: <em>why do we dream at all?</em></p>
+            
+            <p>Carl Jung broke with Freud partly over this issue. Jung proposed that dreams served a compensatory function—balancing conscious attitudes with unconscious wisdom. He was inching toward a functional theory of sleep, even if he wrapped it in mystical language.</p>
+
+            <h2>The Discovery That Changed Everything</h2>
+            
+            <p>In a cramped laboratory in Jena, Germany, Hans Berger was having a crisis of faith. The year was 1924, and the psychiatrist had spent the better part of two decades trying to prove something that sounded like magic: that human thoughts produced measurable electrical currents. His colleagues thought he was chasing phantoms. His wife worried about his obsessive late nights in the lab. Even Berger himself sometimes wondered if he was wasting his life on an impossible dream.</p>
+            
+            <p>But on one ordinary Tuesday afternoon, everything changed. Berger had finally perfected his device—a tangle of wires, galvanometers, and recording drums that he called the <strong>electroencephalogram (EEG)</strong>. His son Klaus, ever patient, sat still as Berger attached silver electrodes to his scalp with conducting paste. And then, as the drums began to turn and the needles began to scratch their traces on smoked paper, Berger saw them: waves. Electrical waves from a living human brain.</p>
+            
+            <p>His hands shook as he examined the tracings. When Klaus was relaxed with eyes closed, the waves came in regular pulses, about ten per second. When he opened his eyes or did mental arithmetic, the waves became faster, more chaotic. This wasn't just electrical noise—this was the physical signature of thought itself.</p>
+            
+            <p>Berger was so stunned by his discovery that he kept it secret for five years, repeating the experiments obsessively, terrified of being wrong. When he finally published in 1929, the scientific community was skeptical. But when other researchers replicated his work, they discovered something that would shatter every assumption about sleep.</p>
+            
+            <p>For the first time, scientists could "see" sleep. And what they saw shocked them.</p>
+            
+            <p>The sleeping brain wasn't quiet—it was a symphony of electrical activity, as complex and dynamic as any waking state. Adrian and Matthews in Cambridge, Davis and Harvey at Harvard, Loomis at Tuxedo Park—researchers around the world began mapping this hidden landscape. They discovered that sleep wasn't one state but multiple states, each with its own electrical signature:</p>
+            
+            <ul>
+                <li><strong>Beta waves</strong> (13-30 Hz): The rapid, low-amplitude waves of active, alert consciousness. Like the surface chop on a windy lake.</li>
+                <li><strong>Alpha waves</strong> (8-13 Hz): The regular, rhythmic waves of relaxed wakefulness. Close your eyes right now, and your brain is probably generating alpha waves.</li>
+                <li><strong>Theta waves</strong> (4-8 Hz): The slower, larger waves of light sleep and drowsiness. The gateway between waking and sleeping.</li>
+                <li><strong>Delta waves</strong> (0.5-4 Hz): The massive, slow waves of deep sleep. Like ocean swells in the deepest parts of the night.</li>
+            </ul>
+            
+            <p>But the real revelation came when they recorded all-night sleep sessions. The brain didn't simply "power down" into delta waves and stay there. Instead, it cycled through these different states in a predictable pattern, roughly every 90 minutes. Light sleep deepened into delta wave sleep, then lightened again, over and over through the night. It was as if the sleeping brain was performing some elaborate ritual, moving through these states for reasons no one yet understood.</p>
+            
+            <p>The passive, death-like conception of sleep was dead. In its place emerged a vision of sleep as an active, complex, and purposeful state. The brain wasn't resting during sleep—it was working, possibly harder than during waking. But working at what? That question would haunt researchers for the next quarter-century, until a graduate student watching his sleeping son would notice something everyone else had missed.</p>
+
+            <h2>The Philosophy Wars</h2>
+            
+            <p>These discoveries ignited fierce debates between competing schools of thought:</p>
+            
+            <p><strong>The Mechanists</strong> argued sleep was purely physical—chemical buildups and neural exhaustion. They pointed to "hypnotoxins" (sleep-inducing substances) that supposedly accumulated during waking.</p>
+            
+            <p><strong>The Vitalists</strong> maintained that sleep involved some non-physical life force. They couldn't accept that consciousness could emerge from mere electrical patterns.</p>
+            
+            <p><strong>The Functionalists</strong> asked the key question: what is sleep for? They proposed theories ranging from energy conservation to memory consolidation to cellular repair.</p>
+            
+            <p><strong>The Eliminativists</strong> (yes, they existed) argued that sleep was an evolutionary accident we should strive to eliminate. They saw Edison as a prophet and imagined a sleepless future of perpetual productivity.</p>
+
+            <h2>Your Sleep Hygiene Audit</h2>
+            
+            <p>The insights of this era give us our first practical framework. Consider Gélineau's original sleep hygiene principles:</p>
+            
+            <ol>
+                <li><strong>Fixed hours</strong>: Do you go to bed and wake at consistent times?</li>
+                <li><strong>Environment</strong>: Is your bedroom cool, dark, and quiet?</li>
+                <li><strong>Pre-sleep routine</strong>: Do you have rituals that signal bedtime?</li>
+                <li><strong>Timing of activities</strong>: When do you exercise, eat, and expose yourself to bright light?</li>
+                <li><strong>Mental stimulation</strong>: What's your equivalent of "exciting novels" before bed?</li>
+            </ol>
+            
+            <p>As the first half of the twentieth century drew to a close, humanity stood at a peculiar crossroads in our understanding of sleep. We had learned so much, yet understood so little.</p>
+            
+            <p>The behaviorists, with their stopwatches and data sheets, taught us that what gets measured gets managed. They stripped away centuries of mysticism and showed that sleep patterns could be observed, recorded, and modified. No more demons, no more wandering souls—just observable behaviors that followed predictable patterns.</p>
+            
+            <p>The military, driven by the brutal necessities of global warfare, taught us that sleep is non-negotiable. You could push the human machine to its limits, fuel it with stimulants, prop it up with willpower, but eventually, biology wins. Sleep isn't a character flaw to be overcome but a biological imperative to be respected and managed.</p>
+            
+            <p>The EEG taught us perhaps the most profound lesson: sleep is active and complex. Berger's squiggly lines revealed a sleeping brain that was emphatically not "turned off" but engaged in elaborate patterns of activity we couldn't yet decipher. It was like discovering that a factory we thought shut down at night was actually retooling, reorganizing, preparing for the next day's production.</p>
+            
+            <p>But for all these advances, we still didn't know the most important thing: <em>what happens in those cycling stages of sleep?</em> Why does the brain move through this elaborate dance of different wave patterns? What work is being done in those mysterious hours of unconsciousness?</p>
+            
+            <p>The researchers of 1950 had tools their predecessors could only dream of. They could measure brain waves, track eye movements, monitor muscle tension. They had rigorous experimental methods and military funding. They had overcome the stigma that studying sleep was somehow unscientific. The stage was set for the next great discovery.</p>
+            
+            <p>That discovery was coming. And when it arrived—in a cluttered laboratory at the University of Chicago, where a graduate student was struggling to stay awake while watching his young son sleep—it would overturn everything we thought we knew about consciousness itself. It would reveal that we spend two hours every night in a state as different from normal sleep as sleep is from waking. It would suggest that dreams weren't random neural noise but might serve a vital function. It would open doors to questions we're still trying to answer today.</p>
+            
+            <p>But that's a story for another night. For now, take a moment to appreciate how far we'd come. From Alcmaeon watching his patients in ancient Athens to researchers tracking brain waves in modern laboratories, humanity had begun to map the terra incognita of sleep. We had the compass and the crude maps. The real exploration was about to begin.</p>
+            
+            <hr>
+            
+            <p class="next-link"><em>Next: The REM Revolution - In 1953, a graduate student watching his son sleep would accidentally discover something that would force us to completely reimagine what happens when we close our eyes.</em></p>
+            
+            <a href="03-the-rem-revolution.html" class="nav-button">Continue to: The REM Revolution →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const sunIcon = document.querySelector('.sun-icon');
+        const moonIcon = document.querySelector('.moon-icon');
+        
+        // Check for saved theme preference or default to light
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', currentTheme);
+        
+        // Update icon visibility
+        if (currentTheme === 'dark') {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const newTheme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Toggle icons
+            if (newTheme === 'dark') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

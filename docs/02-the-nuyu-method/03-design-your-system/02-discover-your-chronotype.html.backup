@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Your Chronotype - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .chronotype-card {
+            background-color: var(--bg-content);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .chronotype-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .chronotype-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .time-chart {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: var(--hover-bg);
+            border-radius: 8px;
+        }
+        
+        .time-block {
+            flex: 1;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .time-block.sleep {
+            background-color: #1a1a1a;
+        }
+        
+        .time-block.low {
+            background-color: #6B7280;
+        }
+        
+        .time-block.moderate {
+            background-color: #8B5CF6;
+        }
+        
+        .time-block.peak {
+            background-color: #6B21A8;
+        }
+        
+        .assessment-question {
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .assessment-question h4 {
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+        
+        .assessment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .assessment-option {
+            padding: 12px 20px;
+            background-color: var(--bg-content);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .assessment-option:hover {
+            background-color: var(--accent-light);
+            border-color: var(--accent-primary);
+        }
+        
+        .myth-bust {
+            background-color: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 20px 30px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .myth-bust h4 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <h2>nuyu Docs</h2>
+            
+            <!-- The nuyu Method Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    <span class="chevron">▼</span>
+                    The nuyu Method
+                </div>
+                <div class="nav-items">
+                    <a href="#method-overview" class="nav-item">Overview</a>
+                    
+                    <!-- Design Your System Subsection -->
+                    <div class="nav-subsection">
+                        <div class="nav-section-title">
+                            <span class="chevron">▼</span>
+                            3. Design Your System
+                        </div>
+                        <div class="nav-items">
+                            <a href="#blueprint" class="nav-item">Your Sleep Blueprint</a>
+                            <a href="02-discover-your-chronotype.html" class="nav-item active">Discover Your Chronotype</a>
+                            <a href="#ideal-reality" class="nav-item">Ideal vs Reality</a>
+                            <a href="#pressure-timing" class="nav-item">Sleep Pressure & Timing</a>
+                            <a href="#window" class="nav-item">Your Sleep Window</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Design Your System</a>
+                    <span>›</span>
+                    <span>Discover Your Chronotype</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Discover Your Chronotype: The End of One-Size-Fits-All Sleep</h1>
+
+                    <h2>The Morning That Changed My Perspective</h2>
+                    
+                    <p>5:47 AM. My alarm hadn't gone off yet, but I was wide awake. Again.</p>
+                    
+                    <p>For months, I'd been following the productivity gospel: wake at 5 AM, own the morning, win the day. Every successful person I admired seemed to worship at the altar of early rising. Tim Cook at 3:45 AM. The Rock at 4 AM. Michelle Obama at 4:30 AM. If I wanted to transform my life, clearly I needed to join the 5 AM club.</p>
+                    
+                    <p>Except I was miserable.</p>
+                    
+                    <p>Not tired—that would have been manageable. Miserable. My most creative hours, typically 9 PM to midnight, were now spent fighting to stay awake. My morning workouts felt like punishment. My celebrated "power hours" were powered by nothing but caffeine and stubbornness.</p>
+                    
+                    <p>But here I was, naturally waking before my alarm, so surely I was adapting, right? I must be becoming a morning person through sheer force of will. That's what all the books promised.</p>
+                    
+                    <p>Then my partner walked into the kitchen at 7:30 AM, looking refreshed after her natural wake time, and said something that shattered my worldview: "You know you're allowed to work with your biology instead of against it, right?"</p>
+                    
+                    <p>That simple question led me down a rabbit hole of chronobiology research that would completely transform how I thought about sleep, productivity, and human optimization. What I discovered was both liberating and infuriating: I'd been trying to force my square-peg biology into a round-hole schedule. And I wasn't alone.</p>
+
+                    <h2>The Science of Individual Time</h2>
+                    
+                    <p>Here's what nobody tells you about those successful early risers: for every Tim Cook waking at 3:45 AM, there's a Barack Obama doing his best work after 10 PM. For every Michelle Obama crushing dawn workouts, there's a Simone de Beauvoir who didn't even attempt work before noon.</p>
+                    
+                    <p>The difference isn't discipline. It's biology.</p>
+                    
+                    <p>Your chronotype—your body's natural preference for sleep and wake times—is largely genetic. It's written into your DNA as surely as your eye color. The same clock genes that won the 2017 Nobel Prize (PERIOD, CLOCK, BMAL1) don't just determine that you need sleep—they determine when you need it.</p>
+                    
+                    <p>Research from 23andMe analyzing over 700,000 individuals found that chronotype is approximately 50% heritable. Specific variants in genes like PER2 and PER3 can shift your natural bedtime by hours. You can no more will yourself to be a morning person than you can will yourself to be taller.</p>
+                    
+                    <p>Yet our entire society is built around the assumption that everyone should operate on the same schedule. School starts at 8 AM. Work starts at 9 AM. "Normal" bedtime is 10-11 PM. If this doesn't work for you, clearly you lack discipline.</p>
+                    
+                    <p>This would be like insisting everyone wear size 8 shoes and blaming those with size 11 feet for lacking commitment when their feet hurt.</p>
+
+                    <h2>The Four Chronotypes (Plus Reality)</h2>
+                    
+                    <p>Researchers have identified several ways to categorize chronotypes. The most scientifically validated uses a spectrum from extreme larks to extreme owls, but for practical purposes, we can identify four main patterns:</p>
+                    
+                    <div class="chronotype-card">
+                        <h3 class="chronotype-title">🌅 The Lark (Morning Type)</h3>
+                        <p><strong>Population:</strong> ~25%</p>
+                        <p><strong>Natural bedtime:</strong> 9-10 PM</p>
+                        <p><strong>Natural wake time:</strong> 5-6 AM</p>
+                        <p><strong>Peak performance:</strong> 8 AM-12 PM</p>
+                        
+                        <p>Larks are the golden children of our society. They naturally align with traditional schedules, crushing it in morning meetings while the rest of us are still finding our humanity. But they also hit a wall by 9 PM when the night is just getting started for others.</p>
+                        
+                        <div class="time-chart">
+                            <div class="time-block sleep">12-5 AM</div>
+                            <div class="time-block low">5-6 AM</div>
+                            <div class="time-block moderate">6-8 AM</div>
+                            <div class="time-block peak">8 AM-12 PM</div>
+                            <div class="time-block moderate">12-3 PM</div>
+                            <div class="time-block low">3-9 PM</div>
+                            <div class="time-block sleep">9 PM-12 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chronotype-card">
+                        <h3 class="chronotype-title">🦉 The Owl (Evening Type)</h3>
+                        <p><strong>Population:</strong> ~25%</p>
+                        <p><strong>Natural bedtime:</strong> 1-2 AM</p>
+                        <p><strong>Natural wake time:</strong> 9-10 AM</p>
+                        <p><strong>Peak performance:</strong> 4 PM-10 PM</p>
+                        
+                        <p>Owls are the rebels of the sleep world, constantly fighting societal expectations. They're the ones creating brilliant code at 2 AM or writing novels after midnight. Society calls them lazy; biology calls them different.</p>
+                        
+                        <div class="time-chart">
+                            <div class="time-block sleep">2-9 AM</div>
+                            <div class="time-block low">9-11 AM</div>
+                            <div class="time-block moderate">11 AM-4 PM</div>
+                            <div class="time-block peak">4-10 PM</div>
+                            <div class="time-block moderate">10 PM-12 AM</div>
+                            <div class="time-block low">12-2 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chronotype-card">
+                        <h3 class="chronotype-title">🐦 The Third Bird (Intermediate Type)</h3>
+                        <p><strong>Population:</strong> ~50%</p>
+                        <p><strong>Natural bedtime:</strong> 11 PM-12 AM</p>
+                        <p><strong>Natural wake time:</strong> 7-8 AM</p>
+                        <p><strong>Peak performance:</strong> 10 AM-2 PM</p>
+                        
+                        <p>Most people fall somewhere in the middle—not extreme larks or owls but "third birds." They have more flexibility than the extremes but still have optimal times for sleep and performance.</p>
+                        
+                        <div class="time-chart">
+                            <div class="time-block sleep">12-7 AM</div>
+                            <div class="time-block low">7-8 AM</div>
+                            <div class="time-block moderate">8-10 AM</div>
+                            <div class="time-block peak">10 AM-2 PM</div>
+                            <div class="time-block moderate">2-6 PM</div>
+                            <div class="time-block low">6 PM-12 AM</div>
+                        </div>
+                    </div>
+
+                    <h2>The Teenage Exception</h2>
+                    
+                    <p>There's one massive exception to genetic chronotypes: adolescence. During puberty, nearly everyone becomes an owl. The biological changes of adolescence delay melatonin release by 2-3 hours. A teenager trying to fall asleep at 10 PM is like an adult trying to sleep at 7 PM—biologically impossible.</p>
+                    
+                    <p>This isn't rebellion or screen time (though those don't help). It's a fundamental biological shift that reverses in the early twenties. Yet we insist teenagers wake at 6 AM for school, then wonder why they're failing classes and crashing cars.</p>
+                    
+                    <p>Studies of schools that shifted to later start times found:</p>
+                    <ul>
+                        <li>70% reduction in car crashes</li>
+                        <li>Improved grades across all subjects</li>
+                        <li>Reduced depression and anxiety</li>
+                        <li>Better athletic performance</li>
+                    </ul>
+                    
+                    <p>The biology is clear. The implementation remains stuck in the industrial age.</p>
+
+                    <h2>Discovering Your True Type</h2>
+                    
+                    <p>Here's the challenge: most of us don't know our true chronotype because we've never experienced it. Alarm clocks, caffeine, artificial light, and social obligations mask our natural rhythms. You might think you're a night owl when you're really just revenge-bedtime-procrastinating. You might think you're a lark when you're really just sleep-deprived and crashing early.</p>
+                    
+                    <p>To discover your true chronotype, you need to observe yourself under natural conditions. The gold standard is what researchers call "free days"—times when you can sleep and wake without alarms or obligations.</p>
+                    
+                    <div class="assessment-question">
+                        <h4>The Vacation Test</h4>
+                        <p>Think about your sleep patterns after 3-4 days of vacation (once you've caught up on sleep debt). Without alarms or schedules, when do you naturally:</p>
+                        <ul>
+                            <li>Feel sleepy enough for bed?</li>
+                            <li>Wake up feeling refreshed?</li>
+                            <li>Feel most alert and productive?</li>
+                            <li>Experience your afternoon energy dip?</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assessment-question">
+                        <h4>The Weekend Differential</h4>
+                        <p>How much later do you sleep on weekends compared to weekdays? This "social jet lag" reveals the gap between your biological and social clock:</p>
+                        <ul>
+                            <li><strong>0-30 minutes:</strong> Well-aligned with your chronotype</li>
+                            <li><strong>30-90 minutes:</strong> Mild misalignment</li>
+                            <li><strong>90-150 minutes:</strong> Moderate misalignment</li>
+                            <li><strong>150+ minutes:</strong> Severe misalignment</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="assessment-question">
+                        <h4>The Caffeine-Free Reality</h4>
+                        <p>If you had to go without caffeine for a week, when would you:</p>
+                        <ul>
+                            <li>Struggle most to stay awake?</li>
+                            <li>Feel naturally energized?</li>
+                            <li>Want to exercise?</li>
+                            <li>Do your best thinking?</li>
+                        </ul>
+                    </div>
+
+                    <h2>The Chronotype Myths</h2>
+                    
+                    <div class="myth-bust">
+                        <h4>Myth: "You can change your chronotype with discipline"</h4>
+                        <p>Reality: You can shift your sleep timing by 1-2 hours with consistent habits, but you can't fundamentally change your type. An owl forcing a lark schedule will always be fighting biology.</p>
+                    </div>
+                    
+                    <div class="myth-bust">
+                        <h4>Myth: "Morning people are more successful"</h4>
+                        <p>Reality: Our 9-5 world advantages larks, but owls excel in creative fields, entrepreneurship, and roles requiring evening work. Success is about alignment, not timing.</p>
+                    </div>
+                    
+                    <div class="myth-bust">
+                        <h4>Myth: "Night owls are just procrastinating"</h4>
+                        <p>Reality: True night owls have delayed melatonin release and body temperature rhythms. Their 11 PM feels like a lark's 8 PM, biologically speaking.</p>
+                    </div>
+                    
+                    <div class="myth-bust">
+                        <h4>Myth: "Everyone needs 8 hours at the same time"</h4>
+                        <p>Reality: While most people need 7-9 hours, WHEN those hours occur varies by chronotype. An owl sleeping 2 AM-10 AM is as healthy as a lark sleeping 10 PM-6 AM.</p>
+                    </div>
+
+                    <h2>Working With Your Chronotype</h2>
+                    
+                    <p>Once you know your type, the question becomes: how do you optimize your life around it? Here's where most advice fails. It assumes you have complete control over your schedule. Reality check: you probably don't.</p>
+                    
+                    <p>But you have more flexibility than you think. The key is strategic alignment—matching your most important tasks to your biological peak times, even within conventional schedules.</p>
+                    
+                    <p><strong>For Larks in a 9-5 World:</strong></p>
+                    <ul>
+                        <li>Request early meetings when others are still warming up</li>
+                        <li>Tackle complex work before noon</li>
+                        <li>Avoid important tasks after 3 PM</li>
+                        <li>Negotiate leaving early rather than staying late</li>
+                    </ul>
+                    
+                    <p><strong>For Owls in a 9-5 World:</strong></p>
+                    <ul>
+                        <li>Use mornings for routine tasks that don't require peak performance</li>
+                        <li>Schedule important work for afternoons</li>
+                        <li>Negotiate work-from-home days to control morning schedule</li>
+                        <li>Save creative projects for evening personal time</li>
+                    </ul>
+                    
+                    <p><strong>For Third Birds:</strong></p>
+                    <ul>
+                        <li>You have the most flexibility—use it wisely</li>
+                        <li>Protect your peak hours (usually late morning)</li>
+                        <li>Be careful not to drift too far from your natural rhythm</li>
+                        <li>You can adapt easier, but that doesn't mean you should</li>
+                    </ul>
+
+                    <h2>The Future of Chronotype-Aligned Living</h2>
+                    
+                    <p>We're on the cusp of a chronotype revolution. Forward-thinking companies are experimenting with chronotype-based scheduling. Schools are pushing back start times. The gig economy is enabling people to work when they're most effective, not when the clock says they should.</p>
+                    
+                    <p>B-Society in Denmark certifies "B-Corporations"—companies that accommodate B-persons (owls). These companies report:</p>
+                    <ul>
+                        <li>Higher employee satisfaction</li>
+                        <li>Increased productivity</li>
+                        <li>Lower turnover</li>
+                        <li>Better work-life balance</li>
+                    </ul>
+                    
+                    <p>The science is clear: when people work with their chronotype rather than against it, everyone wins.</p>
+
+                    <h2>Your Chronotype Journey</h2>
+                    
+                    <p>I eventually discovered I'm a moderate owl—not extreme enough to justify a completely nocturnal schedule, but certainly not built for 5 AM wake-ups. My peak performance window is 10 AM-2 PM and again from 7-11 PM. My ideal sleep window is midnight to 8 AM.</p>
+                    
+                    <p>Once I stopped trying to be Tim Cook and started being myself, everything changed. My productivity soared. My creativity returned. My relationships improved (turns out, being chronically misaligned makes you kind of unbearable).</p>
+                    
+                    <p>I still wake earlier than my ideal sometimes—life demands compromise. But now I do it strategically, knowing the cost and managing it appropriately. I don't schedule important work for early mornings. I protect my evening creative time. I honor my biology instead of fighting it.</p>
+                    
+                    <p>Your chronotype isn't a limitation—it's a blueprint. It's your body telling you when you're designed to be at your best. The question isn't whether you're a lark or an owl. The question is: are you ready to stop fighting your nature and start working with it?</p>
+                    
+                    <p>Because here's the truth: the most productive schedule isn't the one that starts earliest. It's the one that aligns with your biology. The most successful people aren't necessarily early risers—they're people who've learned to honor their natural rhythms.</p>
+                    
+                    <p>Your transformation doesn't require becoming someone else. It requires becoming more fully who you already are.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: Ideal vs Reality - Learn how to bridge the gap between your biological ideal and life's demands, creating a sleep schedule that honors both your chronotype and your responsibilities.</em></p>
+                    
+                    <a href="#ideal-reality" class="nav-button">Continue to: Ideal vs Reality →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const sunIcon = document.querySelector('.sun-icon');
+        const moonIcon = document.querySelector('.moon-icon');
+        
+        // Check for saved theme preference or default to light
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', currentTheme);
+        
+        // Update icon visibility
+        if (currentTheme === 'dark') {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const newTheme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Toggle icons
+            if (newTheme === 'dark') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            }
+        });
+        
+        // Toggle navigation sections
+        document.querySelectorAll('.nav-section-title').forEach(title => {
+            title.addEventListener('click', () => {
+                const section = title.parentElement;
+                section.classList.toggle('collapsed');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Center - nuyu Documentation</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .support-hero {
+            background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .support-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        
+        .support-ring {
+            position: absolute;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: ripple 3s ease-out infinite;
+        }
+        
+        .support-ring:nth-child(1) { width: 50px; height: 50px; animation-delay: 0s; }
+        .support-ring:nth-child(2) { width: 100px; height: 100px; animation-delay: 1s; }
+        .support-ring:nth-child(3) { width: 150px; height: 150px; animation-delay: 2s; }
+        
+        @keyframes ripple {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(3); }
+        }
+        
+        .support-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .quick-help {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .help-card {
+            background: var(--bg-content);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .help-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: var(--accent-primary);
+        }
+        
+        .help-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 20px;
+        }
+        
+        .contact-methods {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 30px 0;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .contact-option {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .contact-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .availability {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .available {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+        
+        .busy {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+        }
+        
+        .offline {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+        
+        .faq-section {
+            background: var(--bg-content);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .faq-category {
+            margin: 30px 0;
+        }
+        
+        .faq-item {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+        
+        .faq-answer {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            display: none;
+        }
+        
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        .resource-hub {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .resource-item {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .resource-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .resource-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .warranty-info {
+            background: rgba(99, 102, 241, 0.05);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .warranty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .warranty-item {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .warranty-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        .live-chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .live-chat-widget:hover {
+            transform: scale(1.1);
+            background: var(--accent-secondary);
+        }
+        
+        .chat-bubble {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .feedback-section {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .feedback-form {
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        
+        .form-group {
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--hover-bg);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+        
+        .submit-button {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-button:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">Resources</a>
+                    <span>›</span>
+                    <span>Support Center</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Support Center: We're Here to Help</h1>
+
+                    <div class="support-hero">
+                        <div class="support-animation">
+                            <div class="support-ring"></div>
+                            <div class="support-ring"></div>
+                            <div class="support-ring"></div>
+                        </div>
+                        <h2>Your Success is Our Mission</h2>
+                        <p style="position: relative; z-index: 1;">Get help, find answers, and connect with our support team.</p>
+                    </div>
+
+                    <h2>How Can We Help You Today?</h2>
+                    
+                    <div class="quick-help">
+                        <div class="help-card">
+                            <div class="help-icon">🛠️</div>
+                            <h3>Technical Support</h3>
+                            <p>Device issues, app problems, connectivity troubles</p>
+                            <a href="../03-device-mastery/02-advanced-usage/troubleshooting.html">Troubleshooting Guide →</a>
+                        </div>
+                        
+                        <div class="help-card">
+                            <div class="help-icon">📚</div>
+                            <h3>Learning Resources</h3>
+                            <p>Guides, tutorials, and sleep science education</p>
+                            <a href="../index.html">Documentation Home →</a>
+                        </div>
+                        
+                        <div class="help-card">
+                            <div class="help-icon">💬</div>
+                            <h3>Community Help</h3>
+                            <p>Connect with other users and share experiences</p>
+                            <a href="community-stories.html">Community Stories →</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-methods">
+                        <h2>Contact Our Support Team</h2>
+                        <p>Multiple ways to reach us—choose what works best for you.</p>
+                        
+                        <div class="contact-grid">
+                            <div class="contact-option">
+                                <div class="contact-icon">💬</div>
+                                <h4>Live Chat</h4>
+                                <p>Instant help from our team</p>
+                                <p><strong>Response time: <2 min</strong></p>
+                                <span class="availability available">Available Now</span>
+                            </div>
+                            
+                            <div class="contact-option">
+                                <div class="contact-icon">📧</div>
+                                <h4>Email Support</h4>
+                                <p>Detailed assistance via email</p>
+                                <p><strong>help@nuyu.com</strong></p>
+                                <span class="availability available">24-48 hours</span>
+                            </div>
+                            
+                            <div class="contact-option">
+                                <div class="contact-icon">📱</div>
+                                <h4>In-App Support</h4>
+                                <p>Help directly in the nuyu app</p>
+                                <p><strong>Settings → Help</strong></p>
+                                <span class="availability available">Always Available</span>
+                            </div>
+                            
+                            <div class="contact-option">
+                                <div class="contact-icon">🌐</div>
+                                <h4>Community Forum</h4>
+                                <p>User-to-user support</p>
+                                <p><strong>community.nuyu.com</strong></p>
+                                <span class="availability available">24/7 Community</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Frequently Asked Questions</h2>
+                    
+                    <div class="faq-section">
+                        <div class="faq-category">
+                            <h3>Getting Started</h3>
+                            
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <span>How long does it take to see improvements in my sleep?</span>
+                                    <span class="expand-icon">▼</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Most users see initial insights within 3-5 nights as nuyu learns your patterns. Meaningful improvements typically begin within 2 weeks, with significant transformations occurring over 1-3 months. Remember, sustainable change takes time!</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <span>Do I need to wear anything to track my sleep?</span>
+                                    <span class="expand-icon">▼</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>No! nuyu uses contactless sensing technology. Simply place it on your mattress under the fitted sheet. No wearables, no charging wearables, no discomfort—just natural sleep while nuyu does the work.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <span>Will nuyu work with my partner in bed?</span>
+                                    <span class="expand-icon">▼</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Yes! nuyu's advanced algorithms can distinguish between you and your partner. For best results, place nuyu on your side of the bed. Partner Mode in settings helps filter out their movements for even more accurate tracking.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-category">
+                            <h3>Technical Questions</h3>
+                            
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <span>How often do I need to charge nuyu?</span>
+                                    <span class="expand-icon">▼</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>nuyu's battery lasts up to 3 months on a single charge! The app will notify you when battery is low (with about a week remaining). Charging takes 2-3 hours via the included USB-C cable.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <span>What happens if my phone isn't nearby?</span>
+                                    <span class="expand-icon">▼</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>nuyu stores up to 30 days of data locally. When your phone reconnects via Bluetooth, all data syncs automatically. You won't lose any sleep tracking, even if your phone is off or in another room.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <span>Is my sleep data private and secure?</span>
+                                    <span class="expand-icon">▼</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Absolutely. Your data is encrypted end-to-end and never shared without your explicit consent. You own your data and can export or delete it anytime. We're HIPAA compliant and take privacy seriously. Read our full privacy policy at nuyu.com/privacy.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-category">
+                            <h3>Subscription & Warranty</h3>
+                            
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <span>Do I need a subscription to use nuyu?</span>
+                                    <span class="expand-icon">▼</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>No subscription required! All core features are free forever: sleep tracking, insights, smart alarm, and basic analytics. nuyu Pro ($9.99/month) adds advanced features like AI coaching, unlimited experiments, and API access—but it's completely optional.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <span>What warranty does nuyu come with?</span>
+                                    <span class="expand-icon">▼</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Every nuyu device includes a 2-year warranty covering defects and malfunctions. We also offer a 60-night sleep trial—if you're not sleeping better, return it for a full refund. Extended warranty and accident protection available at checkout.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Resources & Downloads</h2>
+                    
+                    <div class="resource-hub">
+                        <h3>Everything You Need in One Place</h3>
+                        
+                        <div class="resource-grid">
+                            <a href="#" class="resource-item">
+                                <div class="resource-icon">📱</div>
+                                <h5>iOS App</h5>
+                                <p>Download latest version</p>
+                            </a>
+                            
+                            <a href="#" class="resource-item">
+                                <div class="resource-icon">🤖</div>
+                                <h5>Android App</h5>
+                                <p>Get it on Google Play</p>
+                            </a>
+                            
+                            <a href="#" class="resource-item">
+                                <div class="resource-icon">📄</div>
+                                <h5>User Manual</h5>
+                                <p>PDF download</p>
+                            </a>
+                            
+                            <a href="#" class="resource-item">
+                                <div class="resource-icon">🎥</div>
+                                <h5>Video Tutorials</h5>
+                                <p>Setup & tips</p>
+                            </a>
+                            
+                            <a href="#" class="resource-item">
+                                <div class="resource-icon">🔌</div>
+                                <h5>API Docs</h5>
+                                <p>For developers</p>
+                            </a>
+                            
+                            <a href="#" class="resource-item">
+                                <div class="resource-icon">🔄</div>
+                                <h5>Firmware</h5>
+                                <p>Latest updates</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <h2>Warranty & Returns</h2>
+                    
+                    <div class="warranty-info">
+                        <h3>Your Purchase is Protected</h3>
+                        
+                        <div class="warranty-grid">
+                            <div class="warranty-item">
+                                <div class="warranty-icon">🛡️</div>
+                                <h4>2-Year Warranty</h4>
+                                <p>Full coverage for defects and malfunctions</p>
+                            </div>
+                            
+                            <div class="warranty-item">
+                                <div class="warranty-icon">🌙</div>
+                                <h4>60-Night Trial</h4>
+                                <p>Not sleeping better? Full refund, no questions</p>
+                            </div>
+                            
+                            <div class="warranty-item">
+                                <div class="warranty-icon">📦</div>
+                                <h4>Free Shipping</h4>
+                                <p>On replacements and returns</p>
+                            </div>
+                        </div>
+                        
+                        <p style="margin-top: 20px; text-align: center;">
+                            <strong>To start a return or warranty claim:</strong> Contact support or visit nuyu.com/returns
+                        </p>
+                    </div>
+
+                    <h2>Send Us Feedback</h2>
+                    
+                    <div class="feedback-section">
+                        <h3>Help Us Help You Better</h3>
+                        <p>Your feedback shapes nuyu's future. Tell us what's working, what's not, and what you'd love to see.</p>
+                        
+                        <form class="feedback-form">
+                            <div class="form-group">
+                                <label>Your Email</label>
+                                <input type="email" placeholder="your@email.com" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Feedback Type</label>
+                                <select style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--hover-bg); color: var(--text-primary);">
+                                    <option>Feature Request</option>
+                                    <option>Bug Report</option>
+                                    <option>General Feedback</option>
+                                    <option>Success Story</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Your Message</label>
+                                <textarea rows="5" placeholder="Tell us what's on your mind..." required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="submit-button">Send Feedback</button>
+                        </form>
+                    </div>
+
+                    <h2>Office Hours & Response Times</h2>
+                    
+                    <ul>
+                        <li><strong>Live Chat:</strong> Monday-Friday 6 AM - 10 PM PST, Weekends 8 AM - 8 PM PST</li>
+                        <li><strong>Email Response:</strong> Within 24-48 hours, 7 days a week</li>
+                        <li><strong>Emergency Support:</strong> For urgent device issues, email urgent@nuyu.com</li>
+                        <li><strong>Holiday Hours:</strong> Limited support on major holidays (check app for schedule)</li>
+                    </ul>
+
+                    <h2>Connect With Us</h2>
+                    
+                    <p>Stay updated and join the conversation:</p>
+                    
+                    <ul>
+                        <li><strong>Twitter:</strong> @nuyusleep - Tips, updates, and sleep science</li>
+                        <li><strong>Instagram:</strong> @nuyusleep - Success stories and sleep tips</li>
+                        <li><strong>YouTube:</strong> nuyu Sleep - Tutorials and sleep education</li>
+                        <li><strong>Blog:</strong> blog.nuyu.com - Deep dives into sleep science</li>
+                        <li><strong>Podcast:</strong> "The Sleep Revolution" - Weekly episodes</li>
+                    </ul>
+
+                    <h2>Final Thoughts</h2>
+                    
+                    <p>At nuyu, we believe everyone deserves great sleep. Whether you're just starting your journey or optimizing advanced features, we're here to support you every step of the way.</p>
+                    
+                    <p>Remember: You're not just a customer—you're part of a community transforming how the world sleeps. Your questions, feedback, and success stories help us build something better for everyone.</p>
+                    
+                    <p><strong>Sweet dreams and better mornings await. Let's make them happen together.</strong></p>
+
+                    <!-- Live Chat Widget -->
+                    <div class="live-chat-widget">
+                        <span class="chat-bubble">1</span>
+                        💬
+                    </div>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('support-center', '..');
+        
+        // FAQ interaction
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

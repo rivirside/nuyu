@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The First-Order Algorithm - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .code-block {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        
+        .algorithm-visual {
+            background-color: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .hierarchy-level {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .hierarchy-level.kernel {
+            background-color: var(--accent-light);
+            border: 2px solid var(--accent-primary);
+        }
+        
+        .hierarchy-level.system {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            margin-left: 40px;
+        }
+        
+        .hierarchy-level.application {
+            background-color: var(--bg-secondary);
+            border: 1px dashed var(--border-light);
+            margin-left: 80px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Sleep as Foundation</a>
+                    <span>›</span>
+                    <span>The First-Order Algorithm</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>The First-Order Algorithm: Your Life's Operating System</h1>
+
+                    <h2>The Day My Computer Taught Me About Sleep</h2>
+                    
+                    <p>It was 3 AM, and I was staring at the blue screen of death. Again.</p>
+                    
+                    <p>As a software engineer pulling another all-nighter to meet a deadline, I'd pushed my laptop as hard as I'd pushed myself. Too many applications running. Too many browser tabs open. Too much processing without a restart. The irony wasn't lost on me as I sat there, exhausted, looking at my crashed computer while my own operating system—my brain—was clearly failing too.</p>
+                    
+                    <p>But then something clicked. Not in the computer—in my understanding.</p>
+                    
+                    <p>I'd been treating my habits, productivity, and health like applications—things I could just install and run. Morning routine? Install. Exercise habit? Download. Meditation practice? Update. But just like my computer, these "applications" kept crashing because the underlying operating system—my sleep—was fundamentally broken.</p>
+                    
+                    <p>That night, I discovered what would become the core principle of the nuyu method: sleep isn't just another habit to optimize. It's the operating system that all other habits run on. It's the first-order algorithm—the master program that determines whether everything else functions or fails.</p>
+
+                    <h2>Understanding Algorithmic Hierarchy</h2>
+                    
+                    <p>In computer science, we have a concept called algorithmic hierarchy. Some processes are foundational—they must run correctly for anything else to work. Others are dependent—they rely on those foundational processes. It looks something like this:</p>
+                    
+                    <div class="code-block">
+<pre>// System Boot Sequence
+1. BIOS/UEFI (Basic hardware initialization)
+2. Bootloader (Loads the operating system)  
+3. Kernel (Core OS functions)
+4. System Services (Background processes)
+5. User Applications (What you actually use)
+
+// If step 1 fails, nothing else runs
+// If step 3 fails, no applications can launch
+// Each level depends on the ones below it</pre>
+                    </div>
+                    
+                    <p>Your biological systems work the same way. And sleep? Sleep is your kernel—the core process that everything else depends on.</p>
+                    
+                    <p>Think about what happens when you're sleep-deprived. It's not just that you're tired. Every system starts failing:</p>
+                    
+                    <ul>
+                        <li><strong>Cognitive functions crash</strong>: Decision-making, creativity, and memory formation all degrade</li>
+                        <li><strong>Emotional regulation fails</strong>: You're irritable, anxious, more likely to snap at loved ones</li>
+                        <li><strong>Physical systems degrade</strong>: Immune function drops, injury risk increases, recovery slows</li>
+                        <li><strong>Metabolic processes corrupt</strong>: Hunger hormones dysregulate, insulin sensitivity decreases</li>
+                        <li><strong>Motivational drivers stall</strong>: Willpower depletes faster, good intentions evaporate</li>
+                    </ul>
+                    
+                    <p>Now try to install a new habit—say, meditation or journaling—on this corrupted operating system. It's like trying to run Photoshop on a computer that's blue-screening every five minutes. The application might be perfect, but it has no stable platform to run on.</p>
+
+                    <h2>The Hierarchy of Human Optimization</h2>
+                    
+                    <p>After years of observation, experimentation, and working with thousands of people trying to change their lives, I've mapped out the actual hierarchy of human optimization. It's not what most self-help books tell you:</p>
+                    
+                    <div class="algorithm-visual">
+                        <div class="hierarchy-level kernel">
+                            <h3>Level 0: The Kernel (Sleep)</h3>
+                            <p>The master regulator. When this fails, everything fails.</p>
+                        </div>
+                        
+                        <div class="hierarchy-level system">
+                            <h3>Level 1: System Services</h3>
+                            <p>• Circadian alignment (light/dark exposure)<br>
+                            • Basic nutrition (eating real food)<br>
+                            • Hydration (water intake)<br>
+                            • Movement (any physical activity)</p>
+                        </div>
+                        
+                        <div class="hierarchy-level application">
+                            <h3>Level 2: Applications</h3>
+                            <p>• Exercise routines<br>
+                            • Meditation practice<br>
+                            • Productivity systems<br>
+                            • Creative pursuits<br>
+                            • Social connections</p>
+                        </div>
+                    </div>
+                    
+                    <p>Most people try to start at Level 2. They download a meditation app, buy a gym membership, or start a gratitude journal while sleeping 5 hours a night. It's like trying to edit 4K video on a computer that hasn't been restarted in a month. Sure, it might work for a day or two, but it's not sustainable.</p>
+                    
+                    <p>The nuyu method is different. We start with the kernel. We optimize sleep first, because once that's running smoothly, everything else becomes not just possible, but almost inevitable.</p>
+
+                    <h2>The Cascading Effects of Sleep Optimization</h2>
+                    
+                    <p>Here's what happens when you treat sleep as your first-order algorithm:</p>
+                    
+                    <p><strong>Week 1-2: System Stabilization</strong><br>
+                    Your biological kernel starts running smoothly. Energy levels stabilize. Mood improves. The constant background static of fatigue begins to clear. You're not transforming yet—you're just getting your operating system to run without crashing.</p>
+                    
+                    <p><strong>Week 3-4: Service Layer Activation</strong><br>
+                    With stable sleep, your system services come online naturally. You start craving better food (your leptin and ghrelin hormones are finally balanced). Movement feels good instead of exhausting. You naturally seek morning sunlight because your circadian rhythms are asking for it.</p>
+                    
+                    <p><strong>Week 5-8: Application Installation</strong><br>
+                    Now—and only now—are you ready for those Level 2 habits. But here's the magic: they're no longer a struggle. With adequate sleep:</p>
+                    
+                    <ul>
+                        <li>Morning workouts happen because you have energy</li>
+                        <li>Meditation works because your mind isn't fighting exhaustion</li>
+                        <li>Creative projects flow because your brain has been properly maintained</li>
+                        <li>Healthy eating choices occur because your decision-making isn't impaired</li>
+                    </ul>
+                    
+                    <p>It's not that you suddenly have more willpower. It's that your operating system is no longer working against you.</p>
+
+                    <h2>The Algorithm in Practice</h2>
+                    
+                    <p>Let me show you how this plays out with a real example. Sarah came to me wanting to transform her life. Her goals were ambitious:</p>
+                    
+                    <ul>
+                        <li>Lose 30 pounds</li>
+                        <li>Start a side business</li>
+                        <li>Improve her relationship</li>
+                        <li>Develop a meditation practice</li>
+                        <li>Run a half marathon</li>
+                    </ul>
+                    
+                    <p>She'd tried everything: workout programs, business courses, couples therapy, meditation apps. Nothing stuck. When I looked at her sleep data, I understood why. She was averaging 5.5 hours per night, with inconsistent timing and poor quality. Her kernel was corrupted.</p>
+                    
+                    <p>We ignored all her goals. For eight weeks, we focused solely on sleep:</p>
+                    
+                    <ul>
+                        <li>Consistent bedtime and wake time (even weekends)</li>
+                        <li>Bedroom optimization (temperature, darkness, quiet)</li>
+                        <li>Evening routine design (wind-down rituals)</li>
+                        <li>Morning light exposure (circadian anchor)</li>
+                    </ul>
+                    
+                    <p>By week 8, Sarah was consistently getting 7.5-8 hours of quality sleep. Then something remarkable happened. Without any additional interventions:</p>
+                    
+                    <ul>
+                        <li>She started waking up early to exercise (she had energy)</li>
+                        <li>Her food cravings shifted from sugar to protein (hormones balanced)</li>
+                        <li>She had patience with her partner (emotional regulation restored)</li>
+                        <li>Creative business ideas flowed during her commute (cognitive function improved)</li>
+                        <li>Evening meditation became enjoyable (not a fight against fatigue)</li>
+                    </ul>
+                    
+                    <p>Six months later, she'd achieved every goal on her list. Not through superhuman discipline, but by fixing her operating system first.</p>
+
+                    <h2>Why We Get This Backwards</h2>
+                    
+                    <p>Our culture has it completely reversed. We glorify the CEO who sleeps 4 hours, the student who pulls all-nighters, the parent who "powers through" on caffeine and determination. We treat sleep as what happens after everything important is done.</p>
+                    
+                    <p>But biology doesn't care about our cultural myths. The research is unequivocal:</p>
+                    
+                    <ul>
+                        <li>Sleeping less than 7 hours increases all-cause mortality</li>
+                        <li>Chronic sleep deprivation is linked to every major disease</li>
+                        <li>Cognitive performance on 6 hours of sleep equals legal intoxication</li>
+                        <li>Sleep loss directly causes weight gain through hormonal disruption</li>
+                        <li>REM sleep is required for emotional processing and mental health</li>
+                    </ul>
+                    
+                    <p>Yet we still treat sleep as negotiable, as if we can hack our way around millions of years of evolution. We can't. The first-order algorithm is non-negotiable.</p>
+
+                    <h2>The Diagnostic Test</h2>
+                    
+                    <p>How do you know if your kernel is corrupted? Here's a simple diagnostic:</p>
+                    
+                    <ol>
+                        <li><strong>The Alarm Test</strong>: Do you need an alarm to wake up? (Healthy sleep = natural awakening)</li>
+                        <li><strong>The Caffeine Test</strong>: Can you function without caffeine? (If no, your OS is failing)</li>
+                        <li><strong>The 3 PM Test</strong>: Do you crash mid-afternoon? (Sign of sleep debt or misaligned circadian rhythm)</li>
+                        <li><strong>The Weekend Test</strong>: Do you sleep significantly more on weekends? (You're running a sleep deficit)</li>
+                        <li><strong>The Mood Test</strong>: Are you irritable, anxious, or emotionally volatile? (Sleep regulates emotions)</li>
+                    </ol>
+                    
+                    <p>If you failed more than two of these tests, your kernel needs attention before you install any new applications.</p>
+
+                    <h2>Implementing Your First-Order Algorithm</h2>
+                    
+                    <p>The beauty of treating sleep as your first-order algorithm is its simplicity. You don't need 20 different habits. You need one foundational practice that makes everything else possible.</p>
+                    
+                    <p>Here's your implementation guide:</p>
+                    
+                    <p><strong>Phase 1: Kernel Stabilization (Weeks 1-4)</strong></p>
+                    <ul>
+                        <li>Choose a consistent sleep window (e.g., 10 PM - 6 AM)</li>
+                        <li>Create a 60-minute wind-down routine</li>
+                        <li>Optimize your sleep environment</li>
+                        <li>Track sleep duration and quality</li>
+                    </ul>
+                    
+                    <p><strong>Phase 2: System Service Integration (Weeks 5-8)</strong></p>
+                    <ul>
+                        <li>Add morning light exposure (10-15 minutes)</li>
+                        <li>Implement basic movement (even just walking)</li>
+                        <li>Establish regular meal timing</li>
+                        <li>Create work-rest boundaries</li>
+                    </ul>
+                    
+                    <p><strong>Phase 3: Application Development (Week 9+)</strong></p>
+                    <ul>
+                        <li>Now—and only now—add complex habits</li>
+                        <li>Start with one application at a time</li>
+                        <li>Use your improved energy and focus</li>
+                        <li>Build on your stable foundation</li>
+                    </ul>
+
+                    <h2>The Paradigm Shift</h2>
+                    
+                    <p>Understanding sleep as your first-order algorithm isn't just a productivity hack or a health optimization. It's a fundamental paradigm shift in how you approach change.</p>
+                    
+                    <p>Instead of fighting biology, you're working with it. Instead of relying on willpower, you're creating conditions where good choices become natural. Instead of installing patches on a broken system, you're fixing the system itself.</p>
+                    
+                    <p>This is why the nuyu method starts here. Not with grand goals or complex strategies, but with the simple recognition that transformation begins with rest. That becoming a new you doesn't require superhuman effort—it requires a functional operating system.</p>
+                    
+                    <p>Your journey to change doesn't start when your alarm goes off. It starts when you lay your head on the pillow, honoring the first-order algorithm that makes everything else possible.</p>
+                    
+                    <p>Fix your sleep, and you don't just feel better. You become capable of becoming who you want to be. Because when your kernel is optimized, installing new habits isn't a struggle—it's simply what happens next.</p>
+                    
+                    <p>The algorithm is running. The only question is: are you ready to let it work?</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: Circadian Architecture - Discover the elegant timing system in every cell of your body and learn how to synchronize your internal clocks for optimal performance, health, and transformation.</em></p>
+                    
+                    <a href="#circadian" class="nav-button">Continue to: Circadian Architecture →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('first-order', '../..');
+    </script>
+</body>
+</html>

@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyphasic Sleep Experiments - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .polyphasic-hero {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .clock-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            opacity: 0.1;
+        }
+        
+        .clock-cell {
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .polyphasic-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .sleep-pattern-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .pattern-card {
+            background: var(--bg-content);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .pattern-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: var(--accent-primary);
+        }
+        
+        .pattern-visualization {
+            position: relative;
+            height: 200px;
+            margin: 20px 0;
+            background: var(--hover-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .day-timeline {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sleep-block {
+            position: absolute;
+            height: 60%;
+            background: var(--accent-primary);
+            opacity: 0.8;
+            border-radius: 4px;
+            top: 20%;
+        }
+        
+        .nap-block {
+            background: var(--accent-secondary);
+        }
+        
+        .time-markers {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        
+        .pattern-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-item {
+            background: var(--hover-bg);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-primary);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .experiment-timeline {
+            background: var(--code-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .timeline-phase {
+            position: relative;
+            padding-left: 40px;
+            margin: 20px 0;
+        }
+        
+        .timeline-phase::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: -20px;
+            width: 2px;
+            background: var(--border-color);
+        }
+        
+        .timeline-phase:last-child::before {
+            display: none;
+        }
+        
+        .phase-marker {
+            position: absolute;
+            left: 10px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+        }
+        
+        .adaptation-guide {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .adaptation-week {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .adaptation-week h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .risk-assessment {
+            background: rgba(239, 68, 68, 0.05);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .risk-category {
+            margin: 20px 0;
+        }
+        
+        .risk-category h5 {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+        
+        .risk-level {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .risk-indicator {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .risk-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border-color);
+        }
+        
+        .risk-dot.filled {
+            background: #ef4444;
+        }
+        
+        .scientific-evidence {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .evidence-card {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .evidence-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .myth-reality {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .myth-column, .reality-column {
+            padding: 25px;
+            border-radius: 12px;
+        }
+        
+        .myth-column {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .reality-column {
+            background: rgba(34, 197, 94, 0.05);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .practical-considerations {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .consideration-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: var(--bg-content);
+            border-radius: 6px;
+        }
+        
+        .success-factors {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .factor-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .factor-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .factor-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Advanced Concepts</a>
+                    <span>›</span>
+                    <span>Polyphasic Sleep Experiments</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Polyphasic Sleep Experiments: Hacking the 24-Hour Day</h1>
+
+                    <div class="polyphasic-hero">
+                        <div class="clock-grid">
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                            <div class="clock-cell"></div>
+                        </div>
+                        <h2>What If You Could Sleep Just 2 Hours a Day?</h2>
+                        <p style="position: relative; z-index: 1;">The promises, perils, and science of alternative sleep schedules.</p>
+                    </div>
+
+                    <h2>The Polyphasic Promise</h2>
+                    
+                    <p>Legend has it that Leonardo da Vinci slept only 2 hours per day, taking 20-minute naps every 4 hours. Tesla allegedly survived on similar patterns. Modern biohackers claim they've unlocked 22-hour days through strategic napping.</p>
+                    
+                    <p>The allure is obvious: What if you could gain 6 extra hours every day? What if sleep was just inefficient programming that could be optimized?</p>
+                    
+                    <p>The reality, as with most biohacking extremes, is far more nuanced. Let's dive into what polyphasic sleep really is, what the science says, and whether these experiments are genius or dangerous.</p>
+
+                    <h2>The Polyphasic Sleep Patterns</h2>
+                    
+                    <div class="sleep-pattern-gallery">
+                        <div class="pattern-card">
+                            <h3>Monophasic (Normal)</h3>
+                            <div class="pattern-visualization">
+                                <div class="day-timeline">
+                                    <div class="sleep-block" style="left: 0%; width: 33.3%;"></div>
+                                </div>
+                                <div class="time-markers">
+                                    <span>12AM</span>
+                                    <span>6AM</span>
+                                    <span>12PM</span>
+                                    <span>6PM</span>
+                                    <span>12AM</span>
+                                </div>
+                            </div>
+                            <div class="pattern-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">8h</div>
+                                    <div class="stat-label">Total Sleep</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">1</div>
+                                    <div class="stat-label">Sleep Period</div>
+                                </div>
+                            </div>
+                            <p>One consolidated sleep period. What 90% of adults do naturally.</p>
+                        </div>
+                        
+                        <div class="pattern-card">
+                            <h3>Biphasic (Siesta)</h3>
+                            <div class="pattern-visualization">
+                                <div class="day-timeline">
+                                    <div class="sleep-block" style="left: 0%; width: 25%;"></div>
+                                    <div class="sleep-block nap-block" style="left: 54%; width: 8%;"></div>
+                                </div>
+                                <div class="time-markers">
+                                    <span>12AM</span>
+                                    <span>6AM</span>
+                                    <span>12PM</span>
+                                    <span>6PM</span>
+                                    <span>12AM</span>
+                                </div>
+                            </div>
+                            <div class="pattern-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">6.5h</div>
+                                    <div class="stat-label">Total Sleep</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">2</div>
+                                    <div class="stat-label">Sleep Periods</div>
+                                </div>
+                            </div>
+                            <p>Night sleep + afternoon nap. Common in Mediterranean cultures.</p>
+                        </div>
+                        
+                        <div class="pattern-card">
+                            <h3>Everyman</h3>
+                            <div class="pattern-visualization">
+                                <div class="day-timeline">
+                                    <div class="sleep-block" style="left: 0%; width: 12.5%;"></div>
+                                    <div class="sleep-block nap-block" style="left: 25%; width: 2%;"></div>
+                                    <div class="sleep-block nap-block" style="left: 50%; width: 2%;"></div>
+                                    <div class="sleep-block nap-block" style="left: 75%; width: 2%;"></div>
+                                </div>
+                                <div class="time-markers">
+                                    <span>12AM</span>
+                                    <span>6AM</span>
+                                    <span>12PM</span>
+                                    <span>6PM</span>
+                                    <span>12AM</span>
+                                </div>
+                            </div>
+                            <div class="pattern-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">4h</div>
+                                    <div class="stat-label">Total Sleep</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">4</div>
+                                    <div class="stat-label">Sleep Periods</div>
+                                </div>
+                            </div>
+                            <p>Core sleep + 3 naps. Popular entry to polyphasic.</p>
+                        </div>
+                        
+                        <div class="pattern-card">
+                            <h3>Dymaxion</h3>
+                            <div class="pattern-visualization">
+                                <div class="day-timeline">
+                                    <div class="sleep-block nap-block" style="left: 0%; width: 2.5%;"></div>
+                                    <div class="sleep-block nap-block" style="left: 25%; width: 2.5%;"></div>
+                                    <div class="sleep-block nap-block" style="left: 50%; width: 2.5%;"></div>
+                                    <div class="sleep-block nap-block" style="left: 75%; width: 2.5%;"></div>
+                                </div>
+                                <div class="time-markers">
+                                    <span>12AM</span>
+                                    <span>6AM</span>
+                                    <span>12PM</span>
+                                    <span>6PM</span>
+                                    <span>12AM</span>
+                                </div>
+                            </div>
+                            <div class="pattern-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">2h</div>
+                                    <div class="stat-label">Total Sleep</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">4</div>
+                                    <div class="stat-label">Sleep Periods</div>
+                                </div>
+                            </div>
+                            <p>30-minute naps every 6 hours. Buckminster Fuller's schedule.</p>
+                        </div>
+                        
+                        <div class="pattern-card">
+                            <h3>Uberman</h3>
+                            <div class="pattern-visualization">
+                                <div class="day-timeline">
+                                    <div class="sleep-block nap-block" style="left: 0%; width: 1.5%;"></div>
+                                    <div class="sleep-block nap-block" style="left: 16.6%; width: 1.5%;"></div>
+                                    <div class="sleep-block nap-block" style="left: 33.3%; width: 1.5%;"></div>
+                                    <div class="sleep-block nap-block" style="left: 50%; width: 1.5%;"></div>
+                                    <div class="sleep-block nap-block" style="left: 66.6%; width: 1.5%;"></div>
+                                    <div class="sleep-block nap-block" style="left: 83.3%; width: 1.5%;"></div>
+                                </div>
+                                <div class="time-markers">
+                                    <span>12AM</span>
+                                    <span>6AM</span>
+                                    <span>12PM</span>
+                                    <span>6PM</span>
+                                    <span>12AM</span>
+                                </div>
+                            </div>
+                            <div class="pattern-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">2h</div>
+                                    <div class="stat-label">Total Sleep</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">6</div>
+                                    <div class="stat-label">Sleep Periods</div>
+                                </div>
+                            </div>
+                            <p>20-minute naps every 4 hours. The extreme option.</p>
+                        </div>
+                    </div>
+
+                    <h2>The Adaptation Journey</h2>
+                    
+                    <div class="experiment-timeline">
+                        <h3>What Actually Happens When You Try Polyphasic</h3>
+                        
+                        <div class="timeline-phase">
+                            <div class="phase-marker"></div>
+                            <h4>Days 1-3: The Zombie Phase</h4>
+                            <p>Extreme fatigue, microsleeps, cognitive impairment. Your body fights the new schedule aggressively. Most people quit here.</p>
+                        </div>
+                        
+                        <div class="timeline-phase">
+                            <div class="phase-marker"></div>
+                            <h4>Days 4-10: The Adaptation Hell</h4>
+                            <p>Hallucinations common. Emotional instability. Extreme difficulty waking from naps. Body temperature disruption.</p>
+                        </div>
+                        
+                        <div class="timeline-phase">
+                            <div class="phase-marker"></div>
+                            <h4>Days 11-21: The Glimpse</h4>
+                            <p>Brief periods of clarity. Naps become more restorative. Still significant impairment but improving.</p>
+                        </div>
+                        
+                        <div class="timeline-phase">
+                            <div class="phase-marker"></div>
+                            <h4>Days 22-30: The Plateau</h4>
+                            <p>Functional but not optimal. Constant management required. Any schedule deviation causes major setbacks.</p>
+                        </div>
+                        
+                        <div class="timeline-phase">
+                            <div class="phase-marker"></div>
+                            <h4>Day 30+: The Reality</h4>
+                            <p>Some report adaptation. Most experience chronic fatigue, immune issues, and cognitive deficits. Social life destroyed.</p>
+                        </div>
+                    </div>
+
+                    <h2>The Science: What Research Actually Says</h2>
+                    
+                    <div class="scientific-evidence">
+                        <h3>Evidence-Based Analysis</h3>
+                        
+                        <div class="evidence-grid">
+                            <div class="evidence-card">
+                                <div class="evidence-icon">🧠</div>
+                                <h5>Cognitive Impact</h5>
+                                <p>Significant impairment in executive function, creativity, and emotional regulation</p>
+                            </div>
+                            
+                            <div class="evidence-card">
+                                <div class="evidence-icon">🛡️</div>
+                                <h5>Immune Function</h5>
+                                <p>Reduced immune response, increased infection risk, slower healing</p>
+                            </div>
+                            
+                            <div class="evidence-card">
+                                <div class="evidence-icon">🧬</div>
+                                <h5>Hormonal</h5>
+                                <p>Disrupted growth hormone, cortisol dysregulation, metabolic issues</p>
+                            </div>
+                            
+                            <div class="evidence-card">
+                                <div class="evidence-icon">💔</div>
+                                <h5>Cardiovascular</h5>
+                                <p>Increased blood pressure, heart rate variability issues</p>
+                            </div>
+                        </div>
+                        
+                        <p style="margin-top: 20px; padding: 20px; background: var(--accent-light); border-radius: 8px;">
+                            <strong>Key Finding:</strong> No peer-reviewed studies support the safety or efficacy of extreme polyphasic schedules. All evidence points to significant health risks.
+                        </p>
+                    </div>
+
+                    <h2>Myths vs Reality</h2>
+                    
+                    <div class="myth-reality">
+                        <div class="myth-column">
+                            <h4>❌ The Myths</h4>
+                            <ul>
+                                <li>Historical figures thrived on 2 hours of sleep</li>
+                                <li>You can train your brain to need less sleep</li>
+                                <li>Polyphasic gives you more REM sleep</li>
+                                <li>It's just a matter of adaptation</li>
+                                <li>Extra wake time = increased productivity</li>
+                                <li>Some people are genetically suited for it</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="reality-column">
+                            <h4>✅ The Reality</h4>
+                            <ul>
+                                <li>No verified historical evidence exists</li>
+                                <li>Sleep need is biologically fixed</li>
+                                <li>You lose critical sleep stages</li>
+                                <li>Chronic sleep deprivation isn't adaptation</li>
+                                <li>Cognitive impairment destroys productivity</li>
+                                <li>Short sleeper genes are extremely rare</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>When Polyphasic (Sort of) Works</h2>
+                    
+                    <div class="success-factors">
+                        <h3>Limited Success Scenarios</h3>
+                        
+                        <div class="factor-list">
+                            <div class="factor-item">
+                                <div class="factor-icon">1</div>
+                                <div>
+                                    <strong>Biphasic Schedules</strong>
+                                    <p>Adding a 20-90 minute afternoon nap can enhance performance and is culturally normal in many societies.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="factor-item">
+                                <div class="factor-icon">2</div>
+                                <div>
+                                    <strong>Shift Workers</strong>
+                                    <p>Strategic napping can help manage unavoidable schedule disruptions (not ideal, but better than nothing).</p>
+                                </div>
+                            </div>
+                            
+                            <div class="factor-item">
+                                <div class="factor-icon">3</div>
+                                <div>
+                                    <strong>Emergency Situations</strong>
+                                    <p>Military, medical residency, new parents—temporary polyphasic can help survive acute sleep loss.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="factor-item">
+                                <div class="factor-icon">4</div>
+                                <div>
+                                    <strong>Natural Short Sleepers</strong>
+                                    <p>Rare genetic mutations (DEC2, ADRB1) allow ~1% of people to thrive on 4-6 hours naturally.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>The Risks You're Taking</h2>
+                    
+                    <div class="risk-assessment">
+                        <h3>⚠️ Health Consequences of Extreme Polyphasic</h3>
+                        
+                        <div class="risk-category">
+                            <h5>Short-Term (Days to Weeks)</h5>
+                            <div class="risk-level">
+                                <span>Severity:</span>
+                                <div class="risk-indicator">
+                                    <div class="risk-dot filled"></div>
+                                    <div class="risk-dot filled"></div>
+                                    <div class="risk-dot filled"></div>
+                                    <div class="risk-dot"></div>
+                                    <div class="risk-dot"></div>
+                                </div>
+                            </div>
+                            <ul>
+                                <li>Microsleeps while driving/operating machinery</li>
+                                <li>Severe cognitive impairment</li>
+                                <li>Emotional volatility</li>
+                                <li>Hallucinations</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="risk-category">
+                            <h5>Medium-Term (Weeks to Months)</h5>
+                            <div class="risk-level">
+                                <span>Severity:</span>
+                                <div class="risk-indicator">
+                                    <div class="risk-dot filled"></div>
+                                    <div class="risk-dot filled"></div>
+                                    <div class="risk-dot filled"></div>
+                                    <div class="risk-dot filled"></div>
+                                    <div class="risk-dot"></div>
+                                </div>
+                            </div>
+                            <ul>
+                                <li>Weakened immune system</li>
+                                <li>Weight gain/metabolic disruption</li>
+                                <li>Depression and anxiety</li>
+                                <li>Social isolation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="risk-category">
+                            <h5>Long-Term (Months to Years)</h5>
+                            <div class="risk-level">
+                                <span>Severity:</span>
+                                <div class="risk-indicator">
+                                    <div class="risk-dot filled"></div>
+                                    <div class="risk-dot filled"></div>
+                                    <div class="risk-dot filled"></div>
+                                    <div class="risk-dot filled"></div>
+                                    <div class="risk-dot filled"></div>
+                                </div>
+                            </div>
+                            <ul>
+                                <li>Increased risk of heart disease</li>
+                                <li>Higher cancer risk</li>
+                                <li>Accelerated aging</li>
+                                <li>Permanent cognitive decline</li>
+                                <li>Early mortality</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>Practical Polyphasic: What Actually Works</h2>
+                    
+                    <div class="practical-considerations">
+                        <h3>Evidence-Based Recommendations</h3>
+                        
+                        <div class="consideration-item">
+                            <h5>The Siesta Schedule</h5>
+                            <p><strong>Structure:</strong> 6-7 hours at night + 20-90 minute afternoon nap</p>
+                            <p><strong>Benefits:</strong> Improved alertness, better memory consolidation, reduced fatigue</p>
+                            <p><strong>Drawbacks:</strong> Requires flexible work schedule, social coordination</p>
+                        </div>
+                        
+                        <div class="consideration-item">
+                            <h5>Strategic Napping</h5>
+                            <p><strong>Power Nap:</strong> 10-20 minutes for alertness boost</p>
+                            <p><strong>Recovery Nap:</strong> 90 minutes for full cycle completion</p>
+                            <p><strong>Prophylactic Nap:</strong> Before night shift or long drive</p>
+                        </div>
+                        
+                        <div class="consideration-item">
+                            <h5>Split Sleep (Historical Pattern)</h5>
+                            <p><strong>Structure:</strong> Two 3-4 hour blocks with 1-2 hour wake period</p>
+                            <p><strong>Benefits:</strong> May align with natural patterns for some</p>
+                            <p><strong>Note:</strong> Still totals 7-8 hours of sleep</p>
+                        </div>
+                    </div>
+
+                    <h2>If You're Still Determined to Try</h2>
+                    
+                    <div class="adaptation-guide">
+                        <h3>Harm Reduction Guidelines</h3>
+                        
+                        <div class="adaptation-week">
+                            <h5>Essential Safety Measures</h5>
+                            <ul>
+                                <li>Get full medical checkup first</li>
+                                <li>Never attempt while operating vehicles/machinery</li>
+                                <li>Have a spotter check on you regularly</li>
+                                <li>Set hard limit (e.g., 30 days maximum)</li>
+                                <li>Track objective cognitive metrics daily</li>
+                                <li>Stop immediately if health declines</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="adaptation-week">
+                            <h5>Start Conservatively</h5>
+                            <ul>
+                                <li>Begin with biphasic (siesta) schedule</li>
+                                <li>Master consistent nap timing first</li>
+                                <li>Only progress if genuinely thriving</li>
+                                <li>Most should stop at Everyman 2 (5.5 hours total)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="adaptation-week">
+                            <h5>Exit Strategy</h5>
+                            <ul>
+                                <li>Plan your return to monophasic</li>
+                                <li>Gradually increase core sleep</li>
+                                <li>Expect 2-4 weeks of readjustment</li>
+                                <li>Monitor recovery markers</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>The Verdict: Innovation or Insanity?</h2>
+                    
+                    <p>The human desire to transcend biological limits is understandable. More waking hours seems like the ultimate life hack. But sleep isn't inefficiency—it's essential maintenance.</p>
+                    
+                    <p>Trying to eliminate sleep is like trying to eliminate eating by having 6 tiny meals of 50 calories each. You might survive briefly, but you're not thriving.</p>
+                    
+                    <p>The real tragedy of extreme polyphasic sleep is that it promises productivity but delivers its opposite. The cognitive impairment from chronic sleep deprivation makes those extra hours worthless.</p>
+
+                    <h2>The Better Alternative</h2>
+                    
+                    <p>Instead of trying to sleep less, optimize the sleep you get:</p>
+                    
+                    <ul>
+                        <li>Perfect your sleep hygiene for maximum efficiency</li>
+                        <li>Use strategic napping to boost performance</li>
+                        <li>Align sleep with your chronotype</li>
+                        <li>Focus on sleep quality over quantity games</li>
+                        <li>Consider biphasic if it fits your lifestyle</li>
+                    </ul>
+                    
+                    <p>Remember: Every hour of quality sleep returns 2-3 hours of peak performance. That's the real productivity hack.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: Sleep Hacking Protocols - Discover evidence-based techniques, supplements, and technologies that actually enhance sleep quality and recovery.</em></p>
+                    
+                    <a href="03-sleep-hacking-protocols.html" class="nav-button">Continue to: Sleep Hacking Protocols →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('polyphasic-sleep', '../..');
+    </script>
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circadian Architecture - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .circadian-visual {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #e94560 100%);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 30px 0;
+            color: white;
+            text-align: center;
+        }
+        
+        .time-block {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .time-block:hover {
+            transform: translateX(5px);
+            border-color: var(--accent-primary);
+        }
+        
+        .time-block h4 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .time-icon {
+            font-size: 24px;
+        }
+        
+        .hormone-chart {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .hormone-level {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .hormone-name {
+            width: 120px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .hormone-bar {
+            flex: 1;
+            height: 20px;
+            background: var(--hover-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 15px;
+        }
+        
+        .hormone-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            transition: width 0.5s ease;
+        }
+        
+        .light-recommendation {
+            background: var(--accent-light);
+            border-left: 4px solid var(--accent-primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .disruption-warning {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .disruption-warning h4 {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+        
+        .optimization-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .optimization-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .optimization-card h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Sleep as Foundation</a>
+                    <span>›</span>
+                    <span>Circadian Architecture</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Circadian Architecture: Your Body's Master Clock</h1>
+
+                    <h2>The Accident That Revealed Our Inner Clock</h2>
+                    
+                    <p>In 1962, French geologist Michel Siffre descended into the Scarasson cave in the Alps for what was supposed to be a 15-day underground expedition. Without any time cues—no sunlight, no clocks, no contact with the surface—something remarkable happened.</p>
+                    
+                    <p>Siffre's "days" began stretching. What felt like a normal day to him was actually 24 hours and 30 minutes. After two months underground, he emerged thinking only one month had passed. His body, freed from external time cues, had revealed its natural rhythm.</p>
+                    
+                    <p>This accidental discovery launched the field of chronobiology and revealed a stunning truth: every cell in your body contains a biological clock, and these billions of cellular clocks are orchestrated by a master conductor in your brain.</p>
+
+                    <div class="circadian-visual">
+                        <h3>Your 24-Hour Symphony</h3>
+                        <p style="font-size: 1.2em; margin-top: 15px;">Every function in your body—from hormone release to body temperature—follows a precise 24-hour rhythm. Master this rhythm, master your life.</p>
+                    </div>
+
+                    <h2>The Architecture of Time</h2>
+                    
+                    <p>Your circadian system isn't a single clock—it's a hierarchy of timekeepers:</p>
+                    
+                    <ul>
+                        <li><strong>The Master Clock:</strong> The suprachiasmatic nucleus (SCN) in your brain, containing just 20,000 neurons, orchestrates your entire body's rhythm</li>
+                        <li><strong>Peripheral Clocks:</strong> Every organ has its own clock—your liver, heart, muscles, even your skin cells keep time</li>
+                        <li><strong>Cellular Oscillators:</strong> Individual cells maintain 24-hour cycles through gene expression loops</li>
+                        <li><strong>System Synchronizers:</strong> Light, temperature, food, and activity align all these clocks</li>
+                    </ul>
+
+                    <h2>Your Daily Hormonal Symphony</h2>
+                    
+                    <p>Throughout each 24-hour cycle, your body conducts a precisely timed release of hormones:</p>
+
+                    <div class="hormone-chart">
+                        <h4>Key Circadian Hormones</h4>
+                        
+                        <div class="hormone-level">
+                            <span class="hormone-name">Cortisol</span>
+                            <div class="hormone-bar">
+                                <div class="hormone-fill" style="width: 90%"></div>
+                            </div>
+                            <span>Peak: 6-8 AM</span>
+                        </div>
+                        
+                        <div class="hormone-level">
+                            <span class="hormone-name">Melatonin</span>
+                            <div class="hormone-bar">
+                                <div class="hormone-fill" style="width: 10%"></div>
+                            </div>
+                            <span>Peak: 2-3 AM</span>
+                        </div>
+                        
+                        <div class="hormone-level">
+                            <span class="hormone-name">Growth Hormone</span>
+                            <div class="hormone-bar">
+                                <div class="hormone-fill" style="width: 75%"></div>
+                            </div>
+                            <span>Peak: 10 PM-2 AM</span>
+                        </div>
+                        
+                        <div class="hormone-level">
+                            <span class="hormone-name">Testosterone</span>
+                            <div class="hormone-bar">
+                                <div class="hormone-fill" style="width: 85%"></div>
+                            </div>
+                            <span>Peak: 7-9 AM</span>
+                        </div>
+                    </div>
+
+                    <h2>The Optimal Performance Schedule</h2>
+                    
+                    <p>Your circadian rhythm creates windows of peak performance for different activities:</p>
+
+                    <div class="time-block">
+                        <h4><span class="time-icon">🌅</span> 6:00 AM - 9:00 AM: The Awakening Window</h4>
+                        <ul>
+                            <li>Cortisol surge provides natural energy</li>
+                            <li>Body temperature begins rising</li>
+                            <li>Ideal for: Light exposure, movement, planning your day</li>
+                            <li>Avoid: Heavy meals, intense stress, blue light from screens</li>
+                        </ul>
+                    </div>
+
+                    <div class="time-block">
+                        <h4><span class="time-icon">☀️</span> 9:00 AM - 12:00 PM: Peak Cognitive Window</h4>
+                        <ul>
+                            <li>Highest testosterone levels enhance focus</li>
+                            <li>Peak working memory and concentration</li>
+                            <li>Ideal for: Complex problem-solving, creative work, important decisions</li>
+                            <li>Avoid: Mindless tasks, excessive caffeine</li>
+                        </ul>
+                    </div>
+
+                    <div class="time-block">
+                        <h4><span class="time-icon">🌤️</span> 12:00 PM - 3:00 PM: The Afternoon Dip</h4>
+                        <ul>
+                            <li>Natural decrease in alertness (post-prandial dip)</li>
+                            <li>Body temperature temporarily plateaus</li>
+                            <li>Ideal for: Light tasks, social interaction, short walk or nap</li>
+                            <li>Avoid: Critical decisions, driving long distances</li>
+                        </ul>
+                    </div>
+
+                    <div class="time-block">
+                        <h4><span class="time-icon">🌇</span> 3:00 PM - 6:00 PM: Physical Performance Peak</h4>
+                        <ul>
+                            <li>Highest body temperature</li>
+                            <li>Peak muscle strength and cardiovascular efficiency</li>
+                            <li>Ideal for: Exercise, physical tasks, competitive activities</li>
+                            <li>Avoid: Starting new complex projects</li>
+                        </ul>
+                    </div>
+
+                    <div class="time-block">
+                        <h4><span class="time-icon">🌆</span> 6:00 PM - 9:00 PM: Wind-Down Window</h4>
+                        <ul>
+                            <li>Body temperature begins declining</li>
+                            <li>Digestive system most active</li>
+                            <li>Ideal for: Light meals, relaxation, social time</li>
+                            <li>Avoid: Intense exercise, large meals, bright lights</li>
+                        </ul>
+                    </div>
+
+                    <div class="time-block">
+                        <h4><span class="time-icon">🌙</span> 9:00 PM - 12:00 AM: Sleep Preparation</h4>
+                        <ul>
+                            <li>Melatonin production begins</li>
+                            <li>Core body temperature drops</li>
+                            <li>Ideal for: Calming activities, dim lighting, preparation rituals</li>
+                            <li>Avoid: Screens, stimulating content, important decisions</li>
+                        </ul>
+                    </div>
+
+                    <h2>Light: The Master Synchronizer</h2>
+                    
+                    <p>Light is the most powerful circadian synchronizer, 1000x more potent than any other time cue:</p>
+
+                    <div class="light-recommendation">
+                        <h4>Optimal Light Exposure Protocol</h4>
+                        <ul>
+                            <li><strong>Morning (6-8 AM):</strong> 10,000+ lux for 30 minutes (outdoor light)</li>
+                            <li><strong>Midday (12-2 PM):</strong> Bright light exposure, even cloudy days help</li>
+                            <li><strong>Evening (After 8 PM):</strong> Less than 10 lux (candlelight equivalent)</li>
+                            <li><strong>Night (Sleep time):</strong> Complete darkness, less than 1 lux</li>
+                        </ul>
+                    </div>
+
+                    <h2>Common Circadian Disruptors</h2>
+                    
+                    <p>Modern life wages war on your circadian rhythm. Here are the biggest enemies:</p>
+
+                    <div class="disruption-warning">
+                        <h4>⚠️ Major Disruptors</h4>
+                        <ul>
+                            <li><strong>Artificial Light at Night:</strong> Suppresses melatonin by up to 90%</li>
+                            <li><strong>Irregular Sleep Schedule:</strong> Confuses your master clock</li>
+                            <li><strong>Late Eating:</strong> Desynchronizes peripheral clocks</li>
+                            <li><strong>Jet Lag & Shift Work:</strong> Forces rapid clock adjustments</li>
+                            <li><strong>Social Jet Lag:</strong> Weekend sleep schedule shifts</li>
+                        </ul>
+                    </div>
+
+                    <h2>The Chronotype Factor</h2>
+                    
+                    <p>Your circadian rhythm has a genetic component—your chronotype—that determines whether you're naturally an early bird or night owl:</p>
+                    
+                    <ul>
+                        <li><strong>Larks (25%):</strong> Natural early risers, peak performance in morning</li>
+                        <li><strong>Third Birds (50%):</strong> Flexible, adapt to various schedules</li>
+                        <li><strong>Owls (25%):</strong> Natural late risers, peak performance in evening</li>
+                    </ul>
+                    
+                    <p>Fighting your chronotype is like swimming upstream. The key is to work with your natural rhythm, not against it.</p>
+
+                    <h2>Circadian Optimization Strategies</h2>
+
+                    <div class="optimization-grid">
+                        <div class="optimization-card">
+                            <h5>Morning Anchoring</h5>
+                            <p>Wake at the same time daily, even weekends. This sets your master clock.</p>
+                        </div>
+                        
+                        <div class="optimization-card">
+                            <h5>Light Fasting</h5>
+                            <p>No screens 2 hours before bed. Use blue-light blockers after sunset.</p>
+                        </div>
+                        
+                        <div class="optimization-card">
+                            <h5>Temperature Hacking</h5>
+                            <p>Cool bedroom (65-68°F) to support natural temperature drop.</p>
+                        </div>
+                        
+                        <div class="optimization-card">
+                            <h5>Meal Timing</h5>
+                            <p>Stop eating 3 hours before bed to align digestive rhythms.</p>
+                        </div>
+                        
+                        <div class="optimization-card">
+                            <h5>Movement Markers</h5>
+                            <p>Exercise at consistent times to reinforce circadian timing.</p>
+                        </div>
+                        
+                        <div class="optimization-card">
+                            <h5>Social Synchrony</h5>
+                            <p>Schedule social activities during your natural high-energy windows.</p>
+                        </div>
+                    </div>
+
+                    <h2>The 21-Day Reset Protocol</h2>
+                    
+                    <p>Your circadian rhythm can be reset, but it takes consistency. Here's a proven protocol:</p>
+                    
+                    <ol>
+                        <li><strong>Week 1: Establish Morning Anchor</strong>
+                            <ul>
+                                <li>Set one wake time, no exceptions</li>
+                                <li>Get sunlight within 30 minutes of waking</li>
+                                <li>No snooze button—place alarm across room</li>
+                            </ul>
+                        </li>
+                        
+                        <li><strong>Week 2: Optimize Light Exposure</strong>
+                            <ul>
+                                <li>Bright light morning and afternoon</li>
+                                <li>Dim lights after 8 PM</li>
+                                <li>Complete darkness for sleep</li>
+                            </ul>
+                        </li>
+                        
+                        <li><strong>Week 3: Fine-Tune & Lock In</strong>
+                            <ul>
+                                <li>Adjust bedtime based on natural sleepiness</li>
+                                <li>Maintain consistent meal times</li>
+                                <li>Track energy levels and adjust</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h2>The Cascade Benefits</h2>
+                    
+                    <p>When you align with your circadian rhythm, everything improves:</p>
+                    
+                    <ul>
+                        <li><strong>Energy:</strong> Natural peaks and valleys become predictable and manageable</li>
+                        <li><strong>Mood:</strong> Proper light exposure reduces depression risk by 20%</li>
+                        <li><strong>Metabolism:</strong> Aligned eating windows improve insulin sensitivity</li>
+                        <li><strong>Immunity:</strong> Synchronized rhythms strengthen immune response</li>
+                        <li><strong>Longevity:</strong> Circadian alignment associated with longer lifespan</li>
+                    </ul>
+
+                    <h2>Your Circadian Action Plan</h2>
+                    
+                    <p>Understanding circadian architecture is powerful. Using it is transformative. Start here:</p>
+                    
+                    <ol>
+                        <li><strong>Track Your Natural Rhythm:</strong> Note when you feel most alert, tired, hungry, and creative over a week</li>
+                        <li><strong>Identify Your Disruptors:</strong> What's throwing off your rhythm? Light? Schedule? Stress?</li>
+                        <li><strong>Choose One Anchor:</strong> Pick morning wake time OR evening wind-down time to standardize first</li>
+                        <li><strong>Protect Your Sleep Window:</strong> Guard your sleep time like your life depends on it—because it does</li>
+                        <li><strong>Experiment Systematically:</strong> Make one change at a time and observe for a week</li>
+                    </ol>
+
+                    <h2>The Ultimate Truth</h2>
+                    
+                    <p>You can't escape your circadian rhythm. You can only work with it or against it. Every cell in your body is keeping time, and when you honor that timing, you unlock performance levels you didn't know were possible.</p>
+                    
+                    <p>The modern world may have forgotten our ancient rhythms, but your body hasn't. It's still running on sun time, still expecting the daily dance of light and dark, activity and rest. Master your circadian architecture, and you master the foundation of health itself.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: The Cascade Effect - Discover how optimizing sleep creates a domino effect that transforms every aspect of your life.</em></p>
+                    
+                    <a href="04-the-cascade-effect.html" class="nav-button">Continue to: The Cascade Effect →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('circadian', '../..');
+    </script>
+</body>
+</html>

@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Features - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .advanced-hero {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .neural-network {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+        }
+        
+        .neural-node {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+        
+        .advanced-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .feature-spotlight {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background: var(--bg-content);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: var(--accent-primary);
+        }
+        
+        .feature-new {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-demo {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        .ai-features {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 30px 0;
+        }
+        
+        .ai-capability {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        
+        .ai-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .integration-hub {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .integration-item {
+            text-align: center;
+            padding: 20px;
+            background: var(--hover-bg);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .integration-item:hover {
+            transform: scale(1.05);
+            background: var(--accent-light);
+        }
+        
+        .integration-logo {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .automation-section {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .automation-example {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .automation-trigger {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .trigger-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-secondary);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .experiment-framework {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .experiment-step {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--hover-bg);
+            border-radius: 8px;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .api-preview {
+            background: #1a1a1a;
+            color: #f0f0f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .api-code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .api-keyword { color: #ff79c6; }
+        .api-string { color: #f1fa8c; }
+        .api-comment { color: #6272a4; }
+        .api-function { color: #50fa7b; }
+        
+        .privacy-notice {
+            background: rgba(99, 102, 241, 0.05);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .feature-comparison {
+            background: var(--bg-content);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .comparison-table th {
+            background: var(--hover-bg);
+            font-weight: bold;
+        }
+        
+        .check-mark { color: #22c55e; }
+        .x-mark { color: #ef4444; }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">Device Mastery</a>
+                    <span>›</span>
+                    <a href="#">Advanced Usage</a>
+                    <span>›</span>
+                    <span>Advanced Features</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Advanced Features: Unlock nuyu's Full Potential</h1>
+
+                    <div class="advanced-hero">
+                        <div class="neural-network">
+                            <div class="neural-node" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
+                            <div class="neural-node" style="top: 40%; left: 30%; animation-delay: 0.5s;"></div>
+                            <div class="neural-node" style="top: 60%; left: 50%; animation-delay: 1s;"></div>
+                            <div class="neural-node" style="top: 30%; left: 70%; animation-delay: 1.5s;"></div>
+                            <div class="neural-node" style="top: 50%; left: 90%; animation-delay: 2s;"></div>
+                        </div>
+                        <h2>Beyond Basic Tracking</h2>
+                        <p style="position: relative; z-index: 1;">Discover the hidden capabilities that make nuyu the most advanced sleep optimization platform.</p>
+                    </div>
+
+                    <h2>The Power User's Arsenal</h2>
+                    
+                    <p>You've mastered the basics. Your sleep is improving. Now it's time to unlock the advanced features that transform nuyu from a sleep tracker into a comprehensive sleep optimization platform. These aren't just features—they're superpowers for your sleep.</p>
+
+                    <h2>AI-Powered Sleep Intelligence</h2>
+                    
+                    <div class="ai-features">
+                        <h3>Your Personal Sleep Scientist</h3>
+                        
+                        <div class="ai-capability">
+                            <div class="ai-icon">🧠</div>
+                            <div>
+                                <h4>Predictive Sleep Scoring</h4>
+                                <p>nuyu doesn't just track—it predicts. By analyzing your patterns, activities, and environmental factors, it can forecast tonight's sleep quality with 87% accuracy by 3 PM.</p>
+                                <p><strong>How to use it:</strong> Check your predicted score in the afternoon. If it's low, you'll get specific interventions to improve it before bed.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-capability">
+                            <div class="ai-icon">🔮</div>
+                            <div>
+                                <h4>Pattern Recognition Engine</h4>
+                                <p>Discovers hidden correlations in your data. Did that afternoon coffee really affect your sleep? Does exercise timing matter for you? nuyu finds patterns you'd never spot manually.</p>
+                                <p><strong>Example insight:</strong> "Your deep sleep increases by 23% when you exercise between 4-6 PM, but decreases by 15% after 7 PM."</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-capability">
+                            <div class="ai-icon">🎯</div>
+                            <div>
+                                <h4>Adaptive Recommendations</h4>
+                                <p>Generic sleep advice doesn't work because you're unique. nuyu's AI learns what works specifically for YOU, adapting recommendations based on your responses to previous suggestions.</p>
+                                <p><strong>Evolution:</strong> Starts broad → Tests interventions → Learns your responses → Personalizes completely</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Advanced Sleep Features</h2>
+                    
+                    <div class="feature-spotlight">
+                        <div class="feature-card">
+                            <span class="feature-new">NEW</span>
+                            <div class="feature-icon">🌊</div>
+                            <h3>Smart Wake Pro</h3>
+                            <p>Beyond basic smart alarms. Analyzes your sleep cycles, calendar, and recovery needs to find the optimal wake time within your window.</p>
+                            
+                            <h5>Advanced Options:</h5>
+                            <ul>
+                                <li><strong>Recovery Priority:</strong> Extends window if you need more deep sleep</li>
+                                <li><strong>Performance Mode:</strong> Wakes you at peak alertness for important days</li>
+                                <li><strong>Gentle Wake:</strong> Gradually increases wake stimulus over 10 minutes</li>
+                                <li><strong>Partner Mode:</strong> Silent wake via phone vibration</li>
+                            </ul>
+                            
+                            <div class="feature-demo">
+                                Wake Window: 6:00 - 7:00 AM<br>
+                                Detected: Light sleep at 6:42 AM<br>
+                                Recovery: 78% (needs more)<br>
+                                Decision: Extend to 6:55 AM ✓
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🧪</div>
+                            <h3>Sleep Experiments</h3>
+                            <p>Run controlled experiments on your sleep. Test interventions with scientific rigor using nuyu's A/B testing framework.</p>
+                            
+                            <h5>Experiment Types:</h5>
+                            <ul>
+                                <li><strong>Supplement Testing:</strong> Measure impact of magnesium, melatonin, etc.</li>
+                                <li><strong>Timing Optimization:</strong> Find your ideal sleep window</li>
+                                <li><strong>Environmental Factors:</strong> Temperature, darkness, sound</li>
+                                <li><strong>Behavioral Changes:</strong> Screen time, exercise, diet</li>
+                            </ul>
+                            
+                            <p><strong>Built-in controls:</strong> Randomization, baseline establishment, statistical significance testing</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">💑</div>
+                            <h3>Partner Sleep Sync</h3>
+                            <p>Sleep better together. Partner Sync analyzes both your patterns to find optimal compromises and identify disruptions.</p>
+                            
+                            <h5>Features:</h5>
+                            <ul>
+                                <li><strong>Disruption Mapping:</strong> See who's affecting whom</li>
+                                <li><strong>Optimal Bedtime:</strong> Best time for both partners</li>
+                                <li><strong>Snore Detection:</strong> With positional feedback</li>
+                                <li><strong>Temperature Preferences:</strong> Find the sweet spot</li>
+                            </ul>
+                            
+                            <p><strong>Privacy first:</strong> Each partner controls their data sharing</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h3>Deep Analytics</h3>
+                            <p>Professional-grade sleep analysis. Export data, create custom reports, and dive deep into your sleep patterns.</p>
+                            
+                            <h5>Analytics Tools:</h5>
+                            <ul>
+                                <li><strong>Custom Dashboards:</strong> Build your own views</li>
+                                <li><strong>Correlation Analysis:</strong> Multi-factor relationships</li>
+                                <li><strong>Export Options:</strong> CSV, JSON, PDF reports</li>
+                                <li><strong>API Access:</strong> Integrate with other tools</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>Smart Home Integration</h2>
+                    
+                    <div class="integration-hub">
+                        <h3>nuyu as Your Sleep Command Center</h3>
+                        
+                        <p>Transform your bedroom into an intelligent sleep sanctuary. nuyu integrates with popular smart home platforms to automate your sleep environment.</p>
+                        
+                        <div class="integration-grid">
+                            <div class="integration-item">
+                                <div class="integration-logo">🏠</div>
+                                <h5>Google Home</h5>
+                                <p>Voice control & routines</p>
+                            </div>
+                            
+                            <div class="integration-item">
+                                <div class="integration-logo">🍎</div>
+                                <h5>Apple HomeKit</h5>
+                                <p>Scenes & automation</p>
+                            </div>
+                            
+                            <div class="integration-item">
+                                <div class="integration-logo">💡</div>
+                                <h5>Philips Hue</h5>
+                                <p>Smart lighting control</p>
+                            </div>
+                            
+                            <div class="integration-item">
+                                <div class="integration-logo">🌡️</div>
+                                <h5>Nest</h5>
+                                <p>Temperature optimization</p>
+                            </div>
+                            
+                            <div class="integration-item">
+                                <div class="integration-logo">🔊</div>
+                                <h5>Sonos</h5>
+                                <p>Sleep sounds & wake audio</p>
+                            </div>
+                            
+                            <div class="integration-item">
+                                <div class="integration-logo">⚡</div>
+                                <h5>IFTTT</h5>
+                                <p>Custom automations</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Automation Recipes</h2>
+                    
+                    <div class="automation-section">
+                        <h3>Set It and Forget It</h3>
+                        
+                        <div class="automation-example">
+                            <h4>The Perfect Bedtime Routine</h4>
+                            <div class="automation-trigger">
+                                <div class="trigger-icon">🕙</div>
+                                <p><strong>Trigger:</strong> 30 minutes before target bedtime</p>
+                            </div>
+                            <ul>
+                                <li>Dim lights gradually to 20%</li>
+                                <li>Set thermostat to sleep temperature (65°F)</li>
+                                <li>Enable do not disturb on devices</li>
+                                <li>Start white noise or sleep sounds</li>
+                                <li>Send bedtime reminder notification</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="automation-example">
+                            <h4>Smart Wake Sequence</h4>
+                            <div class="automation-trigger">
+                                <div class="trigger-icon">🌅</div>
+                                <p><strong>Trigger:</strong> nuyu detects optimal wake time</p>
+                            </div>
+                            <ul>
+                                <li>Gradually increase lights (sunrise simulation)</li>
+                                <li>Raise temperature 2°F</li>
+                                <li>Start gentle wake sounds</li>
+                                <li>Brew coffee (if connected)</li>
+                                <li>Display morning briefing on devices</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="automation-example">
+                            <h4>Poor Sleep Recovery</h4>
+                            <div class="automation-trigger">
+                                <div class="trigger-icon">😴</div>
+                                <p><strong>Trigger:</strong> Sleep score below 70</p>
+                            </div>
+                            <ul>
+                                <li>Adjust calendar for later start</li>
+                                <li>Order recovery smoothie</li>
+                                <li>Schedule 20-minute power nap</li>
+                                <li>Reduce blue light exposure all day</li>
+                                <li>Earlier bedtime reminder</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>The Experiment Framework</h2>
+                    
+                    <div class="experiment-framework">
+                        <h3>Scientific Sleep Optimization</h3>
+                        
+                        <p>Stop guessing what works. The Experiment Framework lets you test sleep interventions with scientific rigor.</p>
+                        
+                        <div class="experiment-step">
+                            <div class="step-number">1</div>
+                            <div>
+                                <h5>Design Your Experiment</h5>
+                                <p>Choose what to test: supplements, timing, temperature, etc. Set duration (usually 2 weeks) and success metrics.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="experiment-step">
+                            <div class="step-number">2</div>
+                            <div>
+                                <h5>Establish Baseline</h5>
+                                <p>nuyu automatically uses your previous 2 weeks as control data. No changes needed—just normal sleep.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="experiment-step">
+                            <div class="step-number">3</div>
+                            <div>
+                                <h5>Run the Test</h5>
+                                <p>Follow the protocol. nuyu tracks compliance and sends reminders. It accounts for confounding variables automatically.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="experiment-step">
+                            <div class="step-number">4</div>
+                            <div>
+                                <h5>Analyze Results</h5>
+                                <p>Get statistical analysis: effect size, confidence intervals, and personalized recommendations. Share results with the community (anonymously).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>API & Developer Features</h2>
+                    
+                    <div class="api-preview">
+                        <h3>Build Your Own Sleep Tools</h3>
+                        
+                        <div class="api-code">
+                            <span class="api-comment">// Get last night's sleep data</span><br>
+                            <span class="api-keyword">const</span> sleep = <span class="api-keyword">await</span> <span class="api-function">nuyu.getSleep</span>(<span class="api-string">'last_night'</span>);<br>
+                            <br>
+                            <span class="api-comment">// Check recovery status</span><br>
+                            <span class="api-keyword">if</span> (sleep.score < 70) {<br>
+                            &nbsp;&nbsp;<span class="api-function">adjustSchedule</span>(<span class="api-string">'recovery_mode'</span>);<br>
+                            &nbsp;&nbsp;<span class="api-function">sendNotification</span>(<span class="api-string">'Take it easy today'</span>);<br>
+                            }<br>
+                            <br>
+                            <span class="api-comment">// Predict tonight's sleep</span><br>
+                            <span class="api-keyword">const</span> prediction = <span class="api-keyword">await</span> <span class="api-function">nuyu.predictSleep</span>({<br>
+                            &nbsp;&nbsp;factors: [<span class="api-string">'activity'</span>, <span class="api-string">'stress'</span>, <span class="api-string">'caffeine'</span>]<br>
+                            });
+                        </div>
+                        
+                        <h5>Available Endpoints:</h5>
+                        <ul>
+                            <li><strong>Sleep Data:</strong> Historical and real-time access</li>
+                            <li><strong>Predictions:</strong> AI-powered forecasting</li>
+                            <li><strong>Recommendations:</strong> Personalized suggestions</li>
+                            <li><strong>Controls:</strong> Device settings and automation</li>
+                            <li><strong>Webhooks:</strong> Real-time event notifications</li>
+                        </ul>
+                    </div>
+
+                    <h2>Power User Settings</h2>
+                    
+                    <div class="feature-comparison">
+                        <h3>Unlock Advanced Controls</h3>
+                        
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Feature</th>
+                                <th>Standard</th>
+                                <th>Power User</th>
+                            </tr>
+                            <tr>
+                                <td>Sleep stage detection</td>
+                                <td><span class="check-mark">✓</span> Automatic</td>
+                                <td><span class="check-mark">✓</span> Manual override available</td>
+                            </tr>
+                            <tr>
+                                <td>Data granularity</td>
+                                <td>5-minute epochs</td>
+                                <td>30-second epochs</td>
+                            </tr>
+                            <tr>
+                                <td>Export formats</td>
+                                <td>PDF summary</td>
+                                <td>CSV, JSON, EDF</td>
+                            </tr>
+                            <tr>
+                                <td>Algorithm transparency</td>
+                                <td>Black box</td>
+                                <td>Full scoring breakdown</td>
+                            </tr>
+                            <tr>
+                                <td>Custom metrics</td>
+                                <td><span class="x-mark">✗</span></td>
+                                <td><span class="check-mark">✓</span> Create your own</td>
+                            </tr>
+                            <tr>
+                                <td>Beta features</td>
+                                <td><span class="x-mark">✗</span></td>
+                                <td><span class="check-mark">✓</span> Early access</td>
+                            </tr>
+                        </table>
+                        
+                        <p><strong>Enable Power User Mode:</strong> Settings → Advanced → Power User Mode → Enable</p>
+                    </div>
+
+                    <h2>Privacy & Security</h2>
+                    
+                    <div class="privacy-notice">
+                        <h3>Your Data, Your Control</h3>
+                        
+                        <p>Advanced features require more data processing, but privacy remains paramount:</p>
+                        
+                        <ul>
+                            <li><strong>Local First:</strong> AI processing happens on your device when possible</li>
+                            <li><strong>Encryption:</strong> End-to-end encryption for all cloud features</li>
+                            <li><strong>Granular Control:</strong> Choose exactly what to share and with whom</li>
+                            <li><strong>Data Portability:</strong> Export everything, delete anytime</li>
+                            <li><strong>Anonymous Mode:</strong> Use advanced features without account</li>
+                        </ul>
+                        
+                        <p><strong>Review permissions:</strong> Settings → Privacy → Advanced Features</p>
+                    </div>
+
+                    <h2>Getting Started with Advanced Features</h2>
+                    
+                    <ol>
+                        <li><strong>Week 1-4:</strong> Master the basics first. Advanced features build on fundamental understanding.</li>
+                        <li><strong>Pick One:</strong> Start with one advanced feature that addresses your biggest sleep challenge.</li>
+                        <li><strong>Learn Gradually:</strong> Each feature has its own learning curve. Take your time.</li>
+                        <li><strong>Join Community:</strong> Power users share tips and automation recipes in the forum.</li>
+                        <li><strong>Experiment Safely:</strong> Use the framework to test changes systematically.</li>
+                    </ol>
+
+                    <h2>The Future is Here</h2>
+                    
+                    <p>These advanced features transform nuyu from a passive tracker into an active sleep optimization system. You're not just monitoring sleep—you're engineering it.</p>
+                    
+                    <p>Remember: with great power comes great opportunity. Use these features wisely, experiment systematically, and always listen to your body. The goal isn't to hack sleep—it's to understand and optimize it.</p>
+                    
+                    <p><strong>Welcome to the next level of sleep mastery. Your journey to perfect sleep just got a serious upgrade.</strong></p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Having issues? Our comprehensive troubleshooting guide has solutions for every situation.</em></p>
+                    
+                    <a href="troubleshooting.html" class="nav-button">Continue to: Troubleshooting →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('advanced-features', '../..');
+    </script>
+</body>
+</html>

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Debt & Recovery - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .debt-calculator {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .debt-calculator h3 {
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .calc-input {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .calc-input label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+        
+        .calc-input input {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+        
+        .debt-result {
+            background: var(--accent-light);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .debt-amount {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--accent-primary);
+            margin: 10px 0;
+        }
+        
+        .recovery-phases {
+            margin: 40px 0;
+        }
+        
+        .phase-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            position: relative;
+            padding-left: 60px;
+        }
+        
+        .phase-number {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .phase-card h4 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .warning-box h4 {
+            color: #ef4444;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .recovery-timeline {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .timeline-week {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: var(--bg-content);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-week:hover {
+            transform: translateX(10px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .week-number {
+            font-weight: bold;
+            color: var(--accent-primary);
+            margin-right: 15px;
+            min-width: 60px;
+        }
+        
+        .debt-myths {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .myth-card {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid var(--accent-secondary);
+        }
+        
+        .myth-card h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .recovery-protocol {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .protocol-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+        }
+        
+        .step-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--accent-primary);
+        }
+        
+        .progress-bar {
+            background: var(--hover-bg);
+            border-radius: 20px;
+            height: 20px;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Sleep as Foundation</a>
+                    <span>›</span>
+                    <span>Sleep Debt & Recovery</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Sleep Debt & Recovery: The Hidden Tax on Your Life</h1>
+
+                    <h2>The Bill Always Comes Due</h2>
+                    
+                    <p>Dr. William Dement, the father of sleep medicine, once said: "Sleep debt is like a credit card for your body. You can charge it up, but eventually you have to pay—with interest."</p>
+                    
+                    <p>Most of us are walking around with the biological equivalent of massive credit card debt, making minimum payments and wondering why life feels so hard. We've normalized exhaustion, treating it as a badge of honor rather than what it really is: a medical emergency in slow motion.</p>
+                    
+                    <p>Here's the truth that will change how you think about sleep forever: Sleep debt isn't metaphorical. It's a measurable biological reality with compound interest that affects every cell in your body. And unlike financial debt, you can't declare bankruptcy. Your body will collect—one way or another.</p>
+
+                    <div class="debt-calculator">
+                        <h3>Calculate Your Sleep Debt</h3>
+                        <div class="calculator-grid">
+                            <div class="calc-input">
+                                <label>Hours needed per night:</label>
+                                <input type="number" value="8" min="6" max="10" step="0.5" />
+                            </div>
+                            <div class="calc-input">
+                                <label>Average hours you get:</label>
+                                <input type="number" value="6" min="3" max="10" step="0.5" />
+                            </div>
+                            <div class="calc-input">
+                                <label>Days at this pattern:</label>
+                                <input type="number" value="30" min="1" max="365" />
+                            </div>
+                            <div class="calc-input">
+                                <label>Weekend "catch-up" hours:</label>
+                                <input type="number" value="2" min="0" max="6" step="0.5" />
+                            </div>
+                        </div>
+                        <div class="debt-result">
+                            <p>Your estimated sleep debt:</p>
+                            <div class="debt-amount">48 hours</div>
+                            <p>Equivalent to staying awake for 3 days straight</p>
+                        </div>
+                    </div>
+
+                    <h2>The Compound Interest of Sleep Loss</h2>
+                    
+                    <p>Sleep debt doesn't accumulate linearly—it compounds. Here's what happens at different levels of debt:</p>
+                    
+                    <div class="recovery-phases">
+                        <div class="phase-card">
+                            <span class="phase-number">1</span>
+                            <h4>0-10 Hours Debt: The Fog Zone</h4>
+                            <p>Reaction time slows by 50%. Decision-making suffers. You feel "off" but functional. Most people live here permanently.</p>
+                        </div>
+                        
+                        <div class="phase-card">
+                            <span class="phase-number">2</span>
+                            <h4>10-25 Hours Debt: The Danger Zone</h4>
+                            <p>Microsleeps begin. Emotional regulation fails. Immune function drops 50%. Risk of accidents triples.</p>
+                        </div>
+                        
+                        <div class="phase-card">
+                            <span class="phase-number">3</span>
+                            <h4>25-50 Hours Debt: The Crisis Zone</h4>
+                            <p>Hallucinations possible. Paranoia increases. Metabolic dysfunction accelerates. Chronic disease risk skyrockets.</p>
+                        </div>
+                        
+                        <div class="phase-card">
+                            <span class="phase-number">4</span>
+                            <h4>50+ Hours Debt: The Emergency Zone</h4>
+                            <p>Cellular damage accumulates. Cognitive function matches legal intoxication. Life expectancy measurably decreases.</p>
+                        </div>
+                    </div>
+
+                    <h2>The Myth of Catching Up</h2>
+                    
+                    <p>"I'll catch up on the weekend" might be the most dangerous lie we tell ourselves about sleep. Research reveals why this strategy fails:</p>
+                    
+                    <div class="debt-myths">
+                        <div class="myth-card">
+                            <h5>Myth: Weekend Recovery Works</h5>
+                            <p><strong>Reality:</strong> You can only "bank" about 2 hours of recovery sleep per night. A 20-hour weekly debt requires 10+ days of perfect sleep to repay.</p>
+                        </div>
+                        
+                        <div class="myth-card">
+                            <h5>Myth: One Good Night Fixes Everything</h5>
+                            <p><strong>Reality:</strong> Cognitive recovery takes 3-4 days. Metabolic recovery takes 7-10 days. Immune recovery can take weeks.</p>
+                        </div>
+                        
+                        <div class="myth-card">
+                            <h5>Myth: Young People Don't Need Recovery</h5>
+                            <p><strong>Reality:</strong> Youth masks symptoms but damage accumulates. Sleep debt in your 20s predicts health problems in your 40s.</p>
+                        </div>
+                        
+                        <div class="myth-card">
+                            <h5>Myth: Coffee Erases Sleep Debt</h5>
+                            <p><strong>Reality:</strong> Caffeine blocks tiredness signals but debt continues accumulating. It's like turning off smoke alarms during a fire.</p>
+                        </div>
+                    </div>
+
+                    <h2>The True Cost of Sleep Debt</h2>
+                    
+                    <p>Stanford researchers calculated the real-world impact of sleep debt:</p>
+                    
+                    <ul>
+                        <li><strong>Cognitive Cost:</strong> 10 hours of sleep debt = 0.10 blood alcohol level performance</li>
+                        <li><strong>Economic Cost:</strong> $2,000-5,000 annual productivity loss per hour of nightly debt</li>
+                        <li><strong>Health Cost:</strong> Each hour of nightly debt increases disease risk by 14%</li>
+                        <li><strong>Longevity Cost:</strong> Chronic 2-hour nightly debt = 2 years off life expectancy</li>
+                        <li><strong>Relationship Cost:</strong> Sleep-deprived couples fight 4x more often</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <h4>⚠️ The Irreversible Damage Threshold</h4>
+                        <p>After 5 years of 2+ hours nightly sleep debt, some cognitive and metabolic damage becomes permanent. Brain scans show accelerated aging equivalent to 10 years. This isn't meant to scare you—it's meant to inspire immediate action.</p>
+                    </div>
+
+                    <h2>The Science of Sleep Recovery</h2>
+                    
+                    <p>Recovery isn't just about sleeping more—it's about strategic repayment that works with your biology:</p>
+                    
+                    <ol>
+                        <li><strong>Recovery sleep is more efficient:</strong> Your brain prioritizes what you've missed most</li>
+                        <li><strong>REM and deep sleep rebound first:</strong> The most critical stages get priority</li>
+                        <li><strong>Recovery follows predictable patterns:</strong> Understanding these accelerates healing</li>
+                        <li><strong>Quality matters more than quantity:</strong> 6 hours of excellent sleep beats 9 hours of poor sleep</li>
+                    </ol>
+
+                    <h2>The Strategic Recovery Protocol</h2>
+                    
+                    <p>Based on military sleep research and recovery studies, here's the optimal debt repayment plan:</p>
+                    
+                    <div class="recovery-protocol">
+                        <h3>Phase 1: Emergency Stabilization (Days 1-3)</h3>
+                        
+                        <div class="protocol-step">
+                            <span class="step-icon">🛑</span>
+                            <div>
+                                <h4>Full Stop Protocol</h4>
+                                <p>Cancel non-essential activities. Sleep is your only priority. Aim for 9-10 hours per night. This isn't lazy—it's life-saving.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="protocol-step">
+                            <span class="step-icon">🌙</span>
+                            <div>
+                                <h4>Nap Strategically</h4>
+                                <p>One 20-minute nap between 1-3 PM. No longer, no later. This provides emergency relief without disrupting night sleep.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="protocol-step">
+                            <span class="step-icon">🚫</span>
+                            <div>
+                                <h4>Eliminate All Sleep Thieves</h4>
+                                <p>No caffeine after noon. No alcohol. No screens 2 hours before bed. No exceptions during recovery.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="recovery-protocol">
+                        <h3>Phase 2: Systematic Repayment (Days 4-14)</h3>
+                        
+                        <div class="protocol-step">
+                            <span class="step-icon">📊</span>
+                            <div>
+                                <h4>Track Recovery Metrics</h4>
+                                <p>Morning alertness, afternoon energy, evening mood. Document daily. Progress isn't linear but trends reveal recovery.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="protocol-step">
+                            <span class="step-icon">⏰</span>
+                            <div>
+                                <h4>Consistent Sleep Schedule</h4>
+                                <p>Same bedtime and wake time every day. Yes, weekends too. Your circadian rhythm doesn't recognize weekends.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="protocol-step">
+                            <span class="step-icon">🏃</span>
+                            <div>
+                                <h4>Light Exercise Only</h4>
+                                <p>Gentle movement aids recovery. Intense exercise during deep debt delays healing. Walk, don't run.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="recovery-protocol">
+                        <h3>Phase 3: Debt Freedom Maintenance (Day 15+)</h3>
+                        
+                        <div class="protocol-step">
+                            <span class="step-icon">🎯</span>
+                            <div>
+                                <h4>Find Your True Need</h4>
+                                <p>Without debt, your natural sleep need emerges. Most people need 7-9 hours. Track what leaves you refreshed without alarm.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="protocol-step">
+                            <span class="step-icon">🛡️</span>
+                            <div>
+                                <h4>Build Debt Immunity</h4>
+                                <p>Bank 30-60 minutes extra sleep nightly. This buffer protects against future debt accumulation.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="protocol-step">
+                            <span class="step-icon">📅</span>
+                            <div>
+                                <h4>Weekly Debt Audit</h4>
+                                <p>Calculate debt weekly. Catch and correct small debts before they compound. Prevention beats recovery.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Recovery Timeline: What to Expect</h2>
+                    
+                    <div class="recovery-timeline">
+                        <h3>Your Journey to Debt Freedom</h3>
+                        
+                        <div class="timeline-week">
+                            <span class="week-number">Day 1-3:</span>
+                            <p>Extreme fatigue as your body realizes it's safe to feel tired. This is healing, not weakness.</p>
+                        </div>
+                        
+                        <div class="timeline-week">
+                            <span class="week-number">Day 4-7:</span>
+                            <p>Energy fluctuations. Moments of clarity mixed with crashes. Your brain is recalibrating.</p>
+                        </div>
+                        
+                        <div class="timeline-week">
+                            <span class="week-number">Week 2:</span>
+                            <p>Emotional volatility decreases. Appetite normalizes. First glimpse of who you really are.</p>
+                        </div>
+                        
+                        <div class="timeline-week">
+                            <span class="week-number">Week 3:</span>
+                            <p>Cognitive clarity returns. Creative insights multiply. You remember what "normal" feels like.</p>
+                        </div>
+                        
+                        <div class="timeline-week">
+                            <span class="week-number">Week 4:</span>
+                            <p>Physical recovery accelerates. Exercise feels good again. Immune function rebounds.</p>
+                        </div>
+                        
+                        <div class="timeline-week">
+                            <span class="week-number">Week 6:</span>
+                            <p>Metabolic healing evident. Weight stabilizes. Blood markers improve. Energy consistent.</p>
+                        </div>
+                        
+                        <div class="timeline-week">
+                            <span class="week-number">Week 8:</span>
+                            <p>Full recovery for most. You've discovered what you're capable of when properly rested.</p>
+                        </div>
+                    </div>
+
+                    <h2>The Hidden Benefits of Recovery</h2>
+                    
+                    <p>As you pay down sleep debt, unexpected improvements emerge:</p>
+                    
+                    <ul>
+                        <li><strong>Emotional Intelligence Returns:</strong> You read people better, respond appropriately, connect deeply</li>
+                        <li><strong>Creativity Explodes:</strong> Problems that seemed impossible suddenly have obvious solutions</li>
+                        <li><strong>Physical Appearance Improves:</strong> Skin clears, eyes brighten, you literally look younger</li>
+                        <li><strong>Intuition Sharpens:</strong> Gut feelings become reliable as your subconscious functions properly</li>
+                        <li><strong>Time Perception Normalizes:</strong> Days feel longer and richer when you're not in survival mode</li>
+                    </ul>
+
+                    <h2>Preventing Future Debt</h2>
+                    
+                    <p>Once you've paid your debt, protect your investment:</p>
+                    
+                    <ol>
+                        <li><strong>Set Sleep Boundaries:</strong> Treat bedtime like an important meeting you can't reschedule</li>
+                        <li><strong>Create Completion Rituals:</strong> Finish work decisively so it doesn't bleed into sleep time</li>
+                        <li><strong>Build Support Systems:</strong> Tell others about your sleep priorities and ask for respect</li>
+                        <li><strong>Plan for Disruptions:</strong> Travel, deadlines, and crises happen—have recovery protocols ready</li>
+                        <li><strong>Track Leading Indicators:</strong> Morning mood and afternoon energy predict debt accumulation</li>
+                    </ol>
+
+                    <h2>The Recovery Success Stories</h2>
+                    
+                    <p><strong>Maria, Surgeon:</strong> "I thought 4 hours was enough because I functioned. During recovery, I realized I'd been operating at 40% capacity for a decade. My surgical precision improved so much that colleagues asked what happened. I just started sleeping."</p>
+                    
+                    <p><strong>James, Startup Founder:</strong> "I wore my sleep deprivation like a medal. After calculating 500+ hours of debt, I committed to recovery. Eight weeks later, I solved our product-market fit issue that had stumped us for two years. Sleep debt was literally costing millions."</p>
+                    
+                    <p><strong>Rachel, Mother of Three:</strong> "I assumed exhaustion was just motherhood. When I prioritized sleep recovery, I became the mother I wanted to be—patient, present, playful. My kids got their mom back."</p>
+
+                    <h2>Your Debt-Free Future</h2>
+                    
+                    <p>Imagine waking up actually refreshed. Imagine facing challenges with a clear mind. Imagine having energy left after work. Imagine remembering why you fell in love with your life.</p>
+                    
+                    <p>This isn't fantasy. It's your birthright as a human being. Sleep debt has stolen it from you, but recovery can reclaim it.</p>
+                    
+                    <p>The most profound truth about sleep debt is this: You don't know how impaired you are until you recover. It's like wearing dirty glasses for so long that you forget the world has details. When you finally clean them, the clarity is breathtaking.</p>
+                    
+                    <p>Your sleep debt is real. The damage is accumulating. But recovery is possible, and it starts tonight.</p>
+                    
+                    <p>Pay yourself first. Pay yourself in sleep.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: Your Sleep Blueprint - Design a personalized sleep system that works with your unique biology, lifestyle, and goals. No more generic advice—it's time for your custom solution.</em></p>
+                    
+                    <a href="../03-design-your-system/01-your-sleep-blueprint.html" class="nav-button">Continue to: Your Sleep Blueprint →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('sleep-debt', '../..');
+    </script>
+</body>
+</html>

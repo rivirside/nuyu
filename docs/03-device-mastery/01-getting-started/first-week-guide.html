@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Week Guide - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .week-hero {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .week-timeline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 0 0 16px 16px;
+        }
+        
+        .week-progress {
+            height: 100%;
+            background: white;
+            border-radius: 0 0 0 16px;
+            width: 0%;
+            animation: progressGrow 3s ease-out forwards;
+        }
+        
+        @keyframes progressGrow {
+            to { width: 14.3%; }
+        }
+        
+        .week-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .day-by-day {
+            margin: 30px 0;
+        }
+        
+        .day-card {
+            background: var(--bg-content);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .day-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateX(5px);
+        }
+        
+        .day-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .day-number {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .day-circle {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .day-title h3 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+        
+        .day-title p {
+            margin: 5px 0 0 0;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        
+        .difficulty-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .difficulty-easy {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+        
+        .difficulty-medium {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+        }
+        
+        .difficulty-focus {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        
+        .day-goals {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .goal-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .goal-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .goal-checkbox:hover {
+            border-color: var(--accent-primary);
+        }
+        
+        .insights-preview {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .pro-tip {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .pro-tip h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .weekly-overview {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .overview-stat {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--accent-primary);
+        }
+        
+        .stat-label {
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+        
+        .milestone-tracker {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .milestone-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+            padding: 15px;
+            background: var(--hover-bg);
+            border-radius: 8px;
+        }
+        
+        .milestone-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .common-challenges {
+            background: rgba(239, 68, 68, 0.05);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .challenge-item {
+            margin: 20px 0;
+        }
+        
+        .challenge-item h5 {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+        
+        .week-summary {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .next-week-preview {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .preview-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .preview-card {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .preview-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">Device Mastery</a>
+                    <span>›</span>
+                    <a href="#">Getting Started</a>
+                    <span>›</span>
+                    <span>First Week Guide</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Your First Week with nuyu: The 7-Day Transformation</h1>
+
+                    <div class="week-hero">
+                        <div class="week-timeline">
+                            <div class="week-progress"></div>
+                        </div>
+                        <h2>7 Days to Sleep Enlightenment</h2>
+                        <p style="position: relative; z-index: 1;">A day-by-day guide to discovering, understanding, and optimizing your sleep.</p>
+                    </div>
+
+                    <h2>The Journey Ahead</h2>
+                    
+                    <p>Your first week with nuyu is carefully designed to build understanding without overwhelming you. Each day focuses on a specific aspect of sleep optimization, gradually building your knowledge and habits. By day 7, you'll have insights about your sleep that most people never discover.</p>
+                    
+                    <p>Remember: This week is about learning, not perfection. Let nuyu gather data while you build sustainable habits.</p>
+
+                    <div class="weekly-overview">
+                        <h3>Week 1 at a Glance</h3>
+                        
+                        <div class="overview-grid">
+                            <div class="overview-stat">
+                                <div class="stat-number">3</div>
+                                <div class="stat-label">Baseline Nights</div>
+                            </div>
+                            
+                            <div class="overview-stat">
+                                <div class="stat-number">5</div>
+                                <div class="stat-label">Key Metrics to Learn</div>
+                            </div>
+                            
+                            <div class="overview-stat">
+                                <div class="stat-number">1</div>
+                                <div class="stat-label">Habit to Build</div>
+                            </div>
+                            
+                            <div class="overview-stat">
+                                <div class="stat-number">∞</div>
+                                <div class="stat-label">Insights to Gain</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Your Day-by-Day Plan</h2>
+                    
+                    <div class="day-by-day">
+                        <div class="day-card">
+                            <div class="day-header">
+                                <div class="day-number">
+                                    <div class="day-circle">1</div>
+                                    <div class="day-title">
+                                        <h3>Discovery Day</h3>
+                                        <p>Let nuyu learn your baseline</p>
+                                    </div>
+                                </div>
+                                <span class="difficulty-badge difficulty-easy">Easy Start</span>
+                            </div>
+                            
+                            <div class="day-goals">
+                                <h4>Today's Goals:</h4>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Sleep normally - no changes to routine</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Check morning insights (don't judge, just observe)</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Note your subjective sleep quality (1-10)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="insights-preview">
+                                <h5>What You'll Learn:</h5>
+                                <p>Your actual vs. perceived sleep time, number of awakenings, and basic sleep architecture. Don't worry if the data seems off—nuyu is still learning your patterns.</p>
+                            </div>
+                            
+                            <div class="pro-tip">
+                                <h5>💡 Pro Tip: Baseline is Gold</h5>
+                                <p>Resist the urge to "sleep better" because you're being tracked. Normal nights provide the most valuable data for optimization.</p>
+                            </div>
+                        </div>
+
+                        <div class="day-card">
+                            <div class="day-header">
+                                <div class="day-number">
+                                    <div class="day-circle">2</div>
+                                    <div class="day-title">
+                                        <h3>Pattern Recognition</h3>
+                                        <p>Understanding your sleep stages</p>
+                                    </div>
+                                </div>
+                                <span class="difficulty-badge difficulty-easy">Learning Mode</span>
+                            </div>
+                            
+                            <div class="day-goals">
+                                <h4>Today's Goals:</h4>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Explore the sleep stage breakdown in detail</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Identify your deep sleep timing</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Continue normal sleep routine</p>
+                                </div>
+                            </div>
+                            
+                            <div class="insights-preview">
+                                <h5>What You'll Learn:</h5>
+                                <p>The difference between light, deep, and REM sleep. When each stage typically occurs for you. Why you might feel groggy some mornings (hint: sleep inertia from deep sleep awakening).</p>
+                            </div>
+                        </div>
+
+                        <div class="day-card">
+                            <div class="day-header">
+                                <div class="day-number">
+                                    <div class="day-circle">3</div>
+                                    <div class="day-title">
+                                        <h3>Timing Insights</h3>
+                                        <p>When you actually fall asleep</p>
+                                    </div>
+                                </div>
+                                <span class="difficulty-badge difficulty-easy">Discovery</span>
+                            </div>
+                            
+                            <div class="day-goals">
+                                <h4>Today's Goals:</h4>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Check your sleep latency (time to fall asleep)</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Compare bedtime vs. actual sleep time</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Notice any patterns in your data</p>
+                                </div>
+                            </div>
+                            
+                            <div class="insights-preview">
+                                <h5>What You'll Learn:</h5>
+                                <p>Your true sleep latency, optimal bedtime window, and whether you're giving yourself enough sleep opportunity. Many people discover they need to go to bed earlier than they thought.</p>
+                            </div>
+                            
+                            <div class="pro-tip">
+                                <h5>💡 Pro Tip: The 3-Night Rule</h5>
+                                <p>After tonight, you have three nights of baseline data. This is when patterns start becoming visible and nuyu's recommendations become personalized.</p>
+                            </div>
+                        </div>
+
+                        <div class="day-card">
+                            <div class="day-header">
+                                <div class="day-number">
+                                    <div class="day-circle">4</div>
+                                    <div class="day-title">
+                                        <h3>First Optimization</h3>
+                                        <p>Your initial improvement</p>
+                                    </div>
+                                </div>
+                                <span class="difficulty-badge difficulty-medium">Action Day</span>
+                            </div>
+                            
+                            <div class="day-goals">
+                                <h4>Today's Goals:</h4>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Implement ONE suggestion from nuyu</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Set a consistent bedtime alarm</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Try the smart alarm for tomorrow</p>
+                                </div>
+                            </div>
+                            
+                            <div class="insights-preview">
+                                <h5>What You'll Learn:</h5>
+                                <p>How small changes impact your sleep. The power of consistent timing. Why nuyu's suggestions are specific to YOUR patterns, not generic advice.</p>
+                            </div>
+                        </div>
+
+                        <div class="day-card">
+                            <div class="day-header">
+                                <div class="day-number">
+                                    <div class="day-circle">5</div>
+                                    <div class="day-title">
+                                        <h3>Recovery Focus</h3>
+                                        <p>Understanding sleep quality</p>
+                                    </div>
+                                </div>
+                                <span class="difficulty-badge difficulty-focus">Deep Dive</span>
+                            </div>
+                            
+                            <div class="day-goals">
+                                <h4>Today's Goals:</h4>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Review your Recovery Score trends</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Identify what impacts your score</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Continue with consistent bedtime</p>
+                                </div>
+                            </div>
+                            
+                            <div class="insights-preview">
+                                <h5>What You'll Learn:</h5>
+                                <p>Recovery Score isn't just about duration—it factors in sleep efficiency, time in deep sleep, disruptions, and HRV. You'll see how behavior impacts recovery.</p>
+                            </div>
+                        </div>
+
+                        <div class="day-card">
+                            <div class="day-header">
+                                <div class="day-number">
+                                    <div class="day-circle">6</div>
+                                    <div class="day-title">
+                                        <h3>Environmental Audit</h3>
+                                        <p>Optimizing your sleep space</p>
+                                    </div>
+                                </div>
+                                <span class="difficulty-badge difficulty-medium">Improvement</span>
+                            </div>
+                            
+                            <div class="day-goals">
+                                <h4>Today's Goals:</h4>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Check disruption patterns in your data</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Make one environmental improvement</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Test nuyu's environmental sensors</p>
+                                </div>
+                            </div>
+                            
+                            <div class="insights-preview">
+                                <h5>What You'll Learn:</h5>
+                                <p>How temperature, sound, and light affect your sleep. Whether your partner's movements wake you. If your room is optimized for deep sleep.</p>
+                            </div>
+                            
+                            <div class="pro-tip">
+                                <h5>💡 Weekend Advantage</h5>
+                                <p>It's Saturday! Use the weekend to experiment with sleep timing. Try sleeping without an alarm to find your natural wake time.</p>
+                            </div>
+                        </div>
+
+                        <div class="day-card">
+                            <div class="day-header">
+                                <div class="day-number">
+                                    <div class="day-circle">7</div>
+                                    <div class="day-title">
+                                        <h3>Week Review & Planning</h3>
+                                        <p>Insights and next steps</p>
+                                    </div>
+                                </div>
+                                <span class="difficulty-badge difficulty-focus">Milestone</span>
+                            </div>
+                            
+                            <div class="day-goals">
+                                <h4>Today's Goals:</h4>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Review your week's trends and insights</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Identify your biggest sleep challenge</p>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-checkbox"></div>
+                                    <p>Set one goal for next week</p>
+                                </div>
+                            </div>
+                            
+                            <div class="insights-preview">
+                                <h5>What You'll Learn:</h5>
+                                <p>Your sleep personality profile, average sleep debt, consistency score, and personalized optimization priorities. nuyu now knows you well enough for advanced features.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>End of Week 1: What You've Accomplished</h2>
+                    
+                    <div class="milestone-tracker">
+                        <h3>Your Achievements</h3>
+                        
+                        <div class="milestone-item">
+                            <div class="milestone-icon">📊</div>
+                            <div>
+                                <h5>Established Your Baseline</h5>
+                                <p>7 nights of comprehensive sleep data unique to you</p>
+                            </div>
+                        </div>
+                        
+                        <div class="milestone-item">
+                            <div class="milestone-icon">🧠</div>
+                            <div>
+                                <h5>Learned Sleep Architecture</h5>
+                                <p>Understanding of your personal sleep stage patterns</p>
+                            </div>
+                        </div>
+                        
+                        <div class="milestone-item">
+                            <div class="milestone-icon">⏰</div>
+                            <div>
+                                <h5>Built First Habit</h5>
+                                <p>Consistent bedtime routine (the highest impact change)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="milestone-item">
+                            <div class="milestone-icon">🎯</div>
+                            <div>
+                                <h5>Discovered Opportunities</h5>
+                                <p>Clear understanding of what to optimize next</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Common Week 1 Challenges</h2>
+                    
+                    <div class="common-challenges">
+                        <h3>It's Normal If You Experience:</h3>
+                        
+                        <div class="challenge-item">
+                            <h5>📱 Data Obsession</h5>
+                            <p><strong>Challenge:</strong> Checking the app multiple times per night</p>
+                            <p><strong>Solution:</strong> Put phone in airplane mode after checking evening insights. Trust nuyu to track without your supervision.</p>
+                        </div>
+                        
+                        <div class="challenge-item">
+                            <h5>😟 Performance Anxiety</h5>
+                            <p><strong>Challenge:</strong> Trying too hard to "sleep well" for good scores</p>
+                            <p><strong>Solution:</strong> Remember that variation is normal. Focus on trends over individual nights. Bad nights provide valuable data too.</p>
+                        </div>
+                        
+                        <div class="challenge-item">
+                            <h5>🤔 Data Confusion</h5>
+                            <p><strong>Challenge:</strong> Not understanding all the metrics yet</p>
+                            <p><strong>Solution:</strong> Focus on Sleep Score and one other metric this week. Understanding deepens with time. Use the in-app explanations.</p>
+                        </div>
+                        
+                        <div class="challenge-item">
+                            <h5>⚡ Change Overwhelm</h5>
+                            <p><strong>Challenge:</strong> Wanting to fix everything at once</p>
+                            <p><strong>Solution:</strong> Stick to ONE change at a time. Consistent bedtime alone can improve sleep by 23%. Build slowly.</p>
+                        </div>
+                    </div>
+
+                    <h2>Your Week 1 Report Card</h2>
+                    
+                    <div class="week-summary">
+                        <h3>By the End of Week 1, You Should Have:</h3>
+                        
+                        <ul style="text-align: left; display: inline-block;">
+                            <li>✓ 7 nights of sleep data</li>
+                            <li>✓ Understanding of your sleep stages</li>
+                            <li>✓ Identified your average sleep latency</li>
+                            <li>✓ Discovered your natural sleep duration</li>
+                            <li>✓ Established a consistent bedtime</li>
+                            <li>✓ Tried the smart alarm at least once</li>
+                            <li>✓ One environmental improvement</li>
+                            <li>✓ Clear goal for week 2</li>
+                        </ul>
+                        
+                        <p style="margin-top: 20px;"><strong>If you've done 5+ of these, you're on track for transformation!</strong></p>
+                    </div>
+
+                    <h2>Looking Ahead: Week 2 Preview</h2>
+                    
+                    <div class="next-week-preview">
+                        <h3>Next Week You'll:</h3>
+                        
+                        <div class="preview-items">
+                            <div class="preview-card">
+                                <div class="preview-icon">🎯</div>
+                                <h5>Target Specific Issues</h5>
+                                <p>Address your #1 sleep challenge</p>
+                            </div>
+                            
+                            <div class="preview-card">
+                                <div class="preview-icon">🧪</div>
+                                <h5>Run Experiments</h5>
+                                <p>Test interventions with A/B tracking</p>
+                            </div>
+                            
+                            <div class="preview-card">
+                                <div class="preview-icon">📈</div>
+                                <h5>Advanced Metrics</h5>
+                                <p>Dive into HRV and recovery patterns</p>
+                            </div>
+                            
+                            <div class="preview-card">
+                                <div class="preview-icon">🔗</div>
+                                <h5>Connect Habits</h5>
+                                <p>Link daily activities to sleep quality</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Remember: Progress, Not Perfection</h2>
+                    
+                    <p>Your first week with nuyu is about discovery, not optimization. You're building a foundation of understanding that will support months and years of better sleep. Every night of data makes nuyu smarter and your insights deeper.</p>
+                    
+                    <p>Some people see dramatic improvements in week 1. Others need 2-3 weeks to notice changes. Both paths are normal. Trust the process, stick with the basics, and let compound improvements work their magic.</p>
+                    
+                    <p><strong>You've taken the first steps on a journey that will transform not just your nights, but your days. Welcome to the nuyu family!</strong></p>
+                    
+                    <hr>
+                    
+                    <div class="next-steps">
+                        <h3>Ready to Dive Deeper?</h3>
+                        <p>Now that you've completed your first week, explore these resources:</p>
+                        <a href="understanding-your-data.html" class="nav-button">Understanding Your Data →</a>
+                    </div>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('first-week-guide', '../..');
+    </script>
+</body>
+</html>

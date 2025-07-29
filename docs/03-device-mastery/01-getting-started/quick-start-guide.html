@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start Guide - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .quickstart-hero {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pulse-effect {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        .quickstart-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .unboxing-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .item-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .item-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .setup-timeline {
+            margin: 30px 0;
+        }
+        
+        .timeline-step {
+            display: flex;
+            gap: 20px;
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .timeline-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 50px;
+            bottom: -25px;
+            width: 2px;
+            background: var(--border-color);
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .first-night-guide {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .expectation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .expect-card {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .expect-card.do {
+            border-left: 4px solid #22c55e;
+        }
+        
+        .expect-card.dont {
+            border-left: 4px solid #ef4444;
+        }
+        
+        .pro-tip {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .placement-visual {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .mattress-diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .mattress {
+            width: 300px;
+            height: 400px;
+            background: var(--hover-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .placement-zone {
+            position: absolute;
+            left: 20%;
+            right: 20%;
+            top: 30%;
+            height: 20%;
+            background: rgba(99, 102, 241, 0.2);
+            border: 2px dashed var(--accent-primary);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .placement-marker {
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            transform: translate(-50%, -50%);
+            background: var(--accent-primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .led-guide {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .led-state {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--hover-bg);
+            border-radius: 8px;
+        }
+        
+        .led-indicator {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .pulse-blue {
+            background: #3b82f6;
+            animation: pulse-led 2s infinite;
+        }
+        
+        .solid-green {
+            background: #22c55e;
+        }
+        
+        .pulse-orange {
+            background: #f97316;
+            animation: pulse-led 2s infinite;
+        }
+        
+        .solid-red {
+            background: #ef4444;
+        }
+        
+        .off {
+            background: var(--border-color);
+        }
+        
+        @keyframes pulse-led {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        .insights-preview {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .insight-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .insight-card {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .faq-section {
+            margin: 30px 0;
+        }
+        
+        .faq-item {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .faq-item h4 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .troubleshooting-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .trouble-card {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .trouble-card h5 {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+        
+        .motivation-banner {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .next-steps {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .step-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .step-link {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            display: block;
+        }
+        
+        .step-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .step-link h4 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">Device Mastery</a>
+                    <span>›</span>
+                    <a href="#">Getting Started</a>
+                    <span>›</span>
+                    <span>Quick Start Guide</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>nuyu Quick Start Guide: From Box to Better Sleep in 15 Minutes</h1>
+
+                    <div class="quickstart-hero">
+                        <div class="pulse-effect"></div>
+                        <h2>Welcome to Your Sleep Transformation</h2>
+                        <p style="position: relative; z-index: 1;">Let's get your nuyu set up and optimizing your sleep tonight.</p>
+                    </div>
+
+                    <h2>What's in the Box</h2>
+                    
+                    <div class="unboxing-gallery">
+                        <div class="item-card">
+                            <div class="item-icon">📱</div>
+                            <h4>nuyu Device</h4>
+                            <p>Your sleep optimization hub with 3-month battery life</p>
+                        </div>
+                        
+                        <div class="item-card">
+                            <div class="item-icon">🔌</div>
+                            <h4>Charging Cable</h4>
+                            <p>USB-C magnetic charging cable (charge monthly)</p>
+                        </div>
+                        
+                        <div class="item-card">
+                            <div class="item-icon">🏷️</div>
+                            <h4>Mattress Strap</h4>
+                            <p>Adjustable strap for secure mattress placement</p>
+                        </div>
+                        
+                        <div class="item-card">
+                            <div class="item-icon">📚</div>
+                            <h4>Quick Guide</h4>
+                            <p>This guide + welcome card with app download info</p>
+                        </div>
+                    </div>
+
+                    <h2>The 15-Minute Setup</h2>
+                    
+                    <div class="setup-timeline">
+                        <div class="timeline-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Charge Your nuyu (2 min)</h4>
+                                <p>Connect the magnetic charger. The LED will pulse orange while charging, turn solid green when ready. Even 10 minutes gives you a week of use!</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Download the App (1 min)</h4>
+                                <p>Search "nuyu sleep" in your app store or scan the QR code on the welcome card. The app is free with no subscription required.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Create Your Profile (3 min)</h4>
+                                <p>Basic info: wake time goal, sleep challenges, and chronotype. Don't overthink it—nuyu learns and adapts as you use it.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Pair Your Device (1 min)</h4>
+                                <p>Press the nuyu button once. It'll pulse blue. The app will find it automatically. Accept the pairing request.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>Place on Mattress (2 min)</h4>
+                                <p>Slide the strap under your mattress at chest level. Position nuyu on top, sensor side up. It should sit flat and secure.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-step">
+                            <div class="step-number">6</div>
+                            <div class="step-content">
+                                <h4>Run Calibration (3 min)</h4>
+                                <p>Lie in your normal sleep position. Tap "Calibrate" in the app. Breathe normally for 2 minutes. nuyu learns your baseline.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-step">
+                            <div class="step-number">7</div>
+                            <div class="step-content">
+                                <h4>Set First Goal (3 min)</h4>
+                                <p>Start simple: "Consistent bedtime" or "Track sleep quality." You can add more goals later. Tonight, just let nuyu learn.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Your First Night</h2>
+                    
+                    <div class="first-night-guide">
+                        <h3>What to Expect</h3>
+                        
+                        <div class="expectation-grid">
+                            <div class="expect-card do">
+                                <h4>✅ Do</h4>
+                                <ul>
+                                    <li>Sleep normally—nuyu is unobtrusive</li>
+                                    <li>Keep your phone nearby (for Bluetooth)</li>
+                                    <li>Check the morning insights</li>
+                                    <li>Give it 3-5 nights to establish baseline</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="expect-card dont">
+                                <h4>❌ Don't</h4>
+                                <ul>
+                                    <li>Don't change everything at once</li>
+                                    <li>Don't obsess over the first night's data</li>
+                                    <li>Don't worry if detection seems off initially</li>
+                                    <li>Don't expect perfection immediately</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <p class="pro-tip">💡 <strong>Pro Tip:</strong> nuyu uses advanced ballistocardiography to detect your heartbeat through micro-movements. It's so sensitive it can tell when you're dreaming! The first few nights are for learning your unique patterns.</p>
+                    </div>
+
+                    <h2>Quick Placement Guide</h2>
+                    
+                    <div class="placement-visual">
+                        <h3>Optimal Positioning</h3>
+                        
+                        <div class="mattress-diagram">
+                            <div class="mattress">
+                                <div class="placement-zone optimal">
+                                    <span>Optimal Zone</span>
+                                </div>
+                                <div class="placement-marker">nuyu</div>
+                            </div>
+                            <div class="placement-notes">
+                                <p><strong>Best:</strong> Under your chest area, centered</p>
+                                <p><strong>Height:</strong> Between shoulder blades and lower ribs</p>
+                                <p><strong>Avoid:</strong> Too high (neck) or too low (hips)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Understanding the LED</h2>
+                    
+                    <div class="led-guide">
+                        <div class="led-state">
+                            <div class="led-indicator pulse-blue"></div>
+                            <div>
+                                <h5>Pulsing Blue</h5>
+                                <p>Ready to pair or actively pairing</p>
+                            </div>
+                        </div>
+                        
+                        <div class="led-state">
+                            <div class="led-indicator solid-green"></div>
+                            <div>
+                                <h5>Solid Green</h5>
+                                <p>Fully charged and connected</p>
+                            </div>
+                        </div>
+                        
+                        <div class="led-state">
+                            <div class="led-indicator pulse-orange"></div>
+                            <div>
+                                <h5>Pulsing Orange</h5>
+                                <p>Charging in progress</p>
+                            </div>
+                        </div>
+                        
+                        <div class="led-state">
+                            <div class="led-indicator solid-red"></div>
+                            <div>
+                                <h5>Solid Red</h5>
+                                <p>Low battery (still 3+ days left)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="led-state">
+                            <div class="led-indicator off"></div>
+                            <div>
+                                <h5>No Light</h5>
+                                <p>Normal operation (won't disturb sleep)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Morning Insights</h2>
+                    
+                    <div class="insights-preview">
+                        <h3>What You'll See Tomorrow</h3>
+                        
+                        <div class="insight-examples">
+                            <div class="insight-card">
+                                <h4>Sleep Architecture</h4>
+                                <p>Visual breakdown of your sleep stages throughout the night. See when you hit deep sleep, REM, and any awakenings.</p>
+                            </div>
+                            
+                            <div class="insight-card">
+                                <h4>Recovery Score</h4>
+                                <p>Simple 0-100 score based on sleep quality, not just duration. Factors in movement, heart rate variability, and breathing.</p>
+                            </div>
+                            
+                            <div class="insight-card">
+                                <h4>Personalized Tips</h4>
+                                <p>AI-powered suggestions based on YOUR data. Not generic advice—specific, actionable improvements for tonight.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Quick Wins for Week 1</h2>
+                    
+                    <ol>
+                        <li><strong>Just track first</strong> - Don't change anything for 3 nights. Let nuyu learn your baseline.</li>
+                        <li><strong>Check trends, not nights</strong> - Individual nights vary. Look for patterns over 5-7 days.</li>
+                        <li><strong>Start with bedtime</strong> - If making changes, consistent bedtime is the highest impact.</li>
+                        <li><strong>Use Smart Alarm</strong> - Set a 30-minute wake window. nuyu wakes you in lighter sleep.</li>
+                        <li><strong>Enable insights</strong> - Morning notifications help build the habit of checking your data.</li>
+                    </ol>
+
+                    <h2>Common Questions</h2>
+                    
+                    <div class="faq-section">
+                        <div class="faq-item">
+                            <h4>Do I need to open the app before bed?</h4>
+                            <p>No! nuyu automatically detects when you go to bed and wake up. The app can be completely closed.</p>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <h4>Will it work with my partner in bed?</h4>
+                            <p>Yes! nuyu uses advanced signal processing to isolate your biometrics from your partner's movements.</p>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <h4>How accurate is it compared to a sleep lab?</h4>
+                            <p>nuyu achieves 94% accuracy compared to polysomnography for sleep stage detection. It's the most accurate non-wearable consumer device.</p>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <h4>Do I need WiFi?</h4>
+                            <p>No, nuyu uses Bluetooth Low Energy. It stores up to 30 days of data locally if your phone isn't nearby.</p>
+                        </div>
+                    </div>
+
+                    <h2>Troubleshooting Quick Fixes</h2>
+                    
+                    <div class="troubleshooting-grid">
+                        <div class="trouble-card">
+                            <h5>Not detecting sleep</h5>
+                            <p>Ensure nuyu is flat against the mattress, under your torso area. Re-run calibration if needed.</p>
+                        </div>
+                        
+                        <div class="trouble-card">
+                            <h5>Won't pair</h5>
+                            <p>Turn Bluetooth off/on. Press nuyu button for 5 seconds to reset. Make sure no one else paired with it.</p>
+                        </div>
+                        
+                        <div class="trouble-card">
+                            <h5>Missing data</h5>
+                            <p>Check that Bluetooth stays on overnight. nuyu stores data, so it'll sync when reconnected.</p>
+                        </div>
+                        
+                        <div class="trouble-card">
+                            <h5>Battery draining fast</h5>
+                            <p>This is rare. Ensure firmware is updated in app settings. Contact support if under 3 weeks battery life.</p>
+                        </div>
+                    </div>
+
+                    <h2>Your Sleep Journey Starts Tonight</h2>
+                    
+                    <div class="motivation-banner">
+                        <p>You've taken the first step toward understanding and optimizing your sleep. Tonight, nuyu begins learning your unique patterns. In a week, you'll have insights most people never discover about their sleep. In a month, you'll be sleeping better than you have in years.</p>
+                        
+                        <p><strong>Remember:</strong> Great sleep isn't built overnight—but every night of data gets you closer to your best rest.</p>
+                    </div>
+
+                    <div class="next-steps">
+                        <h3>Ready for More?</h3>
+                        <div class="step-cards">
+                            <a href="first-week-guide.html" class="step-link">
+                                <h4>First Week Guide →</h4>
+                                <p>Day-by-day optimization plan</p>
+                            </a>
+                            
+                            <a href="understanding-your-data.html" class="step-link">
+                                <h4>Understanding Your Data →</h4>
+                                <p>Deep dive into metrics</p>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('quick-start-guide', '../..');
+    </script>
+</body>
+</html>

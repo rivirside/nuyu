@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Loop Engineering - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .loop-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loop-animation {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate 10s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .loop-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .habit-loop-diagram {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .loop-center {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+        
+        .loop-component {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: var(--accent-light);
+            border: 3px solid var(--accent-primary);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .loop-component:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .loop-component:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+        .loop-component:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%); }
+        .loop-component:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
+        .loop-component:nth-child(4) { top: 50%; left: 0; transform: translateY(-50%); }
+        
+        .loop-arrow {
+            position: absolute;
+            color: var(--accent-primary);
+            font-size: 24px;
+        }
+        
+        .component-breakdown {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .component-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+        }
+        
+        .component-card h4 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .component-number {
+            width: 30px;
+            height: 30px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .sleep-loops-gallery {
+            background: var(--code-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .loop-example {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .loop-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .flow-step {
+            background: var(--hover-bg);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .flow-arrow {
+            color: var(--accent-primary);
+            font-size: 20px;
+        }
+        
+        .craving-engineering {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .craving-technique {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .craving-technique h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .reward-science {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .reward-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .reward-card {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .reward-card:hover {
+            transform: translateY(-3px);
+            background: var(--accent-light);
+        }
+        
+        .reward-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .loop-troubleshooting {
+            background: rgba(239, 68, 68, 0.05);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .troubleshoot-scenario {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--bg-content);
+            border-radius: 8px;
+        }
+        
+        .troubleshoot-scenario h5 {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+        
+        .keystone-loops {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .keystone-cascade {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .cascade-item {
+            background: var(--accent-light);
+            padding: 15px 30px;
+            border-radius: 25px;
+            margin: 10px 0;
+            position: relative;
+        }
+        
+        .cascade-item::after {
+            content: '↓';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            color: var(--accent-primary);
+        }
+        
+        .cascade-item:last-child::after {
+            display: none;
+        }
+        
+        .loop-design-workshop {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .workshop-step {
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--bg-content);
+            border-radius: 6px;
+        }
+        
+        .workshop-step h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .advanced-techniques {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .technique-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .technique-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .technique-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Implementation Science</a>
+                    <span>›</span>
+                    <span>Habit Loop Engineering</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Habit Loop Engineering: Build Behaviors That Run on Autopilot</h1>
+
+                    <div class="loop-hero">
+                        <div class="loop-animation"></div>
+                        <h2>Master the Four-Part Code That Programs Your Brain</h2>
+                        <p style="position: relative; z-index: 1;">Every habit follows the same neurological pattern. Crack the code, control your sleep.</p>
+                    </div>
+
+                    <h2>The Rat, The Maze, and Your Bedtime Routine</h2>
+                    
+                    <p>In the 1990s, MIT researchers put rats in a maze with chocolate at the end. At first, the rats explored randomly, brains firing wildly. But after a few runs, something fascinating happened: their brain activity dropped dramatically. The behavior became automatic.</p>
+                    
+                    <p>The same process happens in your brain every night. That "I'll just check my phone for a minute" that turns into two hours of scrolling? That's not weakness—it's a perfectly engineered habit loop running exactly as programmed.</p>
+                    
+                    <p>The good news? You can hack this system. You can engineer loops that automatically guide you to perfect sleep.</p>
+
+                    <div class="habit-loop-diagram">
+                        <h3>The Universal Habit Loop</h3>
+                        <div class="loop-center">
+                            <div class="loop-component">
+                                <span style="font-size: 24px;">🎯</span>
+                                <span>CUE</span>
+                            </div>
+                            <div class="loop-component">
+                                <span style="font-size: 24px;">💭</span>
+                                <span>CRAVING</span>
+                            </div>
+                            <div class="loop-component">
+                                <span style="font-size: 24px;">🎬</span>
+                                <span>RESPONSE</span>
+                            </div>
+                            <div class="loop-component">
+                                <span style="font-size: 24px;">🎁</span>
+                                <span>REWARD</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>The Four Components Decoded</h2>
+                    
+                    <div class="component-breakdown">
+                        <div class="component-card">
+                            <h4><span class="component-number">1</span> Cue: The Trigger</h4>
+                            <p>The cue is the spark that initiates the loop. It can be:</p>
+                            <ul>
+                                <li><strong>Time:</strong> "It's 10 PM"</li>
+                                <li><strong>Location:</strong> "I'm in bed"</li>
+                                <li><strong>Emotional state:</strong> "I feel stressed"</li>
+                                <li><strong>Other people:</strong> "My partner is going to bed"</li>
+                                <li><strong>Preceding action:</strong> "I just brushed my teeth"</li>
+                            </ul>
+                            <p>Your brain is constantly scanning for cues. Make sleep cues obvious and competing cues invisible.</p>
+                        </div>
+                        
+                        <div class="component-card">
+                            <h4><span class="component-number">2</span> Craving: The Motivation</h4>
+                            <p>The craving is the desire that drives the behavior. You don't crave the habit itself—you crave the change in state it delivers:</p>
+                            <ul>
+                                <li>Not scrolling → feeling connected</li>
+                                <li>Not watching TV → feeling entertained</li>
+                                <li>Not sleep itself → feeling rested</li>
+                            </ul>
+                            <p>Engineer cravings by linking sleep behaviors to immediate positive feelings.</p>
+                        </div>
+                        
+                        <div class="component-card">
+                            <h4><span class="component-number">3</span> Response: The Behavior</h4>
+                            <p>The response is the actual habit you perform. This only happens if:</p>
+                            <ul>
+                                <li>The behavior is physically possible</li>
+                                <li>You have the ability to do it</li>
+                                <li>The friction is low enough</li>
+                            </ul>
+                            <p>Make sleep behaviors so easy that they require minimal effort or thought.</p>
+                        </div>
+                        
+                        <div class="component-card">
+                            <h4><span class="component-number">4</span> Reward: The Payoff</h4>
+                            <p>The reward satisfies the craving and teaches your brain to repeat the loop. Rewards must be:</p>
+                            <ul>
+                                <li><strong>Immediate:</strong> Delayed rewards don't build habits</li>
+                                <li><strong>Satisfying:</strong> Must actually feel good</li>
+                                <li><strong>Aligned:</strong> Must deliver what the craving promised</li>
+                            </ul>
+                            <p>Create immediate rewards for sleep behaviors, don't wait for morning.</p>
+                        </div>
+                    </div>
+
+                    <h2>Sleep Habit Loops in Action</h2>
+                    
+                    <div class="sleep-loops-gallery">
+                        <h3>🌙 Common Sleep Loops Decoded</h3>
+                        
+                        <div class="loop-example">
+                            <h5>The Phone Scroll Loop (What You're Fighting)</h5>
+                            <div class="loop-flow">
+                                <span class="flow-step">Get in bed</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-step">Feel bored/anxious</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-step">Grab phone</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-step">Dopamine hit</span>
+                            </div>
+                            <p><strong>Why it's powerful:</strong> Immediate reward, zero friction, multiple cravings satisfied</p>
+                        </div>
+                        
+                        <div class="loop-example">
+                            <h5>The Engineered Wind-Down Loop (What You're Building)</h5>
+                            <div class="loop-flow">
+                                <span class="flow-step">Finish dinner</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-step">Anticipate relaxation</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-step">Dim lights + tea</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-step">Feel calm/cozy</span>
+                            </div>
+                            <p><strong>Why it works:</strong> Pleasurable process, stacks small wins, compounds benefits</p>
+                        </div>
+                        
+                        <div class="loop-example">
+                            <h5>The Morning Light Loop (Natural Programming)</h5>
+                            <div class="loop-flow">
+                                <span class="flow-step">Alarm sounds</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-step">Want energy</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-step">Open curtains</span>
+                                <span class="flow-arrow">→</span>
+                                <span class="flow-step">Feel awake</span>
+                            </div>
+                            <p><strong>Why it sticks:</strong> Immediate biological reward, reinforces circadian rhythm</p>
+                        </div>
+                    </div>
+
+                    <h2>Engineering Irresistible Cravings</h2>
+                    
+                    <div class="craving-engineering">
+                        <h3>Make Sleep Behaviors Attractive</h3>
+                        
+                        <div class="craving-technique">
+                            <h5>Temptation Bundling</h5>
+                            <p>Pair something you need to do with something you want to do:</p>
+                            <ul>
+                                <li>Listen to favorite podcast ONLY while doing bedtime routine</li>
+                                <li>Use luxurious skincare products ONLY at night</li>
+                                <li>Read exciting book ONLY in bed (not phone)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="craving-technique">
+                            <h5>Identity Reinforcement</h5>
+                            <p>Frame behaviors as identity statements:</p>
+                            <ul>
+                                <li>"I'm someone who protects their sleep"</li>
+                                <li>"I don't use phones in bed"</li>
+                                <li>"I wake up with the sun"</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="craving-technique">
+                            <h5>Visualization Priming</h5>
+                            <p>Spend 30 seconds imagining:</p>
+                            <ul>
+                                <li>How amazing you'll feel tomorrow</li>
+                                <li>The cozy feeling of your routine</li>
+                                <li>Your ideal morning energy</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>The Reward Engineering Lab</h2>
+                    
+                    <div class="reward-science">
+                        <h3>Creating Rewards That Wire In Habits</h3>
+                        
+                        <div class="reward-types">
+                            <div class="reward-card">
+                                <div class="reward-icon">😊</div>
+                                <h5>Emotional</h5>
+                                <p>Pride, accomplishment, self-respect, peace</p>
+                            </div>
+                            
+                            <div class="reward-card">
+                                <div class="reward-icon">👥</div>
+                                <h5>Social</h5>
+                                <p>Share success, join community, inspire others</p>
+                            </div>
+                            
+                            <div class="reward-card">
+                                <div class="reward-icon">🎮</div>
+                                <h5>Gamified</h5>
+                                <p>Track streaks, earn points, unlock achievements</p>
+                            </div>
+                            
+                            <div class="reward-card">
+                                <div class="reward-icon">💆</div>
+                                <h5>Sensory</h5>
+                                <p>Comfort, warmth, pleasant scents, soft textures</p>
+                            </div>
+                            
+                            <div class="reward-card">
+                                <div class="reward-icon">🧠</div>
+                                <h5>Cognitive</h5>
+                                <p>Learning, progress, understanding, mastery</p>
+                            </div>
+                        </div>
+                        
+                        <p style="margin-top: 20px; padding: 20px; background: var(--accent-light); border-radius: 8px;">
+                            <strong>The Cardinal Rule:</strong> The reward must happen during or immediately after the behavior, not the next morning. Your brain can't connect delayed consequences.
+                        </p>
+                    </div>
+
+                    <h2>Breaking Bad Sleep Loops</h2>
+                    
+                    <div class="loop-troubleshooting">
+                        <h3>🚫 Disrupting Destructive Patterns</h3>
+                        
+                        <div class="troubleshoot-scenario">
+                            <h5>The Late-Night Snacking Loop</h5>
+                            <p><strong>Disrupt the Cue:</strong> Brush teeth immediately after dinner</p>
+                            <p><strong>Replace the Craving:</strong> Stock herbal tea instead of snacks</p>
+                            <p><strong>Increase Friction:</strong> No food in bedroom/living room</p>
+                            <p><strong>Change the Reward:</strong> Journal about feelings instead</p>
+                        </div>
+                        
+                        <div class="troubleshoot-scenario">
+                            <h5>The Revenge Bedtime Procrastination Loop</h5>
+                            <p><strong>Identify Real Craving:</strong> Personal time/control over schedule</p>
+                            <p><strong>Satisfy Earlier:</strong> Schedule "me time" before dinner</p>
+                            <p><strong>Create New Loop:</strong> Morning personal time as reward</p>
+                            <p><strong>Remove Option:</strong> Internet router on timer</p>
+                        </div>
+                        
+                        <div class="troubleshoot-scenario">
+                            <h5>The Worry Spiral Loop</h5>
+                            <p><strong>Interrupt Pattern:</strong> Keep notepad by bed for worry dump</p>
+                            <p><strong>Redirect Response:</strong> Write worries, promise morning review</p>
+                            <p><strong>New Reward:</strong> Peace from externalizing thoughts</p>
+                            <p><strong>Stack Habits:</strong> Follow with gratitude practice</p>
+                        </div>
+                    </div>
+
+                    <h2>The Keystone Loop Strategy</h2>
+                    
+                    <div class="keystone-loops">
+                        <h3>One Loop to Rule Them All</h3>
+                        <p>Some loops naturally trigger other positive behaviors. Focus on these first:</p>
+                        
+                        <div class="keystone-cascade">
+                            <div class="cascade-item">Set consistent wake time</div>
+                            <div class="cascade-item">Natural light exposure increases</div>
+                            <div class="cascade-item">Earlier adenosine buildup</div>
+                            <div class="cascade-item">Natural evening tiredness</div>
+                            <div class="cascade-item">Earlier, easier bedtime</div>
+                        </div>
+                        
+                        <p style="margin-top: 30px; text-align: center;">
+                            <strong>Start with wake time. Everything else follows.</strong>
+                        </p>
+                    </div>
+
+                    <h2>Your Loop Design Workshop</h2>
+                    
+                    <div class="loop-design-workshop">
+                        <h3>🛠️ Build Your First Sleep Loop</h3>
+                        
+                        <div class="workshop-step">
+                            <h5>Step 1: Choose Your Target Behavior</h5>
+                            <p>Pick ONE specific sleep behavior you want to automate (e.g., "Put phone on charger in kitchen at 9 PM")</p>
+                        </div>
+                        
+                        <div class="workshop-step">
+                            <h5>Step 2: Design Your Cue</h5>
+                            <ul>
+                                <li>When will this happen? (time)</li>
+                                <li>Where will you be? (location)</li>
+                                <li>What just happened? (preceding event)</li>
+                                <li>How do you feel? (emotional state)</li>
+                                <li>Who's around? (social cue)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="workshop-step">
+                            <h5>Step 3: Engineer the Craving</h5>
+                            <ul>
+                                <li>What deeper need does this satisfy?</li>
+                                <li>How can you make it attractive?</li>
+                                <li>What identity does it reinforce?</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="workshop-step">
+                            <h5>Step 4: Minimize Response Friction</h5>
+                            <ul>
+                                <li>How can you make it easier?</li>
+                                <li>What obstacles can you remove?</li>
+                                <li>Can you prepare in advance?</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="workshop-step">
+                            <h5>Step 5: Create Immediate Reward</h5>
+                            <ul>
+                                <li>What feels good right away?</li>
+                                <li>How will you celebrate?</li>
+                                <li>What makes you want to repeat it?</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>Advanced Loop Engineering</h2>
+                    
+                    <div class="advanced-techniques">
+                        <div class="technique-card">
+                            <div class="technique-icon">🔗</div>
+                            <h4>Loop Chaining</h4>
+                            <p>Use the reward of one loop as the cue for the next. Create unstoppable cascades toward sleep.</p>
+                        </div>
+                        
+                        <div class="technique-card">
+                            <div class="technique-icon">🎨</div>
+                            <h4>Context Design</h4>
+                            <p>Engineer your environment so the easiest response is always the desired behavior.</p>
+                        </div>
+                        
+                        <div class="technique-card">
+                            <div class="technique-icon">📱</div>
+                            <h4>Digital Loops</h4>
+                            <p>Use apps and automation to create cues and track rewards without thinking.</p>
+                        </div>
+                        
+                        <div class="technique-card">
+                            <div class="technique-icon">👥</div>
+                            <h4>Social Loops</h4>
+                            <p>Include accountability partners or public commitments for stronger rewards.</p>
+                        </div>
+                        
+                        <div class="technique-card">
+                            <div class="technique-icon">🔄</div>
+                            <h4>Loop Evolution</h4>
+                            <p>Start tiny, then expand successful loops gradually as they solidify.</p>
+                        </div>
+                        
+                        <div class="technique-card">
+                            <div class="technique-icon">🧪</div>
+                            <h4>Loop Testing</h4>
+                            <p>Run experiments to find which cues, cravings, and rewards work best for you.</p>
+                        </div>
+                    </div>
+
+                    <h2>The Loop Mastery Timeline</h2>
+                    
+                    <ul>
+                        <li><strong>Days 1-7:</strong> Focus only on consistent cue (same time/place)</li>
+                        <li><strong>Days 8-14:</strong> Add craving enhancement (visualization/identity)</li>
+                        <li><strong>Days 15-21:</strong> Reduce friction to near zero</li>
+                        <li><strong>Days 22-30:</strong> Amplify and vary rewards</li>
+                        <li><strong>Days 31-66:</strong> Let automation take over</li>
+                        <li><strong>Day 67+:</strong> Loop runs without conscious thought</li>
+                    </ul>
+
+                    <h2>Your Brain on Loops</h2>
+                    
+                    <p>Every time you complete a habit loop, your brain strengthens the neural pathway. After enough repetitions, the behavior moves from the prefrontal cortex (conscious decisions) to the basal ganglia (automatic behaviors).</p>
+                    
+                    <p>This is why you can drive home without remembering the journey. It's why you reach for your phone without deciding to. And it's why, with proper engineering, you can build a bedtime routine that runs itself.</p>
+
+                    <h2>Start Your First Loop Tonight</h2>
+                    
+                    <p>Don't try to engineer ten loops at once. Pick one. Make it tiny. Focus on making each component—cue, craving, response, reward—as clear and compelling as possible.</p>
+                    
+                    <p>Remember: You're not using willpower to go to bed on time. You're building a neurological program that makes going to bed on time the path of least resistance.</p>
+                    
+                    <p>Your future self—falling asleep easily after an automatic evening routine—is just a few well-designed loops away.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: Meaningful Metrics - Learn what to measure, how to track progress, and which numbers actually predict better sleep.</em></p>
+                    
+                    <a href="06-meaningful-metrics.html" class="nav-button">Continue to: Meaningful Metrics →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('habit-loops', '../..');
+    </script>
+</body>
+</html>

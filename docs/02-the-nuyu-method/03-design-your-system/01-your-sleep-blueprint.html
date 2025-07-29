@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Sleep Blueprint - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .blueprint-header {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .blueprint-header h2 {
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .assessment-section {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .assessment-question {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+        }
+        
+        .assessment-question h4 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+        }
+        
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .option-button {
+            padding: 12px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-content);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .option-button:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .option-button.selected {
+            background: var(--accent-light);
+            border-color: var(--accent-primary);
+            font-weight: 600;
+        }
+        
+        .blueprint-result {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .blueprint-components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .component-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .component-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .component-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .component-card h4 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .personalization-factors {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .factor-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        .factor-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .blueprint-template {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .time-label {
+            font-weight: 600;
+            color: var(--accent-primary);
+            text-align: right;
+            padding-right: 10px;
+        }
+        
+        .activity-description {
+            padding-left: 10px;
+            border-left: 2px solid var(--border-color);
+        }
+        
+        .customization-tips {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning-banner {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .warning-banner h4 {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Design Your System</a>
+                    <span>›</span>
+                    <span>Your Sleep Blueprint</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Your Sleep Blueprint: Engineering Your Perfect Night</h1>
+
+                    <div class="blueprint-header">
+                        <h2>Design a Sleep System as Unique as Your Fingerprint</h2>
+                        <p>Generic sleep advice fails because you're not generic. It's time to engineer a personalized sleep system that works with your biology, not against it.</p>
+                    </div>
+
+                    <h2>The Architecture of Perfect Sleep</h2>
+                    
+                    <p>Imagine trying to build a house with instructions for a different plot of land, in a different climate, for a different family. That's what following generic sleep advice is like. Your sleep blueprint must account for your unique circumstances:</p>
+                    
+                    <ul>
+                        <li>Your genetic chronotype (when your body wants to sleep)</li>
+                        <li>Your lifestyle constraints (work, family, obligations)</li>
+                        <li>Your environment (noise, light, temperature)</li>
+                        <li>Your stress patterns and recovery needs</li>
+                        <li>Your health conditions and sensitivities</li>
+                    </ul>
+                    
+                    <p>This isn't about finding the "perfect" sleep routine—it's about designing the perfect sleep routine <em>for you</em>.</p>
+
+                    <h2>The Five Pillars of Your Sleep Blueprint</h2>
+                    
+                    <div class="blueprint-components">
+                        <div class="component-card">
+                            <div class="component-icon">⏰</div>
+                            <h4>Timing Architecture</h4>
+                            <p>When you sleep matters as much as how long. Your blueprint optimizes for your natural rhythms.</p>
+                        </div>
+                        
+                        <div class="component-card">
+                            <div class="component-icon">🌡️</div>
+                            <h4>Environmental Design</h4>
+                            <p>Temperature, light, sound, and comfort settings customized for your sensory preferences.</p>
+                        </div>
+                        
+                        <div class="component-card">
+                            <div class="component-icon">🧘</div>
+                            <h4>Transition Rituals</h4>
+                            <p>Personalized wind-down sequences that signal your unique nervous system.</p>
+                        </div>
+                        
+                        <div class="component-card">
+                            <div class="component-icon">🛡️</div>
+                            <h4>Protection Protocols</h4>
+                            <p>Strategies to defend your sleep from your specific disruptors and challenges.</p>
+                        </div>
+                        
+                        <div class="component-card">
+                            <div class="component-icon">📊</div>
+                            <h4>Optimization Metrics</h4>
+                            <p>Key indicators that tell you if your blueprint is working or needs adjustment.</p>
+                        </div>
+                    </div>
+
+                    <h2>Step 1: Discover Your Sleep Personality</h2>
+                    
+                    <p>Before designing your blueprint, we need to understand your sleep personality. This goes beyond simple "morning person" or "night owl" classifications:</p>
+                    
+                    <div class="assessment-section">
+                        <h3>Quick Sleep Personality Assessment</h3>
+                        
+                        <div class="assessment-question">
+                            <h4>Your Energy Pattern</h4>
+                            <p>When do you naturally feel most alert and productive?</p>
+                            <div class="option-grid">
+                                <div class="option-button">6-9 AM Sharp</div>
+                                <div class="option-button">10 AM-12 PM Peak</div>
+                                <div class="option-button">2-5 PM Surge</div>
+                                <div class="option-button">8 PM-12 AM Zone</div>
+                            </div>
+                        </div>
+                        
+                        <div class="assessment-question">
+                            <h4>Your Sleep Sensitivity</h4>
+                            <p>How easily is your sleep disrupted?</p>
+                            <div class="option-grid">
+                                <div class="option-button">Princess & the Pea</div>
+                                <div class="option-button">Moderately Sensitive</div>
+                                <div class="option-button">Pretty Resilient</div>
+                                <div class="option-button">Sleep Through Anything</div>
+                            </div>
+                        </div>
+                        
+                        <div class="assessment-question">
+                            <h4>Your Recovery Style</h4>
+                            <p>How do you best recharge?</p>
+                            <div class="option-grid">
+                                <div class="option-button">One Long Block</div>
+                                <div class="option-button">Sleep + Power Nap</div>
+                                <div class="option-button">Flexible Segments</div>
+                                <div class="option-button">Consistent Routine</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Step 2: Map Your Constraints & Opportunities</h2>
+                    
+                    <p>Your perfect sleep blueprint must work within your real life. Let's identify your non-negotiables and flex points:</p>
+                    
+                    <div class="personalization-factors">
+                        <h3>Your Unique Factors</h3>
+                        
+                        <div class="factor-item">
+                            <div class="factor-icon">1</div>
+                            <div>
+                                <strong>Fixed Commitments:</strong> Work schedule, family obligations, commute times
+                            </div>
+                        </div>
+                        
+                        <div class="factor-item">
+                            <div class="factor-icon">2</div>
+                            <div>
+                                <strong>Environmental Realities:</strong> Noise levels, light pollution, bed partner preferences
+                            </div>
+                        </div>
+                        
+                        <div class="factor-item">
+                            <div class="factor-icon">3</div>
+                            <div>
+                                <strong>Health Considerations:</strong> Medications, conditions, sensitivities
+                            </div>
+                        </div>
+                        
+                        <div class="factor-item">
+                            <div class="factor-icon">4</div>
+                            <div>
+                                <strong>Lifestyle Patterns:</strong> Exercise timing, meal schedules, social commitments
+                            </div>
+                        </div>
+                        
+                        <div class="factor-item">
+                            <div class="factor-icon">5</div>
+                            <div>
+                                <strong>Stress Signatures:</strong> When and how stress appears in your day
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Step 3: Build Your Custom Architecture</h2>
+                    
+                    <p>Now we combine your sleep personality with your life constraints to create your blueprint. Here's a template to customize:</p>
+                    
+                    <div class="blueprint-template">
+                        <h3>Your Personalized Sleep Architecture</h3>
+                        
+                        <h4>Evening Transition (3 hours before bed)</h4>
+                        <div class="schedule-grid">
+                            <div class="time-label">-3:00</div>
+                            <div class="activity-description">Last meal/heavy snacks. Begin dimming lights.</div>
+                            
+                            <div class="time-label">-2:30</div>
+                            <div class="activity-description">Complete high-stimulation activities (work, intense conversations)</div>
+                            
+                            <div class="time-label">-2:00</div>
+                            <div class="activity-description">Technology wind-down begins. Switch to calming activities.</div>
+                        </div>
+                        
+                        <h4>Sleep Preparation (1 hour before bed)</h4>
+                        <div class="schedule-grid">
+                            <div class="time-label">-1:00</div>
+                            <div class="activity-description">Begin personal ritual (shower, skincare, reading, etc.)</div>
+                            
+                            <div class="time-label">-0:30</div>
+                            <div class="activity-description">Bedroom preparation: temperature, darkness, comfort check</div>
+                            
+                            <div class="time-label">-0:15</div>
+                            <div class="activity-description">Final relaxation technique (breathing, meditation, gratitude)</div>
+                        </div>
+                        
+                        <h4>Sleep Period</h4>
+                        <div class="schedule-grid">
+                            <div class="time-label">0:00</div>
+                            <div class="activity-description">Lights out - same time every night (±30 minutes max)</div>
+                            
+                            <div class="time-label">Night</div>
+                            <div class="activity-description">If wake: no clock-checking, use predetermined protocol</div>
+                        </div>
+                        
+                        <h4>Morning Architecture</h4>
+                        <div class="schedule-grid">
+                            <div class="time-label">Wake</div>
+                            <div class="activity-description">Consistent time, immediate light exposure</div>
+                            
+                            <div class="time-label">+0:15</div>
+                            <div class="activity-description">Movement or temperature shift to signal day start</div>
+                            
+                            <div class="time-label">+0:30</div>
+                            <div class="activity-description">Breakfast timing to reinforce circadian rhythm</div>
+                        </div>
+                    </div>
+
+                    <h2>Step 4: Customize for Your Type</h2>
+                    
+                    <p>Your blueprint needs specific modifications based on your sleep personality:</p>
+                    
+                    <div class="customization-tips">
+                        <h3>For the Sensitive Sleeper</h3>
+                        <ul>
+                            <li>Extended wind-down period (2-3 hours)</li>
+                            <li>Multiple environmental controls (white noise, blackout, temperature)</li>
+                            <li>Stricter consistency requirements</li>
+                            <li>Pre-emptive stress management protocols</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="customization-tips">
+                        <h3>For the Variable Schedule</h3>
+                        <ul>
+                            <li>Core sleep + strategic napping architecture</li>
+                            <li>Flexible transition rituals that work anywhere</li>
+                            <li>Light therapy for rhythm anchoring</li>
+                            <li>Recovery protocols for disruptions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="customization-tips">
+                        <h3>For the Night Owl</h3>
+                        <ul>
+                            <li>Gradual morning light exposure protocol</li>
+                            <li>Evening light restriction starting earlier</li>
+                            <li>Strategic caffeine timing (none after 2 PM)</li>
+                            <li>Social zeitgeber alignment strategies</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="customization-tips">
+                        <h3>For the Early Bird</h3>
+                        <ul>
+                            <li>Evening energy management techniques</li>
+                            <li>Social life integration strategies</li>
+                            <li>Afternoon light exposure for extension</li>
+                            <li>Weekend consistency protocols</li>
+                        </ul>
+                    </div>
+
+                    <h2>Step 5: Environmental Engineering</h2>
+                    
+                    <p>Your sleep environment should be a sanctuary designed for your specific needs:</p>
+                    
+                    <div class="blueprint-components">
+                        <div class="component-card">
+                            <h4>🌡️ Temperature</h4>
+                            <p><strong>Cool sleepers:</strong> 62-65°F<br>
+                            <strong>Average:</strong> 65-68°F<br>
+                            <strong>Warm sleepers:</strong> 68-70°F</p>
+                        </div>
+                        
+                        <div class="component-card">
+                            <h4>🔇 Sound</h4>
+                            <p><strong>Silence seekers:</strong> <10 dB<br>
+                            <strong>White noise:</strong> 40-50 dB<br>
+                            <strong>Natural sounds:</strong> Variable</p>
+                        </div>
+                        
+                        <div class="component-card">
+                            <h4>🌑 Darkness</h4>
+                            <p><strong>Cave dark:</strong> <1 lux<br>
+                            <strong>Very dark:</strong> 1-3 lux<br>
+                            <strong>Dim:</strong> 3-5 lux</p>
+                        </div>
+                        
+                        <div class="component-card">
+                            <h4>🛏️ Comfort</h4>
+                            <p><strong>Firm:</strong> Spine alignment<br>
+                            <strong>Medium:</strong> Balanced support<br>
+                            <strong>Soft:</strong> Pressure relief</p>
+                        </div>
+                    </div>
+
+                    <h2>The Non-Negotiable Rules</h2>
+                    
+                    <p>Regardless of your personalization, some principles are universal:</p>
+                    
+                    <ol>
+                        <li><strong>Consistency is King:</strong> Same sleep/wake time 7 days a week (±30 minutes)</li>
+                        <li><strong>Light is Law:</strong> Bright mornings, dim evenings, dark nights</li>
+                        <li><strong>Temperature Drops:</strong> Your body needs to cool to sleep well</li>
+                        <li><strong>Hunger Disrupts:</strong> Not too full, not too empty</li>
+                        <li><strong>Stress Blocks Sleep:</strong> Active stress management is mandatory</li>
+                    </ol>
+
+                    <div class="warning-banner">
+                        <h4>⚠️ Common Blueprint Mistakes</h4>
+                        <ul>
+                            <li>Trying to change everything at once (implement gradually)</li>
+                            <li>Ignoring your chronotype (work with biology, not against it)</li>
+                            <li>Perfectionism paralysis (80% consistency beats 100% fantasy)</li>
+                            <li>Not tracking results (measure to improve)</li>
+                            <li>Giving up too soon (21 days minimum for assessment)</li>
+                        </ul>
+                    </div>
+
+                    <h2>Your Implementation Roadmap</h2>
+                    
+                    <p>Don't implement your entire blueprint at once. Follow this sequence:</p>
+                    
+                    <ol>
+                        <li><strong>Week 1-2:</strong> Establish consistent sleep/wake times</li>
+                        <li><strong>Week 3-4:</strong> Add evening transition routine</li>
+                        <li><strong>Week 5-6:</strong> Optimize sleep environment</li>
+                        <li><strong>Week 7-8:</strong> Fine-tune based on data</li>
+                        <li><strong>Week 9+:</strong> Advanced optimization and experimentation</li>
+                    </ol>
+
+                    <h2>Measuring Success</h2>
+                    
+                    <p>Your blueprint is working when:</p>
+                    
+                    <ul>
+                        <li>You fall asleep within 10-20 minutes consistently</li>
+                        <li>You wake naturally ±15 minutes of alarm time</li>
+                        <li>You feel refreshed within 30 minutes of waking</li>
+                        <li>Your energy is stable throughout the day</li>
+                        <li>Your mood and cognitive function improve</li>
+                    </ul>
+
+                    <h2>The Evolution Process</h2>
+                    
+                    <p>Your sleep blueprint isn't static. It should evolve with:</p>
+                    
+                    <ul>
+                        <li><strong>Season changes:</strong> Light exposure and temperature needs shift</li>
+                        <li><strong>Life changes:</strong> New job, relationship, or living situation</li>
+                        <li><strong>Age progression:</strong> Sleep architecture changes over time</li>
+                        <li><strong>Health status:</strong> Illness, medication, or fitness changes</li>
+                        <li><strong>Optimization insights:</strong> Continuous improvement based on data</li>
+                    </ul>
+
+                    <h2>Your Blueprint, Your Life</h2>
+                    
+                    <p>You now have the framework to design a sleep system that honors your unique biology and life circumstances. This isn't about following someone else's perfect routine—it's about creating yours.</p>
+                    
+                    <p>Remember: The best sleep system is the one you'll actually follow. Start with the basics, be consistent, and refine based on results. Your perfect night's sleep isn't a mystery—it's an engineering problem with a personalized solution.</p>
+                    
+                    <p>Your blueprint is your declaration of independence from generic sleep advice. Use it wisely.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: Discover Your Chronotype - Unlock the secret of your genetic sleep personality and learn how to work with your natural rhythms instead of against them.</em></p>
+                    
+                    <a href="02-discover-your-chronotype.html" class="nav-button">Continue to: Discover Your Chronotype →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('blueprint', '../..');
+    </script>
+</body>
+</html>

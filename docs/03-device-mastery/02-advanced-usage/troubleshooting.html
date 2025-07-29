@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .troubleshooting-hero {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .repair-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            opacity: 0.1;
+        }
+        
+        .gear {
+            position: absolute;
+            border: 20px solid white;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+        
+        .gear1 {
+            top: 0;
+            left: 0;
+            animation: rotate 4s linear infinite;
+        }
+        
+        .gear2 {
+            bottom: 0;
+            right: 0;
+            animation: rotate-reverse 3s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes rotate-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        
+        .troubleshooting-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .quick-fixes {
+            background: rgba(239, 68, 68, 0.05);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .fix-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .fix-card {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .fix-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .fix-icon {
+            width: 40px;
+            height: 40px;
+            background: #ef4444;
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .problem-category {
+            background: var(--bg-content);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .problem-item {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .problem-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        
+        .problem-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .severity-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .severity-low {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+        
+        .severity-medium {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+        }
+        
+        .severity-high {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+        
+        .solution-steps {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .step {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            width: 25px;
+            height: 25px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .diagnostic-tool {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .diagnostic-button {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+        }
+        
+        .diagnostic-button:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .error-codes {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .error-table {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .error-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .error-code {
+            font-family: monospace;
+            background: var(--bg-content);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        .connectivity-guide {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .connection-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .status-indicator {
+            text-align: center;
+            padding: 20px;
+            background: var(--hover-bg);
+            border-radius: 8px;
+        }
+        
+        .status-light {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+        }
+        
+        .status-green {
+            background: #22c55e;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+        
+        .status-yellow {
+            background: #fbbf24;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+        
+        .status-red {
+            background: #ef4444;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+        }
+        
+        .contact-support {
+            background: rgba(99, 102, 241, 0.05);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .support-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .support-channel {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .channel-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .reset-warning {
+            background: rgba(239, 68, 68, 0.05);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .warning-icon {
+            color: #ef4444;
+            font-size: 24px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">Device Mastery</a>
+                    <span>›</span>
+                    <a href="#">Advanced Usage</a>
+                    <span>›</span>
+                    <span>Troubleshooting</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Troubleshooting: Solutions for Every Situation</h1>
+
+                    <div class="troubleshooting-hero">
+                        <div class="repair-animation">
+                            <div class="gear gear1"></div>
+                            <div class="gear gear2"></div>
+                        </div>
+                        <h2>We'll Get You Back to Better Sleep</h2>
+                        <p style="position: relative; z-index: 1;">Quick fixes, detailed solutions, and expert support when you need it.</p>
+                    </div>
+
+                    <h2>Before You Begin</h2>
+                    
+                    <p>Most nuyu issues can be resolved in under 5 minutes. This guide is organized from quick fixes to advanced solutions. Start at the top—chances are your solution is in the first section.</p>
+
+                    <div class="quick-fixes">
+                        <h2>🚀 Quick Fixes (Try These First!)</h2>
+                        
+                        <div class="fix-grid">
+                            <div class="fix-card">
+                                <div class="fix-icon">🔄</div>
+                                <h4>Restart Everything</h4>
+                                <p>Turn off nuyu (hold button 5 sec), force quit app, restart phone. Fixes 50% of issues.</p>
+                            </div>
+                            
+                            <div class="fix-card">
+                                <div class="fix-icon">🔋</div>
+                                <h4>Check Battery</h4>
+                                <p>Low battery can cause connectivity issues. Charge for 30 minutes and retry.</p>
+                            </div>
+                            
+                            <div class="fix-card">
+                                <div class="fix-icon">📱</div>
+                                <h4>Update App</h4>
+                                <p>Check app store for updates. We release fixes regularly.</p>
+                            </div>
+                            
+                            <div class="fix-card">
+                                <div class="fix-icon">📶</div>
+                                <h4>Bluetooth Toggle</h4>
+                                <p>Turn Bluetooth off for 10 seconds, then back on. Re-pair if needed.</p>
+                            </div>
+                            
+                            <div class="fix-card">
+                                <div class="fix-icon">📍</div>
+                                <h4>Check Placement</h4>
+                                <p>Ensure nuyu is flat on mattress, sensor side up, at chest level.</p>
+                            </div>
+                            
+                            <div class="fix-card">
+                                <div class="fix-icon">🛠️</div>
+                                <h4>Run Calibration</h4>
+                                <p>Settings → Device → Calibrate. Lie still for 2 minutes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Common Issues & Solutions</h2>
+
+                    <div class="problem-category">
+                        <h3>😴 Sleep Detection Issues</h3>
+                        
+                        <div class="problem-item">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <h4>Not detecting when I fall asleep</h4>
+                                </div>
+                                <span class="severity-badge severity-medium">Common</span>
+                            </div>
+                            
+                            <div class="solution-steps">
+                                <div class="step">
+                                    <div class="step-number">1</div>
+                                    <p>Check placement - nuyu must be under your torso area, not under pillows or at foot of bed</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">2</div>
+                                    <p>Run calibration while lying in your normal sleep position</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">3</div>
+                                    <p>Ensure mattress strap is tight - device shouldn't move</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">4</div>
+                                    <p>Check sensitivity settings: Settings → Detection → Increase to "High"</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="problem-item">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <h4>Shows me awake when I was sleeping</h4>
+                                </div>
+                                <span class="severity-badge severity-low">Minor</span>
+                            </div>
+                            
+                            <div class="solution-steps">
+                                <div class="step">
+                                    <div class="step-number">1</div>
+                                    <p>This often happens with very still sleepers</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">2</div>
+                                    <p>Enable "Still Sleeper Mode" in Settings → Sleep Profile</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">3</div>
+                                    <p>nuyu will learn your patterns over 5-7 nights</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="problem-item">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <h4>Partner's movements affecting my data</h4>
+                                </div>
+                                <span class="severity-badge severity-medium">Common</span>
+                            </div>
+                            
+                            <div class="solution-steps">
+                                <div class="step">
+                                    <div class="step-number">1</div>
+                                    <p>Enable "Partner Filter" in Settings → Advanced</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">2</div>
+                                    <p>Place nuyu closer to your side of bed</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">3</div>
+                                    <p>Run "Partner Calibration" with both in bed</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="problem-category">
+                        <h3>📱 Connectivity Problems</h3>
+                        
+                        <div class="problem-item">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <h4>nuyu won't connect to app</h4>
+                                </div>
+                                <span class="severity-badge severity-high">Urgent</span>
+                            </div>
+                            
+                            <div class="solution-steps">
+                                <div class="step">
+                                    <div class="step-number">1</div>
+                                    <p>Ensure nuyu is charged (LED should respond to button press)</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">2</div>
+                                    <p>Force quit app and reopen</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">3</div>
+                                    <p>Delete device from Bluetooth settings and re-pair</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">4</div>
+                                    <p>Reset nuyu: Hold button for 15 seconds until LED flashes red 3 times</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="problem-item">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <h4>Keeps disconnecting during the night</h4>
+                                </div>
+                                <span class="severity-badge severity-medium">Common</span>
+                            </div>
+                            
+                            <div class="solution-steps">
+                                <div class="step">
+                                    <div class="step-number">1</div>
+                                    <p>Check phone's battery optimization settings - exclude nuyu app</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">2</div>
+                                    <p>Keep phone within 30 feet of nuyu device</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">3</div>
+                                    <p>Disable "Bluetooth Scanning" in phone's location settings</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">4</div>
+                                    <p>Update device firmware: Settings → Device → Check for Updates</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="problem-category">
+                        <h3>📊 Data & Accuracy Issues</h3>
+                        
+                        <div class="problem-item">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <h4>Sleep stages seem wrong</h4>
+                                </div>
+                                <span class="severity-badge severity-low">Minor</span>
+                            </div>
+                            
+                            <div class="solution-steps">
+                                <div class="step">
+                                    <div class="step-number">1</div>
+                                    <p>nuyu needs 3-5 nights to learn your patterns</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">2</div>
+                                    <p>Ensure device hasn't shifted position</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">3</div>
+                                    <p>Check for mattress compatibility: very soft or very firm may need adjustment</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">4</div>
+                                    <p>Enable "Learning Mode" for 1 week: Settings → AI → Enhanced Learning</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="problem-item">
+                            <div class="problem-header">
+                                <div class="problem-title">
+                                    <h4>Missing data for entire night</h4>
+                                </div>
+                                <span class="severity-badge severity-high">Urgent</span>
+                            </div>
+                            
+                            <div class="solution-steps">
+                                <div class="step">
+                                    <div class="step-number">1</div>
+                                    <p>Check if nuyu was in range - it stores 30 days locally</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">2</div>
+                                    <p>Force sync: Pull down on main screen to refresh</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">3</div>
+                                    <p>Check device memory: Settings → Device → Storage (clear if full)</p>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">4</div>
+                                    <p>Contact support - we may be able to recover data</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Run Diagnostics</h2>
+                    
+                    <div class="diagnostic-tool">
+                        <h3>🔍 Automatic Problem Detection</h3>
+                        <p>Let nuyu diagnose itself. This tool checks all systems and provides specific fixes.</p>
+                        
+                        <button class="diagnostic-button">Run Full Diagnostics</button>
+                        
+                        <p><em>Takes about 2 minutes. Keep nuyu nearby and app open.</em></p>
+                    </div>
+
+                    <h2>Understanding Error Codes</h2>
+                    
+                    <div class="error-codes">
+                        <h3>LED Flash Patterns & Meanings</h3>
+                        
+                        <table class="error-table">
+                            <tr>
+                                <td><span class="error-code">3 Red Flashes</span></td>
+                                <td>Low battery (charge immediately)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="error-code">5 Red Flashes</span></td>
+                                <td>Sensor error (clean sensor, recalibrate)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="error-code">Continuous Red</span></td>
+                                <td>Critical error (factory reset required)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="error-code">Blue-Red Alternate</span></td>
+                                <td>Firmware update in progress (don't disconnect)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="error-code">Green-Blue Alternate</span></td>
+                                <td>Pairing mode active</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h2>Advanced Troubleshooting</h2>
+                    
+                    <div class="connectivity-guide">
+                        <h3>Connection Health Check</h3>
+                        
+                        <div class="connection-status">
+                            <div class="status-indicator">
+                                <div class="status-light status-green"></div>
+                                <h5>Bluetooth Signal</h5>
+                                <p>Strong (-50 dBm or better)</p>
+                            </div>
+                            
+                            <div class="status-indicator">
+                                <div class="status-light status-yellow"></div>
+                                <h5>Data Sync</h5>
+                                <p>Last sync: 2 hours ago</p>
+                            </div>
+                            
+                            <div class="status-indicator">
+                                <div class="status-light status-green"></div>
+                                <h5>Battery Level</h5>
+                                <p>87% (28 days remaining)</p>
+                            </div>
+                            
+                            <div class="status-indicator">
+                                <div class="status-light status-green"></div>
+                                <h5>Firmware</h5>
+                                <p>Up to date (v2.4.1)</p>
+                            </div>
+                        </div>
+                        
+                        <p><strong>Check your status:</strong> Settings → Device → Connection Health</p>
+                    </div>
+
+                    <h2>Factory Reset (Last Resort)</h2>
+                    
+                    <div class="reset-warning">
+                        <h3><span class="warning-icon">⚠️</span>Factory Reset Instructions</h3>
+                        
+                        <p><strong>Warning:</strong> This erases all device data. Your historical data in the app is safe.</p>
+                        
+                        <ol>
+                            <li>Open app and go to Settings → Device → Advanced</li>
+                            <li>Tap "Factory Reset" and confirm</li>
+                            <li>Hold nuyu button for 20 seconds until LED flashes rainbow pattern</li>
+                            <li>Release button - device will restart</li>
+                            <li>Re-pair device and run initial setup</li>
+                        </ol>
+                        
+                        <p><strong>When to use:</strong> Only after trying all other solutions or if directed by support.</p>
+                    </div>
+
+                    <h2>Still Need Help?</h2>
+                    
+                    <div class="contact-support">
+                        <h3>We're Here for You</h3>
+                        <p>Can't find your solution? Our support team is standing by.</p>
+                        
+                        <div class="support-options">
+                            <div class="support-channel">
+                                <div class="channel-icon">💬</div>
+                                <h5>Live Chat</h5>
+                                <p>Instant help during business hours</p>
+                                <p><strong>support.nuyu.com/chat</strong></p>
+                            </div>
+                            
+                            <div class="support-channel">
+                                <div class="channel-icon">📧</div>
+                                <h5>Email Support</h5>
+                                <p>Detailed help within 24 hours</p>
+                                <p><strong>help@nuyu.com</strong></p>
+                            </div>
+                            
+                            <div class="support-channel">
+                                <div class="channel-icon">🎯</div>
+                                <h5>Community Forum</h5>
+                                <p>Tips from other users</p>
+                                <p><strong>community.nuyu.com</strong></p>
+                            </div>
+                        </div>
+                        
+                        <p style="margin-top: 20px;"><strong>Pro tip:</strong> Include your device serial number (Settings → About) for faster support.</p>
+                    </div>
+
+                    <h2>Preventive Maintenance</h2>
+                    
+                    <p>Keep your nuyu running smoothly:</p>
+                    
+                    <ul>
+                        <li><strong>Monthly:</strong> Clean sensor with soft, dry cloth</li>
+                        <li><strong>Monthly:</strong> Check for app and firmware updates</li>
+                        <li><strong>Quarterly:</strong> Re-run calibration</li>
+                        <li><strong>Yearly:</strong> Replace mattress strap if worn</li>
+                    </ul>
+
+                    <h2>Remember</h2>
+                    
+                    <p>Most issues are simple and quick to fix. nuyu is designed to be reliable, but technology sometimes needs a helping hand. Don't let a technical hiccup disrupt your sleep journey—we're here to help you get back on track.</p>
+                    
+                    <p><strong>Your better sleep is our priority. Let's solve this together.</strong></p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Ready to explore more resources? Check out our research library, community stories, and additional tools.</em></p>
+                    
+                    <a href="../../04-resources/research-library.html" class="nav-button">Continue to: Resources →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('troubleshooting', '../..');
+    </script>
+</body>
+</html>

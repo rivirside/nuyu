@@ -1,261 +1,412 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nuyu Documentation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>nuyu Documentation - The Complete Guide</title>
     <style>
-        body { 
-            font-family: 'Inter', sans-serif;
-            background-color: #FAFAFA;
-            color: #1F2937;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .docs-sidebar {
-            background-color: #F9FAFB;
-            border-right: 1px solid #E5E7EB;
+        
+        :root {
+            /* Light mode colors */
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #fafafa;
+            --bg-content: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+            --text-light: #9ca3af;
+            --border-color: #e8e8e8;
+            --border-light: #e5e7eb;
+            --accent-primary: #6B21A8;
+            --accent-secondary: #8B5CF6;
+            --accent-light: #ede9fe;
+            --hover-bg: #f3f4f6;
+            --code-bg: #f8f4ff;
         }
-        .docs-nav-link {
-            transition: all 0.2s;
+        
+        [data-theme="dark"] {
+            /* Dark mode colors matching nuyu site */
+            --bg-primary: #000000;
+            --bg-secondary: #0a0a0a;
+            --bg-content: rgba(255, 255, 255, 0.05);
+            --text-primary: #E4E4E7;
+            --text-secondary: #D1D5DB;
+            --text-muted: #9CA3AF;
+            --text-light: #6B7280;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-light: rgba(255, 255, 255, 0.08);
+            --accent-primary: #8B5CF6;
+            --accent-secondary: #A78BFA;
+            --accent-light: rgba(139, 92, 246, 0.15);
+            --hover-bg: rgba(255, 255, 255, 0.08);
+            --code-bg: rgba(139, 92, 246, 0.1);
         }
-        .docs-nav-link:hover {
-            background-color: #F3F4F6;
-            color: #6B21A8;
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-        .docs-nav-link.active {
-            background-color: #EDE9FE;
-            color: #6B21A8;
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 300px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 16px;
+            overflow-y: auto;
+            position: fixed;
+            height: 100vh;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .sidebar h2 {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 32px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .sidebar h2::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            border-radius: 2px;
+        }
+        
+        .nav-section {
+            margin-bottom: 8px;
+        }
+        
+        .nav-section-title {
             font-weight: 600;
-            border-left: 3px solid #6B21A8;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
         }
-        .btn-gradient { 
-            background-image: linear-gradient(to right, #8B5CF6, #6366F1); 
-            transition: all 0.3s ease; 
+        
+        .nav-section-title:hover {
+            color: var(--text-secondary);
+            background-color: var(--hover-bg);
         }
-        .btn-gradient:hover { 
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); 
+        
+        .chevron {
+            margin-right: 8px;
+            transition: transform 0.2s ease;
+            font-size: 12px;
+            color: var(--text-light);
         }
-        .docs-card {
+        
+        .nav-section.collapsed .chevron {
+            transform: rotate(-90deg);
+        }
+        
+        .nav-items {
+            margin-left: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .nav-section.collapsed .nav-items {
+            max-height: 0;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 8px 16px 8px 36px;
+            margin: 1px 0;
+            text-decoration: none;
+            color: var(--text-secondary);
+            border-radius: 6px;
+            transition: all 0.15s ease;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .nav-item:hover {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+            transform: translateX(2px);
+        }
+        
+        .nav-item.active {
+            background-color: var(--accent-light);
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+        
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 16px;
+            background-color: var(--accent-primary);
+            border-radius: 0 2px 2px 0;
+        }
+        
+        .nav-subsection {
+            margin-left: 16px;
+            margin-top: 4px;
+            position: relative;
+        }
+        
+        .nav-subsection::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 8px;
+            width: 1px;
+            background-color: var(--border-light);
+        }
+        
+        .nav-subsection .nav-section-title {
+            font-size: 10px;
+            padding: 6px 8px;
+            margin-left: 8px;
+        }
+        
+        .nav-subsection .nav-item {
+            font-size: 13px;
+            padding: 6px 12px 6px 32px;
+            color: var(--text-muted);
+        }
+        
+        .nav-subsection .nav-item:hover {
+            color: var(--text-secondary);
+        }
+        
+        .nav-subsection .nav-item.active {
+            background-color: var(--hover-bg);
+            color: var(--accent-secondary);
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: 300px;
+            flex: 1;
+            padding: 40px;
+            max-width: 900px;
+        }
+        
+        .content-header {
+            margin-bottom: 40px;
+        }
+        
+        .content-header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        .content-header p {
+            font-size: 20px;
+            color: var(--text-muted);
+        }
+        
+        .content-section {
+            background: var(--bg-content);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        [data-theme="dark"] .content-section {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .content-section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+        
+        .content-section h3 {
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+        
+        .content-section p {
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+        
+        .content-section ul li {
+            color: var(--text-secondary);
+        }
+        
+        .highlight-box {
+            background-color: var(--code-bg);
+            border-left: 4px solid var(--accent-primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .nav-breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .nav-breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .nav-breadcrumb span {
+            margin: 0 8px;
+        }
+        
+        /* Dark mode toggle button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid #E5E7EB;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        .docs-card:hover {
-            border-color: #8B5CF6;
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-        .prose h1, .prose h2, .prose h3 {
-            color: #111827;
-            font-weight: 700;
+        
+        .theme-toggle svg {
+            width: 24px;
+            height: 24px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
         }
-        .prose a {
-            color: #6B21A8;
-            text-decoration: underline;
+        
+        /* Hide sun icon in light mode, moon in dark mode */
+        [data-theme="light"] .moon-icon {
+            display: none;
         }
-        .prose a:hover {
-            color: #8B5CF6;
+        
+        [data-theme="dark"] .sun-icon {
+            display: none;
+        }
+        
+        /* Smooth transitions for dark mode */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
     </style>
 </head>
-<body class="antialiased">
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <a href="../index.html" class="flex items-center space-x-2">
-                    <img src="../images/nuyu-logo.png" alt="nuyu logo" class="h-8 w-8" onerror="this.style.display='none'">
-                    <span class="text-2xl font-bold text-gray-900">nuyu</span>
-                    <span class="text-sm text-gray-500 border-l border-gray-300 pl-2 ml-2">docs</span>
-                </a>
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="../index.html" class="text-gray-600 hover:text-gray-900 transition-colors">Home</a>
-                    <a href="../project.html" class="text-gray-600 hover:text-gray-900 transition-colors">The Project</a>
-                    <a href="../science.html" class="text-gray-600 hover:text-gray-900 transition-colors">The Science</a>
-                    <a href="../community.html" class="text-gray-600 hover:text-gray-900 transition-colors">Community</a>
-                </nav>
-                <div class="hidden md:block">
-                    <a href="../survey.html" class="px-5 py-2.5 font-semibold text-white rounded-lg btn-gradient">Take Survey</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <div class="flex min-h-screen pt-16">
-        <!-- Sidebar -->
-        <aside class="docs-sidebar w-64 fixed left-0 top-16 bottom-0 overflow-y-auto hidden lg:block">
-            <nav class="p-6">
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Getting Started</h3>
-                        <ul class="space-y-2">
-                            <li><a href="index.html" class="docs-nav-link active block px-3 py-2 rounded-md">Introduction</a></li>
-                            <li><a href="quick-start.html" class="docs-nav-link block px-3 py-2 rounded-md">Quick Start Guide</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">The nuyu Method</h3>
-                        <ul class="space-y-2">
-                            <li><a href="nuyu-method.html" class="docs-nav-link block px-3 py-2 rounded-md">Overview</a></li>
-                            <li><a href="sleep-foundation.html" class="docs-nav-link block px-3 py-2 rounded-md">Sleep as Foundation</a></li>
-                            <li><a href="habit-stacking.html" class="docs-nav-link block px-3 py-2 rounded-md">Habit Stacking</a></li>
-                            <li><a href="tracking-progress.html" class="docs-nav-link block px-3 py-2 rounded-md">Tracking Progress</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Device Manual</h3>
-                        <ul class="space-y-2">
-                            <li><a href="device-setup.html" class="docs-nav-link block px-3 py-2 rounded-md">Initial Setup</a></li>
-                            <li><a href="device-features.html" class="docs-nav-link block px-3 py-2 rounded-md">Features & Controls</a></li>
-                            <li><a href="scent-guide.html" class="docs-nav-link block px-3 py-2 rounded-md">Scent Selection Guide</a></li>
-                            <li><a href="troubleshooting.html" class="docs-nav-link block px-3 py-2 rounded-md">Troubleshooting</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Science Deep Dive</h3>
-                        <ul class="space-y-2">
-                            <li><a href="science-overview.html" class="docs-nav-link block px-3 py-2 rounded-md">Research Overview</a></li>
-                            <li><a href="circadian-rhythms.html" class="docs-nav-link block px-3 py-2 rounded-md">Circadian Rhythms</a></li>
-                            <li><a href="scent-memory.html" class="docs-nav-link block px-3 py-2 rounded-md">Scent & Memory</a></li>
-                            <li><a href="references.html" class="docs-nav-link block px-3 py-2 rounded-md">References</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </aside>
-
+<body data-theme="light">
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
         <!-- Main Content Area -->
-        <main class="flex-1 lg:ml-64">
-            <div class="max-w-4xl mx-auto px-6 py-12">
-                <!-- Welcome Section -->
-                <div class="mb-12">
-                    <h1 class="text-4xl font-bold text-gray-900 mb-4">Welcome to nuyu Documentation</h1>
-                    <p class="text-xl text-gray-600">Everything you need to know about the nuyu method, device, and the science behind better sleep and habit formation.</p>
+        <main class="main-content">
+            <div class="nav-breadcrumb">
+                <a href="#">Home</a>
+                <span>›</span>
+                <a href="#">Introduction</a>
+                <span>›</span>
+                <span>Welcome</span>
+            </div>
+            
+            <div class="content-header">
+                <h1>Welcome to Your Transformation</h1>
+                <p>A comprehensive guide to understanding and optimizing your sleep-wake cycle</p>
+            </div>
+            
+            <div class="content-section">
+                <h2>A Journey, Not a Destination</h2>
+                <p>Close your eyes for a moment. Imagine waking up tomorrow feeling genuinely refreshed. Not just "less tired," but truly energized. Your mind is clear, your body feels ready, and that persistent fog that usually takes three cups of coffee to lift? It's already gone.</p>
+                
+                <div class="highlight-box">
+                    <p><strong>This isn't a fantasy.</strong> It's not even particularly difficult to achieve. But it does require something that our modern world has trained us to forget: the understanding that your body is not a machine to be hacked, but a complex system to be understood and respected.</p>
                 </div>
-
-                <!-- Quick Links Cards -->
-                <div class="grid md:grid-cols-3 gap-6 mb-12">
-                    <a href="nuyu-method.html" class="docs-card bg-white rounded-lg p-6 block">
-                        <div class="mb-4">
-                            <div class="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                                <svg class="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">The nuyu Method</h3>
-                        <p class="text-gray-600">Learn the systematic approach to building lasting habits through better sleep.</p>
-                    </a>
-
-                    <a href="device-setup.html" class="docs-card bg-white rounded-lg p-6 block">
-                        <div class="mb-4">
-                            <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Device Manual</h3>
-                        <p class="text-gray-600">Set up and optimize your nuyu device for the best results.</p>
-                    </a>
-
-                    <a href="science-overview.html" class="docs-card bg-white rounded-lg p-6 block">
-                        <div class="mb-4">
-                            <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
-                                <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Science Deep Dive</h3>
-                        <p class="text-gray-600">Explore the research behind circadian rhythms and habit formation.</p>
-                    </a>
-                </div>
-
-                <!-- What's Included Section -->
-                <div class="bg-gray-50 rounded-lg p-8 mb-12">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">What's Included in These Docs</h2>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <h3 class="font-semibold text-gray-900 mb-2">For New Users</h3>
-                            <ul class="space-y-2 text-gray-600">
-                                <li class="flex items-start">
-                                    <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    Quick start guide to get you up and running
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    Step-by-step device setup instructions
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    Best practices for your first 30 days
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-gray-900 mb-2">For Advanced Users</h3>
-                            <ul class="space-y-2 text-gray-600">
-                                <li class="flex items-start">
-                                    <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    Advanced habit stacking techniques
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    In-depth scientific explanations
-                                </li>
-                                <li class="flex items-start">
-                                    <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    Troubleshooting common issues
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Getting Started CTA -->
-                <div class="text-center">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Ready to Get Started?</h2>
-                    <p class="text-gray-600 mb-6">Begin with our quick start guide to set up your nuyu device and start your journey to better sleep.</p>
-                    <a href="quick-start.html" class="inline-block px-8 py-4 font-semibold text-white rounded-lg btn-gradient">
-                        Start Here →
-                    </a>
-                </div>
+                
+                <p>Welcome to nuyu—not just a device, but a method rooted in decades of sleep science, behavioral psychology, and a simple truth: transformation begins with rest.</p>
+                
+                <h3>What You'll Learn Here</h3>
+                <p>These aren't just instructions for using a device. This is your guidebook to understanding:</p>
+                <ul>
+                    <li><strong>The Science</strong>: Not dumbed-down pop psychology, but real, actionable insights from neuroscience and chronobiology</li>
+                    <li><strong>The Method</strong>: A step-by-step approach to identifying, designing, and implementing your optimal sleep-wake cycle</li>
+                    <li><strong>The Practice</strong>: Concrete strategies for making changes that stick, based on proven principles of behavior change</li>
+                    <li><strong>The Device</strong>: How nuyu's features support and accelerate your transformation</li>
+                </ul>
             </div>
         </main>
     </div>
-
-    <!-- Footer -->
-    <footer class="bg-gray-100 border-t border-gray-200 lg:ml-64">
-        <div class="max-w-4xl mx-auto px-6 py-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="text-gray-600 mb-4 md:mb-0">
-                    © 2025 nuyu Project. All rights reserved.
-                </div>
-                <div class="flex items-center space-x-6">
-                    <a href="../index.html" class="text-gray-600 hover:text-gray-900">Back to Main Site</a>
-                    <a href="mailto:nuyu@reef.bio" class="text-gray-600 hover:text-gray-900">Contact Support</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    
+    
+    <script src="./navigation-standard.js"></script>
     <script>
-        // Mobile menu toggle can be added here if needed
+        // Initialize navigation with current page
+        initializeNavigation('welcome', '.');
     </script>
 </body>
 </html>

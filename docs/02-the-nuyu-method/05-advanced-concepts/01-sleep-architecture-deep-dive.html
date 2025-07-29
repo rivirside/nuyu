@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Architecture Deep Dive - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .architecture-hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wave-animation {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 60"><path fill="%23ffffff10" d="M0,30 Q300,0 600,30 T1200,30 L1200,60 L0,60 Z" opacity="0.5"><animate attributeName="d" values="M0,30 Q300,0 600,30 T1200,30 L1200,60 L0,60 Z;M0,30 Q300,60 600,30 T1200,30 L1200,60 L0,60 Z;M0,30 Q300,0 600,30 T1200,30 L1200,60 L0,60 Z" dur="10s" repeatCount="indefinite"/></path></svg>');
+        }
+        
+        .architecture-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .sleep-stages-visual {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .stage-timeline {
+            position: relative;
+            height: 300px;
+            margin: 30px 0;
+        }
+        
+        .time-axis {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border-color);
+        }
+        
+        .stage-block {
+            position: absolute;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .stage-block:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .stage-wake { background: #ef4444; }
+        .stage-n1 { background: #f59e0b; }
+        .stage-n2 { background: #3b82f6; }
+        .stage-n3 { background: #8b5cf6; }
+        .stage-rem { background: #ec4899; }
+        
+        .stage-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .stage-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stage-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .stage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stage-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .brainwave-visualization {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .wave-pattern {
+            height: 60px;
+            position: relative;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .wave-line {
+            stroke: var(--accent-primary);
+            stroke-width: 2;
+            fill: none;
+        }
+        
+        .cycle-breakdown {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .cycle-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .cycle-phase {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .cycle-number {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+        
+        .architecture-factors {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .factor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .factor-card {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .factor-impact {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .impact-bar {
+            width: 20px;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+        }
+        
+        .impact-bar.filled {
+            background: var(--accent-primary);
+        }
+        
+        .optimization-strategies {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .strategy-item {
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--bg-content);
+            border-radius: 6px;
+        }
+        
+        .strategy-item h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .disruption-patterns {
+            background: rgba(239, 68, 68, 0.05);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .disruption-type {
+            margin: 20px 0;
+        }
+        
+        .disruption-type h5 {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+        
+        .advanced-insights {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .insight-box {
+            background: var(--hover-bg);
+            border-left: 4px solid var(--accent-primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Advanced Concepts</a>
+                    <span>›</span>
+                    <span>Sleep Architecture Deep Dive</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Sleep Architecture Deep Dive: The Hidden Structure of Your Night</h1>
+
+                    <div class="architecture-hero">
+                        <div class="wave-animation"></div>
+                        <h2>Your Brain Runs a Sophisticated Program Every Night</h2>
+                        <p style="position: relative; z-index: 1;">Understanding sleep architecture transforms random rest into engineered recovery.</p>
+                    </div>
+
+                    <h2>The Symphony You Never Hear</h2>
+                    
+                    <p>Every night, your brain conducts an intricate symphony. Five distinct movements, each with its own tempo, purpose, and neurological signature. This isn't random unconsciousness—it's a precisely choreographed restoration program that took millions of years to perfect.</p>
+                    
+                    <p>Most people think of sleep as an on/off switch. The reality is far more fascinating. Your brain cycles through dramatically different states, each as distinct as waking from dreaming, each essential for different aspects of your physical and mental restoration.</p>
+
+                    <div class="sleep-stages-visual">
+                        <h3>A Typical Night's Architecture</h3>
+                        
+                        <div class="stage-timeline">
+                            <!-- This would be dynamically generated in a real implementation -->
+                            <div class="stage-block stage-wake" style="left: 0%; width: 2%; bottom: 80%; height: 20%;"></div>
+                            <div class="stage-block stage-n1" style="left: 2%; width: 3%; bottom: 60%; height: 20%;"></div>
+                            <div class="stage-block stage-n2" style="left: 5%; width: 15%; bottom: 40%; height: 20%;"></div>
+                            <div class="stage-block stage-n3" style="left: 20%; width: 10%; bottom: 0%; height: 40%;"></div>
+                            <div class="stage-block stage-n2" style="left: 30%; width: 10%; bottom: 40%; height: 20%;"></div>
+                            <div class="stage-block stage-rem" style="left: 40%; width: 5%; bottom: 20%; height: 60%;"></div>
+                            <!-- More blocks would continue across the night -->
+                            <div class="time-axis"></div>
+                        </div>
+                        
+                        <div class="stage-legend">
+                            <div class="legend-item">
+                                <div class="legend-color stage-wake"></div>
+                                <span>Wake</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color stage-n1"></div>
+                                <span>N1 (Light)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color stage-n2"></div>
+                                <span>N2 (Core)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color stage-n3"></div>
+                                <span>N3 (Deep)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color stage-rem"></div>
+                                <span>REM</span>
+                            </div>
+                        </div>
+                        
+                        <p style="text-align: center; margin-top: 20px;">
+                            <em>Sleep isn't uniform—it's a dynamic progression through distinct neurological states</em>
+                        </p>
+                    </div>
+
+                    <h2>The Five Stages Decoded</h2>
+                    
+                    <div class="stage-details">
+                        <div class="stage-card">
+                            <div class="stage-header">
+                                <div class="stage-icon stage-wake">W</div>
+                                <div>
+                                    <h4>Wake/N0</h4>
+                                    <p style="color: var(--text-muted);">The Transition Guardian</p>
+                                </div>
+                            </div>
+                            
+                            <div class="brainwave-visualization">
+                                <h5>Brainwave Pattern: Beta/Alpha (13-30 Hz)</h5>
+                                <div class="wave-pattern">
+                                    <svg viewBox="0 0 300 60" style="width: 100%; height: 100%;">
+                                        <path class="wave-line" d="M0,30 L10,25 L20,35 L30,20 L40,40 L50,15 L60,45 L70,10 L80,50 L90,5 L100,55 L110,25 L120,35 L130,20 L140,40 L150,30 L160,30 L170,25 L180,35 L190,20 L200,40 L210,15 L220,45 L230,10 L240,50 L250,5 L260,55 L270,25 L280,35 L290,20 L300,40"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <ul>
+                                <li><strong>Duration:</strong> 5% of night (should be)</li>
+                                <li><strong>Purpose:</strong> Vigilance and transition</li>
+                                <li><strong>What happens:</strong> Brief awakenings for safety checks</li>
+                                <li><strong>Too much means:</strong> Fragmented sleep, anxiety, or poor sleep environment</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stage-card">
+                            <div class="stage-header">
+                                <div class="stage-icon stage-n1">N1</div>
+                                <div>
+                                    <h4>Stage N1</h4>
+                                    <p style="color: var(--text-muted);">The Gateway</p>
+                                </div>
+                            </div>
+                            
+                            <div class="brainwave-visualization">
+                                <h5>Brainwave Pattern: Theta (4-7 Hz)</h5>
+                                <div class="wave-pattern">
+                                    <svg viewBox="0 0 300 60" style="width: 100%; height: 100%;">
+                                        <path class="wave-line" d="M0,30 Q30,10 60,30 T120,30 T180,30 T240,30 T300,30"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <ul>
+                                <li><strong>Duration:</strong> 5% of night</li>
+                                <li><strong>Purpose:</strong> Transition from wake to sleep</li>
+                                <li><strong>What happens:</strong> Muscle activity slows, hypnic jerks occur</li>
+                                <li><strong>Characteristics:</strong> Easy to wake, may not feel like sleep</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stage-card">
+                            <div class="stage-header">
+                                <div class="stage-icon stage-n2">N2</div>
+                                <div>
+                                    <h4>Stage N2</h4>
+                                    <p style="color: var(--text-muted);">The Workhorse</p>
+                                </div>
+                            </div>
+                            
+                            <div class="brainwave-visualization">
+                                <h5>Brainwave Pattern: Sleep Spindles & K-complexes</h5>
+                                <div class="wave-pattern">
+                                    <svg viewBox="0 0 300 60" style="width: 100%; height: 100%;">
+                                        <path class="wave-line" d="M0,30 L50,30 L60,10 L65,50 L70,30 L120,30 L130,15 L140,45 L150,30 L200,30 L210,10 L215,50 L220,30 L300,30"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <ul>
+                                <li><strong>Duration:</strong> 45% of night</li>
+                                <li><strong>Purpose:</strong> Memory consolidation, body maintenance</li>
+                                <li><strong>What happens:</strong> Heart rate slows, temperature drops</li>
+                                <li><strong>Key features:</strong> Sleep spindles protect from awakening</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stage-card">
+                            <div class="stage-header">
+                                <div class="stage-icon stage-n3">N3</div>
+                                <div>
+                                    <h4>Stage N3</h4>
+                                    <p style="color: var(--text-muted);">The Regenerator</p>
+                                </div>
+                            </div>
+                            
+                            <div class="brainwave-visualization">
+                                <h5>Brainwave Pattern: Delta (0.5-4 Hz)</h5>
+                                <div class="wave-pattern">
+                                    <svg viewBox="0 0 300 60" style="width: 100%; height: 100%;">
+                                        <path class="wave-line" d="M0,30 Q75,10 150,30 T300,30"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <ul>
+                                <li><strong>Duration:</strong> 15-20% of night</li>
+                                <li><strong>Purpose:</strong> Physical restoration, growth</li>
+                                <li><strong>What happens:</strong> Growth hormone release, tissue repair</li>
+                                <li><strong>Critical for:</strong> Immune function, memory consolidation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stage-card">
+                            <div class="stage-header">
+                                <div class="stage-icon stage-rem">REM</div>
+                                <div>
+                                    <h4>REM Sleep</h4>
+                                    <p style="color: var(--text-muted);">The Dream Weaver</p>
+                                </div>
+                            </div>
+                            
+                            <div class="brainwave-visualization">
+                                <h5>Brainwave Pattern: Mixed frequency (similar to wake)</h5>
+                                <div class="wave-pattern">
+                                    <svg viewBox="0 0 300 60" style="width: 100%; height: 100%;">
+                                        <path class="wave-line" d="M0,30 L10,25 L20,35 L30,20 L40,40 L50,15 L60,45 L70,10 L80,50 L90,5 L100,55 L110,30 L120,30 L130,25 L140,35 L150,20 L160,40 L170,15 L180,45 L190,10 L200,50 L210,5 L220,55 L230,30 L240,25 L250,35 L260,20 L270,40 L280,15 L290,45 L300,10"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <ul>
+                                <li><strong>Duration:</strong> 20-25% of night</li>
+                                <li><strong>Purpose:</strong> Emotional processing, creativity</li>
+                                <li><strong>What happens:</strong> Vivid dreams, temporary paralysis</li>
+                                <li><strong>Critical for:</strong> Mood regulation, learning</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>The 90-Minute Cycle</h2>
+                    
+                    <div class="cycle-breakdown">
+                        <h3>Understanding Sleep Cycles</h3>
+                        
+                        <p>Your brain doesn't randomly jump between stages. It follows a predictable pattern, cycling through all stages approximately every 90 minutes:</p>
+                        
+                        <div class="cycle-diagram">
+                            <div class="cycle-phase">
+                                <div class="cycle-number">1</div>
+                                <h5>Cycle 1-2</h5>
+                                <p>Deep sleep dominant<br>
+                                Physical restoration<br>
+                                Growth hormone peak</p>
+                            </div>
+                            
+                            <div class="cycle-phase">
+                                <div class="cycle-number">2</div>
+                                <h5>Cycle 3-4</h5>
+                                <p>Balanced stages<br>
+                                Memory consolidation<br>
+                                Core maintenance</p>
+                            </div>
+                            
+                            <div class="cycle-phase">
+                                <div class="cycle-number">3</div>
+                                <h5>Cycle 5-6</h5>
+                                <p>REM dominant<br>
+                                Emotional processing<br>
+                                Creativity boost</p>
+                            </div>
+                        </div>
+                        
+                        <p style="margin-top: 30px;">This is why both sleep duration AND timing matter. Cut your sleep short, and you miss critical REM periods. Stay up too late, and you shift your entire architecture.</p>
+                    </div>
+
+                    <h2>Factors That Shape Your Architecture</h2>
+                    
+                    <div class="architecture-factors">
+                        <h3>What Influences Your Sleep Structure</h3>
+                        
+                        <div class="factor-grid">
+                            <div class="factor-card">
+                                <h4>Age</h4>
+                                <p>Deep sleep decreases with age, REM remains stable</p>
+                                <div class="factor-impact">
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="factor-card">
+                                <h4>Temperature</h4>
+                                <p>Heat reduces deep sleep, cold can fragment REM</p>
+                                <div class="factor-impact">
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="factor-card">
+                                <h4>Exercise</h4>
+                                <p>Increases deep sleep, timing affects REM</p>
+                                <div class="factor-impact">
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar"></div>
+                                    <div class="impact-bar"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="factor-card">
+                                <h4>Alcohol</h4>
+                                <p>Suppresses REM, fragments all stages</p>
+                                <div class="factor-impact">
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="factor-card">
+                                <h4>Stress</h4>
+                                <p>Reduces deep sleep, increases light sleep</p>
+                                <div class="factor-impact">
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="factor-card">
+                                <h4>Caffeine</h4>
+                                <p>Delays sleep onset, reduces deep sleep</p>
+                                <div class="factor-impact">
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar filled"></div>
+                                    <div class="impact-bar"></div>
+                                    <div class="impact-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Optimizing Your Architecture</h2>
+                    
+                    <div class="optimization-strategies">
+                        <h3>Evidence-Based Enhancement Strategies</h3>
+                        
+                        <div class="strategy-item">
+                            <h5>For More Deep Sleep (N3)</h5>
+                            <ul>
+                                <li>Exercise intensely (but not within 3 hours of bed)</li>
+                                <li>Keep bedroom temperature 65-68°F</li>
+                                <li>Increase sleep pressure with consistent wake times</li>
+                                <li>Consider glycine supplementation (3g before bed)</li>
+                                <li>Hot bath 90 minutes before sleep</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="strategy-item">
+                            <h5>For Better REM Sleep</h5>
+                            <ul>
+                                <li>Maintain consistent sleep schedule</li>
+                                <li>Avoid alcohol and THC</li>
+                                <li>Sleep in on weekends (REM rebound)</li>
+                                <li>Keep bedroom slightly warmer in early morning</li>
+                                <li>Address emotional stress before bed</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="strategy-item">
+                            <h5>For Optimal Cycles</h5>
+                            <ul>
+                                <li>Time sleep in 90-minute increments</li>
+                                <li>Use smart alarms that detect sleep stage</li>
+                                <li>Avoid fragmenting substances</li>
+                                <li>Create consistent pre-sleep routine</li>
+                                <li>Minimize mid-night disruptions</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>Common Architecture Disruptions</h2>
+                    
+                    <div class="disruption-patterns">
+                        <h3>🚨 Patterns That Signal Problems</h3>
+                        
+                        <div class="disruption-type">
+                            <h5>Too Much Light Sleep</h5>
+                            <p><strong>Causes:</strong> Stress, anxiety, uncomfortable environment, sleep apnea</p>
+                            <p><strong>Solutions:</strong> Address anxiety, improve sleep hygiene, check for breathing issues</p>
+                        </div>
+                        
+                        <div class="disruption-type">
+                            <h5>Insufficient Deep Sleep</h5>
+                            <p><strong>Causes:</strong> Aging, alcohol, late eating, insufficient sleep pressure</p>
+                            <p><strong>Solutions:</strong> Earlier dinner, eliminate alcohol, increase daytime activity</p>
+                        </div>
+                        
+                        <div class="disruption-type">
+                            <h5>REM Suppression</h5>
+                            <p><strong>Causes:</strong> Antidepressants, cannabis, alcohol, sleep deprivation</p>
+                            <p><strong>Solutions:</strong> Time substances appropriately, allow REM rebound, consistent schedule</p>
+                        </div>
+                        
+                        <div class="disruption-type">
+                            <h5>Fragmented Architecture</h5>
+                            <p><strong>Causes:</strong> Sleep disorders, pain, environmental disruptions</p>
+                            <p><strong>Solutions:</strong> Medical evaluation, optimize environment, address pain</p>
+                        </div>
+                    </div>
+
+                    <h2>Advanced Architecture Insights</h2>
+                    
+                    <div class="advanced-insights">
+                        <h3>Cutting-Edge Understanding</h3>
+                        
+                        <div class="insight-box">
+                            <h4>The First Night Effect</h4>
+                            <p>Your brain keeps one hemisphere more vigilant in new environments, reducing deep sleep. This is why hotel sleep often feels less restorative—your ancient survival mechanisms are protecting you.</p>
+                        </div>
+                        
+                        <div class="insight-box">
+                            <h4>REM Rebound Phenomenon</h4>
+                            <p>Deprive yourself of REM, and your brain will prioritize it in subsequent nights, entering REM earlier and staying longer. This is why vivid dreams often follow alcohol cessation or catching up on sleep.</p>
+                        </div>
+                        
+                        <div class="insight-box">
+                            <h4>The 3 AM Wake Mystery</h4>
+                            <p>Many people wake around 3 AM due to a natural shift in sleep architecture. This is when deep sleep is minimal and REM is increasing. It's also when cortisol begins its morning rise. This is normal—the problem is when you can't return to sleep.</p>
+                        </div>
+                        
+                        <div class="insight-box">
+                            <h4>Sleep Inertia Science</h4>
+                            <p>Waking from deep sleep causes severe grogginess because your brain is in its most disconnected state. This is why a 20-minute nap (staying in light sleep) feels refreshing while a 60-minute nap (entering deep sleep) leaves you groggy.</p>
+                        </div>
+                    </div>
+
+                    <h2>Practical Applications</h2>
+                    
+                    <ol>
+                        <li><strong>Time your sleep in 90-minute cycles:</strong> 6, 7.5, or 9 hours, not 7 or 8</li>
+                        <li><strong>Nap strategically:</strong> <20 minutes or full 90-minute cycle</li>
+                        <li><strong>Protect your first 3 hours:</strong> This is when most deep sleep occurs</li>
+                        <li><strong>Don't sacrifice REM:</strong> Those last 2 hours are REM-rich and crucial</li>
+                        <li><strong>Use temperature strategically:</strong> Cool for deep sleep, slightly warmer for REM</li>
+                        <li><strong>Track patterns, not just duration:</strong> Quality architecture beats quantity</li>
+                        <li><strong>Respect your chronotype:</strong> Architecture timing varies by sleep preference</li>
+                    </ol>
+
+                    <h2>The Architecture Advantage</h2>
+                    
+                    <p>Understanding sleep architecture transforms you from a passive sleeper to an active optimizer. You're no longer just "getting some sleep"—you're engineering specific neurological states for specific outcomes.</p>
+                    
+                    <p>Want better physical recovery? Protect and enhance your deep sleep. Need emotional resilience and creativity? Prioritize REM. Seeking overall optimization? Focus on complete, uninterrupted cycles.</p>
+                    
+                    <p>Your brain runs this program every night. Now you understand the code. Use it wisely.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: Polyphasic Sleep Experiments - Explore alternative sleep patterns, from biphasic to Uberman, and learn what science really says about hacking your sleep schedule.</em></p>
+                    
+                    <a href="02-polyphasic-sleep-experiments.html" class="nav-button">Continue to: Polyphasic Sleep Experiments →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('sleep-architecture', '../..');
+    </script>
+</body>
+</html>

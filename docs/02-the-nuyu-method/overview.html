@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The nuyu Method Overview - nuyu Documentation</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .method-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .method-card h3 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .phase-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-light);
+            color: var(--accent-primary);
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .overview-hero {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .key-principles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .principle-card {
+            background: var(--code-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-primary);
+        }
+        
+        .principle-card h4 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .journey-map {
+            background: var(--bg-content);
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <span>The nuyu Method Overview</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>The nuyu Method: A Science-Based Approach to Personal Transformation</h1>
+
+                    <div class="overview-hero">
+                        <h2>Transform Your Life Through the Science of Sleep</h2>
+                        <p style="font-size: 1.2em; margin-top: 15px;">A systematic approach to optimizing your biology, psychology, and daily performance by mastering the fundamental algorithm of human function: sleep.</p>
+                    </div>
+
+                    <h2>What Makes The nuyu Method Different?</h2>
+                    
+                    <p>Most self-improvement approaches start with willpower and end with burnout. The nuyu Method starts with biology and ends with sustainable transformation.</p>
+                    
+                    <p>We don't ask you to wake up at 5 AM, meditate for an hour, or transform overnight. Instead, we guide you through a scientifically-grounded process that works with your natural rhythms, not against them.</p>
+
+                    <div class="key-principles">
+                        <div class="principle-card">
+                            <h4>Sleep First</h4>
+                            <p>Everything starts with optimizing your sleep. It's the foundation that makes all other changes possible.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <h4>Personalized Design</h4>
+                            <p>No one-size-fits-all solutions. Design a system that works for your chronotype, lifestyle, and goals.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <h4>Implementation Science</h4>
+                            <p>Use proven behavior change techniques to make new habits stick without relying on motivation.</p>
+                        </div>
+                        
+                        <div class="principle-card">
+                            <h4>Continuous Optimization</h4>
+                            <p>Track, measure, and refine your approach based on real data, not guesswork.</p>
+                        </div>
+                    </div>
+
+                    <h2>The Five-Phase Journey</h2>
+                    
+                    <p>The nuyu Method is structured as a progressive journey through five interconnected phases:</p>
+
+                    <div class="method-card">
+                        <h3><span class="phase-number">1</span> Foundations: Understanding the Science</h3>
+                        <p>Before you can change, you need to understand why change is possible. This phase grounds you in:</p>
+                        <ul>
+                            <li>The mind-body connection and how thoughts shape biology</li>
+                            <li>The history of sleep science from ancient wisdom to modern research</li>
+                            <li>Neuroplasticity and your brain's capacity for change at any age</li>
+                            <li>The latest discoveries in circadian biology and sleep architecture</li>
+                        </ul>
+                        <p><strong>Duration:</strong> 1-2 weeks of reading and understanding</p>
+                    </div>
+
+                    <div class="method-card">
+                        <h3><span class="phase-number">2</span> Sleep as Foundation: Your First-Order Algorithm</h3>
+                        <p>Sleep isn't just rest—it's the master algorithm that governs every aspect of your performance. In this phase, you'll discover:</p>
+                        <ul>
+                            <li>Why sleep quality determines 80% of your daily experience</li>
+                            <li>The cascade effect: how better sleep automatically improves everything else</li>
+                            <li>Your personal circadian architecture and optimal sleep timing</li>
+                            <li>How to calculate and repay your sleep debt strategically</li>
+                        </ul>
+                        <p><strong>Duration:</strong> 2-3 weeks of assessment and baseline establishment</p>
+                    </div>
+
+                    <div class="method-card">
+                        <h3><span class="phase-number">3</span> Design Your System: Personalized Sleep Architecture</h3>
+                        <p>Generic advice fails because you're not generic. This phase helps you design a sleep system tailored to your unique biology:</p>
+                        <ul>
+                            <li>Discover your chronotype and what it means for your schedule</li>
+                            <li>Design your ideal sleep environment based on sensory preferences</li>
+                            <li>Create pre-sleep routines that actually work for your lifestyle</li>
+                            <li>Navigate the gap between ideal and reality without compromise</li>
+                        </ul>
+                        <p><strong>Duration:</strong> 2-3 weeks of experimentation and refinement</p>
+                    </div>
+
+                    <div class="method-card">
+                        <h3><span class="phase-number">4</span> Implementation Science: Making Change Stick</h3>
+                        <p>Knowledge without action is worthless. This phase transforms insights into lasting habits using:</p>
+                        <ul>
+                            <li>Behavior change science and the psychology of habit formation</li>
+                            <li>The Tiny Habits method for sustainable transformation</li>
+                            <li>Environmental design to make good choices automatic</li>
+                            <li>A/B testing methodology to optimize your routines</li>
+                        </ul>
+                        <p><strong>Duration:</strong> 4-6 weeks of systematic implementation</p>
+                    </div>
+
+                    <div class="method-card">
+                        <h3><span class="phase-number">5</span> Advanced Concepts: Beyond the Basics</h3>
+                        <p>Once your foundation is solid, explore advanced techniques for peak performance:</p>
+                        <ul>
+                            <li>Ultradian rhythms and 90-minute productivity cycles</li>
+                            <li>Social zeitgebers and synchronizing with your environment</li>
+                            <li>Sleep's role in memory consolidation and learning</li>
+                            <li>The Future Self Protocol for long-term optimization</li>
+                        </ul>
+                        <p><strong>Duration:</strong> Ongoing exploration and mastery</p>
+                    </div>
+
+                    <h2>Your Journey Timeline</h2>
+                    
+                    <div class="journey-map">
+                        <h3>What to Expect Over 90 Days</h3>
+                        
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <h4>Days 1-14: Foundation Building</h4>
+                                <p>Read, understand, and internalize the core concepts. Begin tracking your current sleep patterns.</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <h4>Days 15-35: Assessment & Design</h4>
+                                <p>Discover your chronotype, assess your sleep debt, and design your personalized sleep system.</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <h4>Days 36-70: Implementation</h4>
+                                <p>Systematically implement your new sleep routines using behavior change techniques.</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <h4>Days 71-90: Optimization</h4>
+                                <p>Fine-tune your system based on data, explore advanced concepts, and solidify your new habits.</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <h4>Day 90+: Mastery</h4>
+                                <p>Continue refining and expanding your practice with advanced techniques and seasonal adjustments.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Who This Method Is For</h2>
+                    
+                    <p><strong>The nuyu Method is perfect for you if:</strong></p>
+                    <ul>
+                        <li>You're tired of quick fixes and want lasting change</li>
+                        <li>You appreciate science-based approaches over wishful thinking</li>
+                        <li>You're willing to invest 90 days in transforming your life</li>
+                        <li>You want to optimize your performance without sacrificing your health</li>
+                        <li>You believe small, consistent changes lead to big results</li>
+                    </ul>
+                    
+                    <p><strong>This might not be for you if:</strong></p>
+                    <ul>
+                        <li>You're looking for overnight transformation</li>
+                        <li>You want to bypass the fundamentals and jump to "advanced hacks"</li>
+                        <li>You're not willing to prioritize sleep as your foundation</li>
+                        <li>You prefer motivational content over actionable science</li>
+                    </ul>
+
+                    <h2>The nuyu Device Integration</h2>
+                    
+                    <p>While the nuyu Method can be implemented without any technology, the nuyu device amplifies your results by:</p>
+                    
+                    <ul>
+                        <li><strong>Automated Optimization:</strong> Adjusts temperature, lighting, and aromatherapy based on your sleep stages</li>
+                        <li><strong>Precision Tracking:</strong> Monitors sleep quality metrics beyond what wearables can measure</li>
+                        <li><strong>Adaptive Learning:</strong> Learns your patterns and continuously improves your sleep environment</li>
+                        <li><strong>Seamless Integration:</strong> Works in the background while you focus on the method</li>
+                    </ul>
+
+                    <h2>Start Your Journey</h2>
+                    
+                    <p>The best time to plant a tree was 20 years ago. The second best time is now.</p>
+                    
+                    <p>Your journey to better sleep—and through it, a better life—begins with understanding. Start with the Foundations section and work through each phase at your own pace. Remember: this isn't a race. It's a systematic transformation that compounds over time.</p>
+                    
+                    <p>Every expert sleeper was once a disaster. Every morning person was once hitting snooze. Every high performer was once exhausted. The only difference? They found a method that worked and stuck with it.</p>
+                    
+                    <p>Welcome to your transformation. Welcome to nuyu.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Ready to begin? Start with the Foundations section to understand the science behind your transformation.</em></p>
+                    
+                    <a href="01-foundations/00-mind-body-connection.html" class="nav-button">Begin with Foundations →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('method-overview', '..');
+    </script>
+</body>
+</html>

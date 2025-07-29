@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use These Docs - nuyu Documentation</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .markdown-content h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+        
+        .markdown-content h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+        
+        .markdown-content h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+        
+        .markdown-content p {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .markdown-content ul, .markdown-content ol {
+            margin-bottom: 20px;
+            padding-left: 25px;
+        }
+        
+        .markdown-content ul li, .markdown-content ol li {
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .highlight-box {
+            background-color: var(--code-bg);
+            border-left: 4px solid var(--accent-primary);
+            padding: 20px 30px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .highlight-box p {
+            margin-bottom: 10px;
+        }
+        
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .nav-button {
+            display: inline-block;
+            background-color: var(--accent-primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 30px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-button:hover {
+            background-color: var(--accent-secondary);
+            transform: translateY(-2px);
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+        
+        .tip-box {
+            background-color: var(--code-bg);
+            border-left: 4px solid #10b981;
+            padding: 20px 30px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .warning-box {
+            background-color: var(--code-bg);
+            border-left: 4px solid #f59e0b;
+            padding: 20px 30px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .science-box {
+            background-color: var(--code-bg);
+            border-left: 4px solid #3b82f6;
+            padding: 20px 30px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a>
+                    <span>›</span>
+                    <a href="#">Introduction</a>
+                    <span>›</span>
+                    <span>How to Use These Docs</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>How to Use These Docs</h1>
+                    <p class="subtitle">Your roadmap to getting the most from nuyu</p>
+                    
+                    <h2>Choose Your Own Adventure</h2>
+                    <p>Everyone comes to nuyu with different needs, different backgrounds, and different goals. We've designed these docs to adapt to you.</p>
+                    
+                    <h3>For the "Just Get Me Started" Reader</h3>
+                    <p>If you want to dive right in:</p>
+                    <ol>
+                        <li>Skip to <strong>Device Mastery → Quick Start Guide</strong></li>
+                        <li>Set up your device following the basic instructions</li>
+                        <li>Use the default "Balanced Sleep" program for one week</li>
+                        <li>Come back here when you're ready to optimize</li>
+                    </ol>
+                    
+                    <div class="highlight-box">
+                        <p><strong>Pro tip:</strong> Even if you skip the theory, read "Your First Week" in the Device Mastery section. It'll save you from common mistakes.</p>
+                    </div>
+                    
+                    <h3>For the "I Want to Understand Everything" Reader</h3>
+                    <p>Perfect! You're in the right place. We recommend:</p>
+                    <ol>
+                        <li>Read through the <strong>Introduction</strong> (you're doing that now!)</li>
+                        <li>Dive into <strong>The nuyu Method</strong> sections in order</li>
+                        <li>Complete the exercises in <strong>Design Your System</strong></li>
+                        <li>Then move to <strong>Device Mastery</strong> for practical application</li>
+                    </ol>
+                    
+                    <h3>For the "Show Me the Science" Reader</h3>
+                    <p>We've got you covered:</p>
+                    <ul>
+                        <li>Look for <strong>Science Deep Dive</strong> boxes throughout</li>
+                        <li>Check the <strong>Resources → Scientific References</strong> section</li>
+                        <li>Start with <strong>Foundations → Neuroplasticity 101</strong> for the core concepts</li>
+                    </ul>
+                    
+                    <h3>Navigation Tips</h3>
+                    <p>As you explore these docs:</p>
+                    <ul>
+                        <li><strong>Left Sidebar:</strong> Your main navigation. Click section titles to expand/collapse</li>
+                        <li><strong>Breadcrumbs:</strong> Always know where you are with the path at the top</li>
+                        <li><strong>Dark Mode:</strong> Click the sun/moon icon for comfortable night reading</li>
+                        <li><strong>Mobile Friendly:</strong> Everything works on your phone for bedtime reading</li>
+                    </ul>
+                    
+                    <h3>Special Sections to Note</h3>
+                    
+                    <div class="highlight-box">
+                        <p><strong>💡 Key Concepts:</strong> Core ideas you'll want to remember</p>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <p><strong>✅ Action Items:</strong> Practical steps you can take immediately</p>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <p><strong>⚠️ Common Mistakes:</strong> What to avoid and why</p>
+                    </div>
+                    
+                    <div class="science-box">
+                        <p><strong>🔬 Science Deep Dive:</strong> For those who want the research details</p>
+                    </div>
+                    
+                    <h3>Your Journey Timeline</h3>
+                    <p>Here's what to expect:</p>
+                    <ul>
+                        <li><strong>Week 1-2:</strong> Learning your baseline, getting comfortable with the device</li>
+                        <li><strong>Week 3-4:</strong> First noticeable improvements in sleep quality</li>
+                        <li><strong>Month 2:</strong> Establishing solid patterns, experimenting with optimization</li>
+                        <li><strong>Month 3+:</strong> Advanced techniques, fine-tuning for your lifestyle</li>
+                    </ul>
+                    
+                    <h3>Getting Help</h3>
+                    <p>If you get stuck:</p>
+                    <ul>
+                        <li><strong>Troubleshooting Guide:</strong> In Device Mastery → Advanced Usage</li>
+                        <li><strong>Community Forums:</strong> Link in Resources → Community Wisdom</li>
+                        <li><strong>Support Team:</strong> support@nuyu.com for device issues</li>
+                    </ul>
+                    
+                    <h3>One Last Thing</h3>
+                    <p>These docs are living documents. We update them based on new research and user feedback. If something's unclear or you have suggestions, let us know! There's a feedback link at the bottom of each page.</p>
+                    
+                    <p>Ready? Let's transform your sleep—and your life.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: The nuyu Method - Dive into the science and practice of transformation through sleep</em></p>
+                    
+                    <a href="../02-the-nuyu-method/overview.html" class="nav-button">Continue to: The nuyu Method →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('how-to-use', '..');
+    </script>
+</body>
+</html>

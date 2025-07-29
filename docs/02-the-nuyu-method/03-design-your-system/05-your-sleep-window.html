@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Sleep Window - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .window-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .window-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .window-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .window-finder {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .time-slider {
+            position: relative;
+            height: 60px;
+            background: linear-gradient(90deg, #1a1a2e 0%, #e94560 50%, #1a1a2e 100%);
+            border-radius: 30px;
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .window-marker {
+            position: absolute;
+            width: 120px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            left: 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a1a2e;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            cursor: grab;
+        }
+        
+        .window-marker:active {
+            cursor: grabbing;
+        }
+        
+        .window-characteristics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .characteristic-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .characteristic-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .characteristic-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .window-protection {
+            background: rgba(239, 68, 68, 0.05);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .protection-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .protection-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .protection-icon {
+            width: 24px;
+            height: 24px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .window-experiment {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .experiment-week {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .day-block {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        .day-block.success {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.5);
+        }
+        
+        .day-block.fail {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+        
+        .window-tracker {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .tracking-grid {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .tracking-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            text-align: right;
+        }
+        
+        .tracking-value {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quality-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+        
+        .adjustment-guide {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .adjustment-scenario {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .adjustment-scenario h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Design Your System</a>
+                    <span>›</span>
+                    <span>Your Sleep Window</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>Your Sleep Window: The Golden Hour of Rest</h1>
+
+                    <div class="window-hero">
+                        <h2>There's a Magic Moment When Sleep Comes Easily</h2>
+                        <p style="position: relative; z-index: 1;">Find it, protect it, and never struggle with sleep again.</p>
+                    </div>
+
+                    <h2>The Window That Changed Everything</h2>
+                    
+                    <p>For years, Lisa fought sleep. Some nights she'd lie in bed at 10 PM, wide awake until 2 AM. Other nights, she'd crash at 8 PM on the couch but wake at 3 AM, unable to return to sleep. She tried everything—meditation apps, sleeping pills, even cognitive behavioral therapy. Nothing worked consistently.</p>
+                    
+                    <p>Then she discovered her sleep window: 10:45 PM to 11:15 PM.</p>
+                    
+                    <p>During this 30-minute period, her body temperature naturally dropped, her heart rate slowed, and her mind quieted. If she got into bed during this window, she'd fall asleep within minutes. Miss it, and she'd toss and turn for hours.</p>
+                    
+                    <p>Lisa isn't unique. Everyone has a sleep window—a brief period when your circadian rhythm and sleep pressure perfectly align. Find yours, and insomnia becomes almost impossible.</p>
+
+                    <h2>What Exactly Is a Sleep Window?</h2>
+                    
+                    <p>Your sleep window is the optimal time range when your body is primed for sleep onset. It's when:</p>
+                    
+                    <ul>
+                        <li>Sleep pressure (adenosine) is high enough to promote tiredness</li>
+                        <li>Circadian alertness is low enough to allow sleep</li>
+                        <li>Body temperature begins its nightly descent</li>
+                        <li>Stress hormones are at their daily minimum</li>
+                        <li>Melatonin levels are rising optimally</li>
+                    </ul>
+                    
+                    <p>This convergence typically creates a 30-90 minute window where falling asleep is not just possible—it's almost automatic.</p>
+
+                    <div class="window-finder">
+                        <h3>Your Sleep Window Finder</h3>
+                        <p>Most people's sleep window occurs 14-16 hours after their natural wake time. But individual variation is significant.</p>
+                        
+                        <div class="time-slider">
+                            <div class="window-marker">10:30-11:00 PM</div>
+                        </div>
+                        
+                        <p style="text-align: center; margin-top: 20px;">
+                            <em>This represents the most common sleep window. Yours may be earlier or later based on chronotype.</em>
+                        </p>
+                    </div>
+
+                    <h2>The Four Signs Your Window Is Open</h2>
+                    
+                    <div class="window-characteristics">
+                        <div class="characteristic-card">
+                            <div class="characteristic-icon">🌡️</div>
+                            <h4>Temperature Drop</h4>
+                            <p>Hands and feet feel warm as blood vessels dilate, core temp drops</p>
+                        </div>
+                        
+                        <div class="characteristic-card">
+                            <div class="characteristic-icon">🧠</div>
+                            <h4>Mental Quieting</h4>
+                            <p>Racing thoughts slow, worries feel distant, mind becomes fuzzy</p>
+                        </div>
+                        
+                        <div class="characteristic-card">
+                            <div class="characteristic-icon">👁️</div>
+                            <h4>Eye Heaviness</h4>
+                            <p>Eyelids feel weighted, vision slightly blurs, hard to keep eyes open</p>
+                        </div>
+                        
+                        <div class="characteristic-card">
+                            <div class="characteristic-icon">🫁</div>
+                            <h4>Breathing Changes</h4>
+                            <p>Breathing naturally deepens and slows, yawning increases</p>
+                        </div>
+                    </div>
+
+                    <h2>Finding Your Personal Window</h2>
+                    
+                    <p>Your sleep window is as unique as your fingerprint. Here's how to find it:</p>
+                    
+                    <div class="window-experiment">
+                        <h3>The 7-Day Window Discovery Protocol</h3>
+                        
+                        <p><strong>Week 1: Observation Phase</strong></p>
+                        <ol>
+                            <li>No forced bedtimes—stay up until genuinely sleepy</li>
+                            <li>Note the exact time you first feel the "sleep wave"</li>
+                            <li>Record how long the feeling lasts if you don't go to bed</li>
+                            <li>Track what happens if you push through it</li>
+                        </ol>
+                        
+                        <div class="experiment-week">
+                            <div class="day-block">
+                                <strong>Mon</strong><br>
+                                10:20 PM
+                            </div>
+                            <div class="day-block">
+                                <strong>Tue</strong><br>
+                                10:45 PM
+                            </div>
+                            <div class="day-block">
+                                <strong>Wed</strong><br>
+                                10:30 PM
+                            </div>
+                            <div class="day-block">
+                                <strong>Thu</strong><br>
+                                11:00 PM
+                            </div>
+                            <div class="day-block">
+                                <strong>Fri</strong><br>
+                                10:40 PM
+                            </div>
+                            <div class="day-block">
+                                <strong>Sat</strong><br>
+                                10:50 PM
+                            </div>
+                            <div class="day-block">
+                                <strong>Sun</strong><br>
+                                10:35 PM
+                            </div>
+                        </div>
+                        
+                        <p><strong>Your Window:</strong> 10:30-10:50 PM (average of natural sleepiness onset)</p>
+                    </div>
+
+                    <h2>The Second Wind Trap</h2>
+                    
+                    <p>Miss your window, and something frustrating happens: you get a "second wind." This isn't imagination—it's biology:</p>
+                    
+                    <ol>
+                        <li>Your circadian rhythm produces a late-evening alertness surge</li>
+                        <li>Cortisol spikes slightly to maintain wakefulness</li>
+                        <li>Body temperature rises instead of falling</li>
+                        <li>Sleep pressure continues building but can't overcome alertness</li>
+                    </ol>
+                    
+                    <p>Result: You're exhausted but wired, setting up for hours of frustration.</p>
+
+                    <div class="window-protection">
+                        <h3>⚠️ Window Threats to Guard Against</h3>
+                        <div class="protection-list">
+                            <div class="protection-item">
+                                <div class="protection-icon">1</div>
+                                <span>"Just one more episode" syndrome</span>
+                            </div>
+                            <div class="protection-item">
+                                <div class="protection-icon">2</div>
+                                <span>Late-night snacking that delays the window</span>
+                            </div>
+                            <div class="protection-item">
+                                <div class="protection-icon">3</div>
+                                <span>Bright lights that suppress melatonin</span>
+                            </div>
+                            <div class="protection-item">
+                                <div class="protection-icon">4</div>
+                                <span>Stressful conversations before bed</span>
+                            </div>
+                            <div class="protection-item">
+                                <div class="protection-icon">5</div>
+                                <span>Exercise too close to window time</span>
+                            </div>
+                            <div class="protection-item">
+                                <div class="protection-icon">6</div>
+                                <span>"I'll just finish this task" mentality</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Window Preparation Rituals</h2>
+                    
+                    <p>Your sleep window doesn't just happen—you can enhance it:</p>
+                    
+                    <h3>60 Minutes Before Window: The Glide Path</h3>
+                    <ul>
+                        <li>Dim all lights to signal approaching bedtime</li>
+                        <li>Stop all work/stimulating activities</li>
+                        <li>Begin temperature reduction (lower thermostat, warm shower)</li>
+                        <li>Light stretching or gentle yoga</li>
+                    </ul>
+                    
+                    <h3>30 Minutes Before: The Approach</h3>
+                    <ul>
+                        <li>All screens off (or heavily filtered)</li>
+                        <li>Calming activities only (reading, journaling, meditation)</li>
+                        <li>Prepare bedroom environment</li>
+                        <li>Final bathroom visit</li>
+                    </ul>
+                    
+                    <h3>Window Opens: The Landing</h3>
+                    <ul>
+                        <li>In bed within 5 minutes of first sleep signals</li>
+                        <li>No checking time or calculating sleep hours</li>
+                        <li>Trust the process—your body knows what to do</li>
+                    </ul>
+
+                    <h2>Tracking Your Window Success</h2>
+                    
+                    <div class="window-tracker">
+                        <h3>Window Quality Indicators</h3>
+                        <div class="tracking-grid">
+                            <div class="tracking-label">Sleep Onset:</div>
+                            <div class="tracking-value">
+                                <div class="quality-indicator"></div>
+                                <span>5-15 minutes (Optimal)</span>
+                            </div>
+                            
+                            <div class="tracking-label">Night Waking:</div>
+                            <div class="tracking-value">
+                                <div class="quality-indicator"></div>
+                                <span>0-1 brief (Normal)</span>
+                            </div>
+                            
+                            <div class="tracking-label">Morning Feel:</div>
+                            <div class="tracking-value">
+                                <div class="quality-indicator"></div>
+                                <span>Refreshed within 20 min</span>
+                            </div>
+                            
+                            <div class="tracking-label">Window Stability:</div>
+                            <div class="tracking-value">
+                                <div class="quality-indicator" style="background: #fbbf24;"></div>
+                                <span>±20 minutes (Good)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Window Adjustments for Life</h2>
+                    
+                    <p>Your sleep window isn't fixed—it shifts with life circumstances:</p>
+                    
+                    <div class="adjustment-guide">
+                        <h3>Common Window Shifts & Solutions</h3>
+                        
+                        <div class="adjustment-scenario">
+                            <h5>Daylight Saving Time</h5>
+                            <p><strong>Shift:</strong> 1-hour sudden change<br>
+                            <strong>Strategy:</strong> Adjust in 15-minute increments over 4 days. Use light therapy to anchor new timing.</p>
+                        </div>
+                        
+                        <div class="adjustment-scenario">
+                            <h5>New Work Schedule</h5>
+                            <p><strong>Shift:</strong> Earlier wake time needed<br>
+                            <strong>Strategy:</strong> Move window earlier by 15 minutes weekly. Bright morning light essential.</p>
+                        </div>
+                        
+                        <div class="adjustment-scenario">
+                            <h5>Seasonal Changes</h5>
+                            <p><strong>Shift:</strong> Natural drift with daylight<br>
+                            <strong>Strategy:</strong> Use blackout curtains and consistent light exposure to maintain stability.</p>
+                        </div>
+                        
+                        <div class="adjustment-scenario">
+                            <h5>Travel Across Time Zones</h5>
+                            <p><strong>Shift:</strong> Major disruption<br>
+                            <strong>Strategy:</strong> Pre-adapt 3 days before. Accept temporary window chaos. Re-establish with light.</p>
+                        </div>
+                    </div>
+
+                    <h2>The Window Paradox</h2>
+                    
+                    <p>The harder you try to force sleep outside your window, the more elusive it becomes. But when you respect your window, sleep requires no effort at all. This isn't weakness—it's wisdom.</p>
+                    
+                    <p>Your ancestors didn't have electric lights to override their windows. They felt the sleep wave and responded. Modern life gives us the power to ignore our biology, but at what cost?</p>
+
+                    <h2>Your Window Mastery Plan</h2>
+                    
+                    <ol>
+                        <li><strong>Week 1:</strong> Discover your natural window through observation</li>
+                        <li><strong>Week 2:</strong> Test the window—go to bed within it consistently</li>
+                        <li><strong>Week 3:</strong> Refine timing based on sleep quality</li>
+                        <li><strong>Week 4:</strong> Build protective rituals around your window</li>
+                        <li><strong>Ongoing:</strong> Adjust as needed but always respect the window</li>
+                    </ol>
+
+                    <h2>The Freedom of Limits</h2>
+                    
+                    <p>Knowing your sleep window isn't restrictive—it's liberating. Instead of wondering when to sleep, you know. Instead of forcing, you flow. Instead of struggling, you surrender to your biology's wisdom.</p>
+                    
+                    <p>Your sleep window is your body's gift to you—a brief period each night when rest comes naturally. Miss it at your peril. Honor it, and sleep transforms from nightly battle to evening blessing.</p>
+                    
+                    <p>Tonight, watch for your window. Feel the subtle shift when your body says "now." Trust it. Follow it. And discover what sleep is supposed to feel like—effortless, natural, and perfectly timed.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>Next: Behavior Change Science - Learn the psychology and neuroscience of lasting habit formation to make your sleep improvements permanent.</em></p>
+                    
+                    <a href="../04-implementation-science/01-behavior-change-science.html" class="nav-button">Continue to: Behavior Change Science →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('window', '../..');
+    </script>
+</body>
+</html>

@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Prevent white flash by setting theme immediately
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Future of Sleep Tech - nuyu Documentation</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .docs-main {
+            margin-left: 300px;
+            flex: 1;
+            max-width: 100%;
+        }
+        
+        .docs-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+        
+        .future-hero {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hologram-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(255,255,255,0.03) 2px,
+                rgba(255,255,255,0.03) 4px
+            );
+            animation: scan 8s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(20px); }
+        }
+        
+        .future-hero h2 {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .tech-timeline {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .timeline-era {
+            position: relative;
+            padding-left: 60px;
+            margin: 30px 0;
+        }
+        
+        .era-marker {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .emerging-tech {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .tech-card {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: var(--accent-primary);
+        }
+        
+        .tech-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-now { background: #22c55e; color: white; }
+        .status-soon { background: #f59e0b; color: white; }
+        .status-future { background: #8b5cf6; color: white; }
+        
+        .breakthrough-section {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .breakthrough-item {
+            background: var(--bg-content);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .breakthrough-item h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .research-preview {
+            background: var(--code-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        
+        .study-card {
+            background: var(--bg-content);
+            border-radius: 6px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .study-card h5 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+        }
+        
+        .future-scenarios {
+            background: var(--bg-content);
+            border: 2px solid var(--accent-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .scenario-timeline {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .timeline-period {
+            text-align: center;
+            padding: 20px;
+            background: var(--hover-bg);
+            border-radius: 8px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-period:hover {
+            border-color: var(--accent-primary);
+            transform: scale(1.05);
+        }
+        
+        .period-year {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+        
+        .ethical-considerations {
+            background: rgba(239, 68, 68, 0.05);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .ethical-item {
+            margin: 15px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .ethical-icon {
+            width: 24px;
+            height: 24px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .biohacking-future {
+            background: var(--bg-content);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .hack-category {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--hover-bg);
+            border-radius: 8px;
+        }
+        
+        .hack-category h5 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+        }
+        
+        .readiness-meter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .readiness-level {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .readiness-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--border-color);
+        }
+        
+        .readiness-dot.ready {
+            background: #22c55e;
+        }
+        
+        .vision-statement {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--hover-bg) 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .vision-quote {
+            font-size: 20px;
+            font-style: italic;
+            color: var(--accent-primary);
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="docs-container">
+        <!-- Navigation Sidebar -->
+        <nav class="sidebar">
+            <!-- Navigation will be inserted by JavaScript -->
+        </nav>
+        
+        <main class="docs-main">
+            <div class="docs-content">
+                <!-- Breadcrumb navigation -->
+                <div class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span>›</span>
+                    <a href="#">The nuyu Method</a>
+                    <span>›</span>
+                    <a href="#">Advanced Concepts</a>
+                    <span>›</span>
+                    <span>The Future of Sleep Tech</span>
+                </div>
+                
+                <!-- Main content -->
+                <article class="markdown-content">
+                    <h1>The Future of Sleep Tech: What's Coming Next</h1>
+
+                    <div class="future-hero">
+                        <div class="hologram-effect"></div>
+                        <h2>Welcome to the Sleep Revolution</h2>
+                        <p style="position: relative; z-index: 1;">From AI-powered optimization to neural interfaces, the future of sleep is being written now.</p>
+                    </div>
+
+                    <h2>We're Living in Sleep Tech's iPhone Moment</h2>
+                    
+                    <p>Remember when phones were just for calling? That's where sleep technology was five years ago—basic tracking, simple alarms, maybe a white noise machine. Today, we're on the cusp of a revolution that will transform sleep from a passive mystery into an actively optimized experience.</p>
+                    
+                    <p>The convergence of AI, neuroscience, materials science, and biotechnology is creating possibilities that sound like science fiction. But they're not. They're being developed in labs and bedrooms around the world right now.</p>
+
+                    <div class="tech-timeline">
+                        <h3>The Evolution of Sleep Technology</h3>
+                        
+                        <div class="timeline-era">
+                            <div class="era-marker">1.0</div>
+                            <h4>The Measurement Era (2010-2020)</h4>
+                            <p>Basic tracking, movement sensors, sleep stages estimation. We learned to measure sleep but couldn't do much about it.</p>
+                        </div>
+                        
+                        <div class="timeline-era">
+                            <div class="era-marker">2.0</div>
+                            <h4>The Intervention Era (2020-2025)</h4>
+                            <p>Active temperature control, smart alarms, environmental optimization. We started changing sleep, not just watching it.</p>
+                        </div>
+                        
+                        <div class="timeline-era">
+                            <div class="era-marker">3.0</div>
+                            <h4>The Intelligence Era (2025-2030)</h4>
+                            <p>AI-powered personalization, predictive optimization, closed-loop systems. Sleep tech that learns and adapts to you.</p>
+                        </div>
+                        
+                        <div class="timeline-era">
+                            <div class="era-marker">4.0</div>
+                            <h4>The Enhancement Era (2030+)</h4>
+                            <p>Neural interfaces, targeted stimulation, sleep compression, dream control. The boundaries of sleep itself expand.</p>
+                        </div>
+                    </div>
+
+                    <h2>Technologies Available Now</h2>
+                    
+                    <div class="emerging-tech">
+                        <div class="tech-card">
+                            <span class="tech-status status-now">Available Now</span>
+                            <h4>AI Sleep Coaching</h4>
+                            <p><strong>What it does:</strong> Personalized recommendations based on your data patterns</p>
+                            <p><strong>Examples:</strong> Sleep.ai, Oura insights, Whoop coaching</p>
+                            <p><strong>Impact:</strong> 20-30% improvement in sleep quality metrics</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-now">Available Now</span>
+                            <h4>Thermal Regulation</h4>
+                            <p><strong>What it does:</strong> Actively controls bed temperature throughout night</p>
+                            <p><strong>Examples:</strong> Eight Sleep Pod, ChiliSleep, BedJet</p>
+                            <p><strong>Impact:</strong> 15% increase in deep sleep, faster sleep onset</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-now">Available Now</span>
+                            <h4>Smart Light Systems</h4>
+                            <p><strong>What it does:</strong> Circadian-aligned lighting that adapts automatically</p>
+                            <p><strong>Examples:</strong> Philips Hue, LIFX, Circadian Optics</p>
+                            <p><strong>Impact:</strong> 23% improvement in sleep onset time</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-now">Available Now</span>
+                            <h4>Contactless Monitoring</h4>
+                            <p><strong>What it does:</strong> Tracks sleep without wearables using radar/RF</p>
+                            <p><strong>Examples:</strong> Google Nest Hub, Sleepiz, Somnofy</p>
+                            <p><strong>Impact:</strong> Clinical-grade accuracy without discomfort</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-now">Available Now</span>
+                            <h4>EEG Headbands</h4>
+                            <p><strong>What it does:</strong> Real-time brain wave monitoring and audio feedback</p>
+                            <p><strong>Examples:</strong> Muse S, Dreem, Philips SmartSleep</p>
+                            <p><strong>Impact:</strong> Direct measurement of sleep stages</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-now">Available Now</span>
+                            <h4>Smart Mattresses</h4>
+                            <p><strong>What it does:</strong> Adjustable firmness, position tracking, snore intervention</p>
+                            <p><strong>Examples:</strong> Sleep Number, Tempur-Pedic Breeze, ReST</p>
+                            <p><strong>Impact:</strong> Reduced back pain, optimized sleep position</p>
+                        </div>
+                    </div>
+
+                    <h2>Coming Soon: The Next Wave</h2>
+                    
+                    <div class="emerging-tech">
+                        <div class="tech-card">
+                            <span class="tech-status status-soon">2024-2026</span>
+                            <h4>Closed-Loop Sound Therapy</h4>
+                            <p><strong>What it does:</strong> Real-time audio that syncs with your brain waves</p>
+                            <p><strong>Promise:</strong> 40% increase in deep sleep through targeted stimulation</p>
+                            <p><strong>Status:</strong> Clinical trials underway</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-soon">2024-2026</span>
+                            <h4>Scent-Based Sleep Induction</h4>
+                            <p><strong>What it does:</strong> Timed release of sleep-promoting aromatherapy</p>
+                            <p><strong>Promise:</strong> Faster sleep onset, improved memory consolidation</p>
+                            <p><strong>Status:</strong> Consumer products launching</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-soon">2024-2026</span>
+                            <h4>Predictive Sleep AI</h4>
+                            <p><strong>What it does:</strong> Predicts sleep quality 24-48 hours in advance</p>
+                            <p><strong>Promise:</strong> Proactive interventions before poor sleep occurs</p>
+                            <p><strong>Status:</strong> Beta testing with select users</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-soon">2024-2026</span>
+                            <h4>Transcranial Stimulation</h4>
+                            <p><strong>What it does:</strong> Non-invasive brain stimulation for deeper sleep</p>
+                            <p><strong>Promise:</strong> Enhance slow-wave sleep by 30%</p>
+                            <p><strong>Status:</strong> FDA approval pending</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-soon">2024-2026</span>
+                            <h4>Sleep Position Robots</h4>
+                            <p><strong>What it does:</strong> Gentle robotic adjustment to prevent snoring/apnea</p>
+                            <p><strong>Promise:</strong> Reduce sleep apnea events by 60%</p>
+                            <p><strong>Status:</strong> Prototypes in testing</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-soon">2024-2026</span>
+                            <h4>Circadian Light Contact Lenses</h4>
+                            <p><strong>What it does:</strong> Smart contacts that filter light based on time</p>
+                            <p><strong>Promise:</strong> Perfect circadian alignment without glasses</p>
+                            <p><strong>Status:</strong> Early development</p>
+                        </div>
+                    </div>
+
+                    <h2>The Far Future: 2030 and Beyond</h2>
+                    
+                    <div class="emerging-tech">
+                        <div class="tech-card">
+                            <span class="tech-status status-future">2030+</span>
+                            <h4>Neural Sleep Interfaces</h4>
+                            <p><strong>Vision:</strong> Direct brain-computer interfaces for sleep optimization</p>
+                            <p><strong>Possibilities:</strong> Instant sleep induction, compressed sleep cycles, enhanced dreams</p>
+                            <p><strong>Challenges:</strong> Safety, ethics, invasiveness</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-future">2030+</span>
+                            <h4>Genetic Sleep Optimization</h4>
+                            <p><strong>Vision:</strong> Gene therapy to reduce sleep need or enhance quality</p>
+                            <p><strong>Possibilities:</strong> Natural short sleeper genes for everyone</p>
+                            <p><strong>Challenges:</strong> Unknown long-term effects</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-future">2030+</span>
+                            <h4>Dream Recording & Playback</h4>
+                            <p><strong>Vision:</strong> Record dreams for replay or sharing</p>
+                            <p><strong>Possibilities:</strong> Dream therapy, creative inspiration, entertainment</p>
+                            <p><strong>Challenges:</strong> Privacy, interpretation accuracy</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-future">2030+</span>
+                            <h4>Sleep Replacement Technology</h4>
+                            <p><strong>Vision:</strong> Technologies that replicate sleep's benefits while awake</p>
+                            <p><strong>Possibilities:</strong> 2-hour "sleep sessions" that equal 8 hours</p>
+                            <p><strong>Challenges:</strong> Biological complexity, safety</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-future">2030+</span>
+                            <h4>Quantum Sleep States</h4>
+                            <p><strong>Vision:</strong> Induce novel brain states beyond normal sleep</p>
+                            <p><strong>Possibilities:</strong> Enhanced creativity, accelerated learning</p>
+                            <p><strong>Challenges:</strong> Completely theoretical currently</p>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <span class="tech-status status-future">2030+</span>
+                            <h4>Collective Sleep Networks</h4>
+                            <p><strong>Vision:</strong> Shared sleep experiences and optimization</p>
+                            <p><strong>Possibilities:</strong> Partner sync, family optimization, social sleeping</p>
+                            <p><strong>Challenges:</strong> Privacy, individual differences</p>
+                        </div>
+                    </div>
+
+                    <h2>Breakthrough Research on the Horizon</h2>
+                    
+                    <div class="breakthrough-section">
+                        <h3>Game-Changing Discoveries Coming Soon</h3>
+                        
+                        <div class="breakthrough-item">
+                            <h5>🧬 Glymphatic System Optimization</h5>
+                            <p>New understanding of brain cleaning during sleep is leading to technologies that enhance waste clearance. Early research shows 50% improvement in toxin removal with specific sleep positions and temperatures.</p>
+                        </div>
+                        
+                        <div class="breakthrough-item">
+                            <h5>🧠 Memory Consolidation Enhancement</h5>
+                            <p>Targeted memory replay during specific sleep stages. MIT research shows 40% improvement in skill learning with properly timed audio cues during sleep.</p>
+                        </div>
+                        
+                        <div class="breakthrough-item">
+                            <h5>⚡ Micro-Recovery Protocols</h5>
+                            <p>Ultra-short sleep sessions (5-10 minutes) that provide disproportionate recovery. NASA research for space missions showing promising results.</p>
+                        </div>
+                        
+                        <div class="breakthrough-item">
+                            <h5>🌊 Ultrasonic Sleep Induction</h5>
+                            <p>Non-invasive ultrasound to specific brain regions for instant sleep. Animal trials show sleep induction within 30 seconds.</p>
+                        </div>
+                    </div>
+
+                    <h2>Current Research Preview</h2>
+                    
+                    <div class="research-preview">
+                        <h3>What Scientists Are Working On Now</h3>
+                        
+                        <div class="study-card">
+                            <h5>Stanford: AI Sleep Stage Prediction</h5>
+                            <p>Using past sleep data to predict future sleep architecture with 89% accuracy</p>
+                            <div class="progress-indicator">
+                                <span>Progress:</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%;"></div>
+                                </div>
+                                <span>75%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="study-card">
+                            <h5>MIT: Targeted Dream Incubation</h5>
+                            <p>Influencing dream content for problem-solving and creativity enhancement</p>
+                            <div class="progress-indicator">
+                                <span>Progress:</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%;"></div>
+                                </div>
+                                <span>60%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="study-card">
+                            <h5>UC Berkeley: Sleep Pressure Manipulation</h5>
+                            <p>Artificially increasing adenosine clearance for shorter but more efficient sleep</p>
+                            <div class="progress-indicator">
+                                <span>Progress:</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 40%;"></div>
+                                </div>
+                                <span>40%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>The Personalization Revolution</h2>
+                    
+                    <div class="future-scenarios">
+                        <h3>Your Sleep Tech Journey</h3>
+                        
+                        <div class="scenario-timeline">
+                            <div class="timeline-period">
+                                <div class="period-year">2025</div>
+                                <h5>Intelligent Bedrooms</h5>
+                                <p>AI controls everything: temperature, light, sound, air quality. Learns your patterns and adjusts automatically.</p>
+                            </div>
+                            
+                            <div class="timeline-period">
+                                <div class="period-year">2030</div>
+                                <h5>Predictive Optimization</h5>
+                                <p>Your sleep system knows you're getting sick before you do. Adjusts everything to maximize recovery.</p>
+                            </div>
+                            
+                            <div class="timeline-period">
+                                <div class="period-year">2035</div>
+                                <h5>Neural Enhancement</h5>
+                                <p>Optional brain interfaces provide perfect sleep on demand. Dreams become controllable experiences.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Ethical Considerations</h2>
+                    
+                    <div class="ethical-considerations">
+                        <h3>⚠️ The Dark Side of Sleep Tech</h3>
+                        
+                        <div class="ethical-item">
+                            <div class="ethical-icon">!</div>
+                            <div>
+                                <strong>Privacy Concerns</strong>
+                                <p>Your sleep data reveals mental health, relationships, habits. Who owns this data? Who can access it?</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ethical-item">
+                            <div class="ethical-icon">!</div>
+                            <div>
+                                <strong>Dependency Risk</strong>
+                                <p>What happens when you can't sleep without technology? Are we creating a generation dependent on devices?</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ethical-item">
+                            <div class="ethical-icon">!</div>
+                            <div>
+                                <strong>Inequality Gap</strong>
+                                <p>Premium sleep becomes a luxury good. Will perfect sleep only be for the wealthy?</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ethical-item">
+                            <div class="ethical-icon">!</div>
+                            <div>
+                                <strong>Natural Sleep Loss</strong>
+                                <p>Do we lose something essential when sleep becomes fully artificial?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>The Biohacker's Guide to Future Tech</h2>
+                    
+                    <div class="biohacking-future">
+                        <h3>What to Adopt and When</h3>
+                        
+                        <div class="hack-category">
+                            <h5>Adopt Now</h5>
+                            <div class="readiness-meter">
+                                <span>Readiness:</span>
+                                <div class="readiness-level">
+                                    <div class="readiness-dot ready"></div>
+                                    <div class="readiness-dot ready"></div>
+                                    <div class="readiness-dot ready"></div>
+                                    <div class="readiness-dot ready"></div>
+                                    <div class="readiness-dot ready"></div>
+                                </div>
+                            </div>
+                            <ul>
+                                <li>Temperature regulation technology</li>
+                                <li>AI-powered sleep coaching</li>
+                                <li>Smart lighting systems</li>
+                                <li>Advanced sleep tracking</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="hack-category">
+                            <h5>Experiment Carefully</h5>
+                            <div class="readiness-meter">
+                                <span>Readiness:</span>
+                                <div class="readiness-level">
+                                    <div class="readiness-dot ready"></div>
+                                    <div class="readiness-dot ready"></div>
+                                    <div class="readiness-dot ready"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                </div>
+                            </div>
+                            <ul>
+                                <li>EEG-based optimization</li>
+                                <li>Closed-loop sound therapy</li>
+                                <li>Advanced position adjustment</li>
+                                <li>Predictive AI systems</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="hack-category">
+                            <h5>Wait and Watch</h5>
+                            <div class="readiness-meter">
+                                <span>Readiness:</span>
+                                <div class="readiness-level">
+                                    <div class="readiness-dot ready"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                </div>
+                            </div>
+                            <ul>
+                                <li>Brain stimulation devices</li>
+                                <li>Gene therapy</li>
+                                <li>Neural interfaces</li>
+                                <li>Sleep replacement tech</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2>Preparing for the Future</h2>
+                    
+                    <p>The future of sleep technology isn't about replacing natural sleep—it's about enhancing and protecting it. Here's how to prepare:</p>
+                    
+                    <ol>
+                        <li><strong>Start with fundamentals:</strong> No technology replaces good sleep hygiene</li>
+                        <li><strong>Track your baseline:</strong> Know your natural patterns before optimizing</li>
+                        <li><strong>Adopt incrementally:</strong> One new technology at a time</li>
+                        <li><strong>Measure outcomes:</strong> Does it actually improve how you feel?</li>
+                        <li><strong>Stay informed:</strong> Follow research, not just marketing</li>
+                        <li><strong>Maintain skepticism:</strong> Not every innovation is an improvement</li>
+                        <li><strong>Preserve natural ability:</strong> Don't become dependent on tech</li>
+                    </ol>
+
+                    <div class="vision-statement">
+                        <h3>The Ultimate Vision</h3>
+                        <p class="vision-quote">"A future where everyone has access to perfect, personalized sleep—where rest is optimized but still natural, where technology serves biology rather than replacing it."</p>
+                        <p>We're not trying to eliminate sleep. We're trying to perfect it.</p>
+                    </div>
+
+                    <h2>Your Role in the Revolution</h2>
+                    
+                    <p>The future of sleep technology isn't being written by companies alone—it's being shaped by early adopters, citizen scientists, and sleep hackers like you. Every experiment you run, every data point you collect, every insight you share contributes to our collective understanding.</p>
+                    
+                    <p>The most exciting developments in sleep tech won't come from eliminating our need for sleep. They'll come from finally understanding and optimizing this third of our lives that we've ignored for too long.</p>
+                    
+                    <p>Welcome to the future of sleep. It's going to be a fascinating journey.</p>
+                    
+                    <hr>
+                    
+                    <p class="next-link"><em>This concludes the Advanced Concepts section. Ready to master your nuyu device? Continue to Device Mastery for practical, hands-on guidance.</em></p>
+                    
+                    <a href="../../../03-device-mastery/01-getting-started/quick-start-guide.html" class="nav-button">Continue to: Device Mastery →</a>
+                </article>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: block;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px; display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+    
+    <script src="../../navigation-standard.js"></script>
+    <script>
+        // Initialize navigation with current page
+        initializeNavigation('future-sleep-tech', '../..');
+    </script>
+</body>
+</html>
